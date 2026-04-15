@@ -18,9 +18,15 @@
                 throw new Error('Failed to fetch packages');
             }
             
-            currentPackages = await response.json();
-            displayPackages(currentPackages, currentFilter);
-            updateComparisonTable(currentPackages);
+            const result = await response.json();
+            
+            if (result.success && result.data) {
+                currentPackages = result.data;
+                displayPackages(currentPackages, currentFilter);
+                updateComparisonTable(currentPackages);
+            } else {
+                throw new Error(result.error || 'Invalid packages data format');
+            }
             
         } catch (error) {
             console.error('Error loading packages:', error);
