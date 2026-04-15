@@ -1,0 +1,318 @@
+<!-- admin/dashboard.html - Admin Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Dashboard - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-dashboard">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Admin Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active">
+                    <a href="dashboard.html">
+                        <i class="fas fa-dashboard"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="packages">
+                        <i class="fas fa-box"></i> Packages
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="requests">
+                        <i class="fas fa-clipboard-list"></i> Installation Requests
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="coverage">
+                        <i class="fas fa-map-marker-alt"></i> Coverage Areas
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="customers">
+                        <i class="fas fa-users"></i> Customers
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="analytics">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="settings">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <span>A</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name">Admin User</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Dashboard</h1>
+            </div>
+            
+            <div class="header-right">
+                <div class="admin-search">
+                    <i class="fas fa-search"></i>
+                    <input type="search" placeholder="Search...">
+                </div>
+                
+                <button class="theme-toggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+        </header>
+        
+        <div class="admin-content">
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">1,247</div>
+                        <div class="stat-label">Total Customers</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +12% this month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">23</div>
+                        <div class="stat-label">Pending Requests</div>
+                        <div class="stat-change">
+                            <i class="fas fa-minus"></i> 5 new today
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Active Packages</div>
+                        <div class="stat-change">
+                            <i class="fas fa-check"></i> All active
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">KES 2.4M</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +8.3%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Requests Table -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h3>Recent Installation Requests</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-outline btn-sm">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> New Request
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Package</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-table-body">
+                        <tr>
+                            <td>#LN-001</td>
+                            <td>John Kamau</td>
+                            <td>Pro 50Mbps</td>
+                            <td>Kilimani, Nairobi</td>
+                            <td>2024-01-15</td>
+                            <td><span class="status-badge pending">Pending</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="View"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn" title="Approve"><i class="fas fa-check"></i></button>
+                                    <button class="action-btn delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#LN-002</td>
+                            <td>Sarah Wanjiku</td>
+                            <td>Business 100Mbps</td>
+                            <td>Westlands, Nairobi</td>
+                            <td>2024-01-14</td>
+                            <td><span class="status-badge approved">Approved</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="View"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn" title="Complete"><i class="fas fa-check-double"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#LN-003</td>
+                            <td>Michael Odhiambo</td>
+                            <td>Basic 20Mbps</td>
+                            <td>Nyali, Mombasa</td>
+                            <td>2024-01-14</td>
+                            <td><span class="status-badge completed">Completed</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="View"><i class="fas fa-eye"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Packages Management Section -->
+            <div class="data-table-container" style="margin-top: var(--spacing-xl);">
+                <div class="table-header">
+                    <h3>Package Management</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-primary btn-sm" id="add-package-btn">
+                            <i class="fas fa-plus"></i> Add Package
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Speed</th>
+                            <th>Price (KES)</th>
+                            <th>Features</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="packages-table-body">
+                        <!-- Dynamically populated -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modal for Add/Edit Package -->
+    <div class="modal-overlay" id="package-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Package</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="package-form">
+                <div class="modal-body">
+                    <input type="hidden" id="package-id" name="id">
+                    
+                    <div class="form-group">
+                        <label for="package-name">Package Name *</label>
+                        <input type="text" id="package-name" name="name" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="package-speed">Speed (Mbps) *</label>
+                            <input type="number" id="package-speed" name="speed" required min="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="package-price">Price (KES) *</label>
+                            <input type="number" id="package-price" name="price" required min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="package-features">Features (one per line) *</label>
+                        <textarea id="package-features" name="features" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="package-featured" name="featured">
+                            Mark as Featured
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Package</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="../js/darkmode.js"></script>
+    <script src="../js/admin-dashboard.js"></script>
+</body>
+</html>

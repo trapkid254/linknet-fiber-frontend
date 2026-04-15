@@ -1,0 +1,257 @@
+<!-- contact.html - Contact Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Linknet Fiber for support, sales inquiries, or to request fiber internet installation. We're here to help 24/7.">
+    <title>Contact Us - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header class="header">
+        <nav class="navbar" role="navigation">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="index.html" class="logo">
+                        <img src="https://picsum.photos/40/40?random=1" alt="Linknet Fiber Logo" width="40" height="40">
+                        <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+                    </a>
+                </div>
+                
+                <button class="mobile-toggle" aria-label="Toggle navigation menu">
+                    <span class="hamburger"></span>
+                </button>
+                
+                <ul class="nav-menu" role="list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="packages.html" class="nav-link">Packages</a></li>
+                    <li><a href="about.html" class="nav-link">Coverage</a></li>
+                    <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                    <li><a href="admin/login.html" class="nav-link admin-link"><i class="fas fa-lock"></i> Admin</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="request.html" class="btn btn-primary">Request Installation</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main id="main-content">
+        <section class="page-header">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p>We're here to help with any questions about Linknet Fiber services</p>
+            </div>
+        </section>
+        
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info-cards">
+                        <div class="info-card">
+                            <i class="fas fa-phone-alt"></i>
+                            <h3>Call Us</h3>
+                            <p>24/7 customer support available</p>
+                            <a href="tel:+254700000000">+254 700 000 000</a>
+                            <a href="tel:+254711111111">+254 711 111 111</a>
+                        </div>
+                        
+                        <div class="info-card">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Email Us</h3>
+                            <p>We'll respond within 1 hour</p>
+                            <a href="mailto:hello@linknetfiber.co.ke">hello@linknetfiber.co.ke</a>
+                            <a href="mailto:support@linknetfiber.co.ke">support@linknetfiber.co.ke</a>
+                        </div>
+                        
+                        <div class="info-card">
+                            <i class="fas fa-comments"></i>
+                            <h3>Live Chat</h3>
+                            <p>Chat with our support team</p>
+                            <button class="btn btn-outline" onclick="window.open('https://wa.me/254700000000', '_blank')">
+                                <i class="fab fa-whatsapp"></i> Start Chat
+                            </button>
+                        </div>
+                        
+                        <div class="info-card">
+                            <i class="fas fa-clock"></i>
+                            <h3>Business Hours</h3>
+                            <p>Sales & Support</p>
+                            <p><strong>Mon - Fri:</strong> 8:00 AM - 8:00 PM</p>
+                            <p><strong>Sat - Sun:</strong> 9:00 AM - 5:00 PM</p>
+                            <p class="text-success">24/7 Emergency Support Available</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form-container">
+                        <h2>Send Us a Message</h2>
+                        <form id="contact-form" class="contact-form">
+                            <input type="hidden" id="selected-package-id" value="">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Full Name *</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="07XX XXX XXX" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="subject">Subject *</label>
+                                    <select id="subject" name="subject" required>
+                                        <option value="">Select a topic</option>
+                                        <option value="general">General Inquiry</option>
+                                        <option value="support">Technical Support</option>
+                                        <option value="billing">Billing Question</option>
+                                        <option value="installation">Installation Request</option>
+                                        <option value="complaint">Complaint</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="package-select">Package Interest (Optional)</label>
+                                <select id="package-select" name="package">
+                                    <option value="">Select a package</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="consent" required>
+                                    I agree to receive communications from Linknet Fiber
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                        
+                        <div id="contact-result" class="form-result" aria-live="polite"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Map Section -->
+        <section class="map-section">
+            <div class="container">
+                <h2>Visit Our Office</h2>
+                <div class="location-grid">
+                    <div class="location-card">
+                        <h3><i class="fas fa-building"></i> Nairobi Headquarters</h3>
+                        <address>
+                            Linknet Fiber House<br>
+                            Westlands Road, Westlands<br>
+                            Nairobi, Kenya
+                        </address>
+                        <p><i class="fas fa-phone"></i> +254 700 000 000</p>
+                        <p><i class="fas fa-clock"></i> Mon-Fri: 8AM - 6PM</p>
+                    </div>
+                    
+                    <div class="location-card">
+                        <h3><i class="fas fa-building"></i> Mombasa Branch</h3>
+                        <address>
+                            Nyali Centre, 2nd Floor<br>
+                            Links Road, Nyali<br>
+                            Mombasa, Kenya
+                        </address>
+                        <p><i class="fas fa-phone"></i> +254 722 222 222</p>
+                        <p><i class="fas fa-clock"></i> Mon-Fri: 9AM - 5PM</p>
+                    </div>
+                    
+                    <div class="location-card">
+                        <h3><i class="fas fa-building"></i> Kisumu Branch</h3>
+                        <address>
+                            Mega Plaza, 1st Floor<br>
+                            Oginga Odinga Road<br>
+                            Kisumu, Kenya
+                        </address>
+                        <p><i class="fas fa-phone"></i> +254 733 333 333</p>
+                        <p><i class="fas fa-clock"></i> Mon-Fri: 9AM - 5PM</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+                    </div>
+                    <p class="footer-description">Kenya's premier fiber internet service provider.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="packages.html">Internet Packages</a></li>
+                        <li><a href="about.html">Coverage Areas</a></li>
+                        <li><a href="request.html">Request Installation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="contact.html">Help Center</a></li>
+                        <li><a href="contact.html">Report Issue</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-phone"></i> +254 700 000 000</li>
+                        <li><i class="fas fa-envelope"></i> hello@linknetfiber.co.ke</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi, Kenya</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Linknet Fiber. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <a href="https://wa.me/254700000000" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <script src="js/darkmode.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/contact.js"></script>
+</body>
+</html>

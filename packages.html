@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore Linknet Fiber's internet packages - from basic home plans to enterprise solutions. Find the perfect fiber internet package for your needs.">
+    <title>Internet Packages - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header class="header">
+        <nav class="navbar" role="navigation">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="index.html" class="logo">
+                        <img src="https://picsum.photos/40/40?random=1" alt="Linknet Fiber Logo" width="40" height="40">
+                        <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+                    </a>
+                </div>
+                
+                <button class="mobile-toggle" aria-label="Toggle navigation menu">
+                    <span class="hamburger"></span>
+                </button>
+                
+                <ul class="nav-menu" role="list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="packages.html" class="nav-link active">Packages</a></li>
+                    <li><a href="about.html" class="nav-link">Coverage</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="admin/login.html" class="nav-link admin-link"><i class="fas fa-lock"></i> Admin</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="request.html" class="btn btn-primary">Request Installation</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main id="main-content">
+        <section class="page-header">
+            <div class="container">
+                <h1>Internet Packages</h1>
+                <p>Choose the perfect fiber internet plan for your home or business</p>
+            </div>
+        </section>
+        
+        <section class="packages-section">
+            <div class="container">
+                <!-- Filter Tabs -->
+                <div class="package-filters">
+                    <button class="filter-btn active" data-filter="monthly">
+                        <i class="fas fa-calendar-alt"></i> Monthly
+                    </button>
+                    <button class="filter-btn" data-filter="quarterly">
+                        <i class="fas fa-calendar-week"></i> Quarterly
+                        <span class="discount-badge">Save 10%</span>
+                    </button>
+                    <button class="filter-btn" data-filter="yearly">
+                        <i class="fas fa-calendar-check"></i> Yearly
+                        <span class="discount-badge">Save 20%</span>
+                    </button>
+                </div>
+                
+                <!-- Packages Grid -->
+                <div id="packages-container" class="packages-grid">
+                    <div class="loading-spinner">Loading packages...</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Comparison Table -->
+        <section class="comparison-section">
+            <div class="container">
+                <h2>Package Comparison</h2>
+                <div class="table-responsive">
+                    <table class="comparison-table" id="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Basic</th>
+                                <th>Pro</th>
+                                <th>Business</th>
+                                <th>Enterprise</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparison-body">
+                            <!-- Dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3><i class="fas fa-question-circle"></i> What is the installation process?</h3>
+                        <p>Our technicians will visit your location to install the fiber optic cable and set up your WiFi router. Installation typically takes 2-3 hours and is completely free.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3><i class="fas fa-question-circle"></i> Are there any data caps?</h3>
+                        <p>No, all Linknet Fiber packages come with truly unlimited data. There are no caps, throttling, or fair usage policies.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3><i class="fas fa-question-circle"></i> What equipment is provided?</h3>
+                        <p>We provide a high-performance WiFi 6 router free of charge. This router is optimized for fiber connections and can handle multiple devices simultaneously.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3><i class="fas fa-question-circle"></i> Can I upgrade my package later?</h3>
+                        <p>Yes! You can upgrade your package at any time. The change will be effective immediately, and we'll prorate your billing accordingly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+                    </div>
+                    <p class="footer-description">Kenya's premier fiber internet service provider.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="packages.html">Internet Packages</a></li>
+                        <li><a href="about.html">Coverage Areas</a></li>
+                        <li><a href="request.html">Request Installation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="contact.html">Help Center</a></li>
+                        <li><a href="contact.html">Report Issue</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-phone"></i> +254 700 000 000</li>
+                        <li><i class="fas fa-envelope"></i> hello@linknetfiber.co.ke</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi, Kenya</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Linknet Fiber. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <a href="https://wa.me/254700000000" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <script src="js/darkmode.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/packages.js"></script>
+</body>
+</html>

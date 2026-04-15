@@ -1,0 +1,258 @@
+<!-- request.html - Request Installation Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Request fiber internet installation from Linknet Fiber. Fast, free installation with flexible scheduling.">
+    <title>Request Installation - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header class="header">
+        <nav class="navbar" role="navigation">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="index.html" class="logo">
+                        <img src="https://picsum.photos/40/40?random=1" alt="Linknet Fiber Logo" width="40" height="40">
+                        <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+                    </a>
+                </div>
+                
+                <button class="mobile-toggle" aria-label="Toggle navigation menu">
+                    <span class="hamburger"></span>
+                </button>
+                
+                <ul class="nav-menu" role="list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="packages.html" class="nav-link">Packages</a></li>
+                    <li><a href="about.html" class="nav-link">Coverage</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="admin/login.html" class="nav-link admin-link"><i class="fas fa-lock"></i> Admin</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="request.html" class="btn btn-primary active">Request Installation</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main id="main-content">
+        <section class="page-header">
+            <div class="container">
+                <h1>Request Installation</h1>
+                <p>Get connected to Kenya's fastest fiber network</p>
+            </div>
+        </section>
+        
+        <section class="request-section">
+            <div class="container">
+                <div class="request-grid">
+                    <div class="request-info">
+                        <h2>What to Expect</h2>
+                        <ul class="info-list">
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Free Installation</strong>
+                                    <p>Professional installation at no cost to you</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Quick Setup</strong>
+                                    <p>Installation completed in 2-3 hours</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Free Router</strong>
+                                    <p>High-performance WiFi 6 router included</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Flexible Scheduling</strong>
+                                    <p>Choose a time that works for you</p>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <div class="promo-banner">
+                            <i class="fas fa-gift"></i>
+                            <div>
+                                <strong>Limited Time Offer!</strong>
+                                <p>First month free on annual plans</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="request-form-container">
+                        <h2>Installation Request Form</h2>
+                        <form id="installation-form" class="installation-form">
+                            <div class="form-section">
+                                <h3>Personal Information</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fullname">Full Name *</label>
+                                        <input type="text" id="fullname" name="fullname" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number *</label>
+                                        <input type="tel" id="phone" name="phone" placeholder="07XX XXX XXX" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="email">Email Address *</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="id-number">ID/Passport Number</label>
+                                        <input type="text" id="id-number" name="idNumber">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3>Installation Address</h3>
+                                
+                                <div class="form-group">
+                                    <label for="county">County *</label>
+                                    <select id="county" name="county" required>
+                                        <option value="">Select County</option>
+                                        <option value="nairobi">Nairobi</option>
+                                        <option value="mombasa">Mombasa</option>
+                                        <option value="kisumu">Kisumu</option>
+                                        <option value="nakuru">Nakuru</option>
+                                        <option value="eldoret">Eldoret</option>
+                                        <option value="thika">Thika</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="estate">Estate/Area *</label>
+                                    <input type="text" id="estate" name="estate" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="street">Street/Road *</label>
+                                    <input type="text" id="street" name="street" required>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="building">Building/Apartment Name</label>
+                                        <input type="text" id="building" name="building">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="house-number">House/Unit Number</label>
+                                        <input type="text" id="house-number" name="houseNumber">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="landmark">Nearby Landmark (Optional)</label>
+                                    <input type="text" id="landmark" name="landmark" placeholder="e.g., Near ABC Mall">
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3>Package Selection</h3>
+                                
+                                <div class="form-group">
+                                    <label for="package">Select Package *</label>
+                                    <select id="package" name="packageId" required>
+                                        <option value="">Choose a package</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="billing-cycle">Billing Cycle *</label>
+                                    <select id="billing-cycle" name="billingCycle" required>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly (Save 10%)</option>
+                                        <option value="yearly">Yearly (Save 20%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3>Preferred Installation Date</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="install-date">Preferred Date *</label>
+                                        <input type="date" id="install-date" name="preferredDate" required min="">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="install-time">Preferred Time *</label>
+                                        <select id="install-time" name="preferredTime" required>
+                                            <option value="">Select time slot</option>
+                                            <option value="morning">Morning (8AM - 12PM)</option>
+                                            <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                            <option value="evening">Evening (4PM - 6PM)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="terms" required>
+                                    I agree to the <a href="#" target="_blank">Terms and Conditions</a> *
+                                </label>
+                                
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="marketing">
+                                    I'd like to receive promotional offers and updates
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-large btn-block">
+                                <i class="fas fa-paper-plane"></i> Submit Installation Request
+                            </button>
+                        </form>
+                        
+                        <div id="request-result" class="form-result" aria-live="polite"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2024 Linknet Fiber. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <a href="https://wa.me/254700000000" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <script src="js/darkmode.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/request.js"></script>
+</body>
+</html>
