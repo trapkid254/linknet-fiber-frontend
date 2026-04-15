@@ -39,27 +39,36 @@
             submitBtn.disabled = true;
             
             try {
-                // Demo authentication (replace with real API call)
-                if (username === 'admin' && password === 'admin123') {
-                    // Store auth token
-                    const authData = {
-                        username,
-                        role: 'admin',
-                        token: 'demo-token-' + Date.now(),
-                        expires: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
-                    };
-                    
-                    localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
-                    
-                    showMessage('Login successful! Redirecting...', 'success');
-                    
-                    // Redirect to dashboard
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
-                } else {
-                    throw new Error('Invalid username or password');
+                // Real API authentication
+                const response = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Login failed');
                 }
+                
+                // Store auth token
+                const authData = {
+                    ...data.admin,
+                    token: data.token,
+                    expires: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+                };
+                
+                localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
+                
+                showMessage('Login successful! Redirecting...', 'success');
+                
+                // Redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
                 
             } catch (error) {
                 console.error('Login error:', error);
