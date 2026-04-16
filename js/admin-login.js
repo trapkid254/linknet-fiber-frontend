@@ -32,6 +32,9 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
+            // Debug logging
+            console.log('Login attempt:', { username: username.trim(), password: '***' });
+            
             // Show loading
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
@@ -40,18 +43,26 @@
             
             try {
                 // Real API authentication
+                const loginData = { 
+                    username: username.trim(),
+                    password: password 
+                };
+                console.log('Sending data:', loginData);
+                
                 const response = await fetch(`${API_BASE}/admin/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ 
-                        username: username.trim(),
-                        password: password 
-                    })
+                    body: JSON.stringify(loginData)
                 });
                 
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
                 const data = await response.json();
+                
+                console.log('Received data:', data);
                 
                 if (!response.ok) {
                     throw new Error(data.error || 'Login failed');
