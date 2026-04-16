@@ -46,7 +46,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ 
-                        email: username.trim(),
+                        username: username.trim(),
                         password: password 
                     })
                 });
