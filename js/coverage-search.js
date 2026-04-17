@@ -7,8 +7,8 @@
         mombasa: ['Nyali', 'Bamburi', 'Diani', 'Mtwapa', 'Old Town', 'Kizingo'],
         kisumu: ['Milimani', 'Kibuye', 'Mamboleo', 'Kanyakwar', 'Nyalenda'],
         nakuru: ['Milimani', 'Section 58', 'Lanet', 'Njoro', 'London'],
-        eldoret: ['Elgon View', 'Langas', 'Kapsoya', 'Pioneer'],
-        thika: ['Bendor', 'Landless', 'Makongeni', 'Section 9']
+        kericho: ['Kapsoya', 'Kipkelion', 'Ainamoi', 'Soin', 'Belgut'],
+        kiambu: ['Juja', 'Kenyatta road', 'Juja Farm', 'Ruiru', 'Thika', 'Githurai'],
     };
     
     const initCoverageSearch = () => {
