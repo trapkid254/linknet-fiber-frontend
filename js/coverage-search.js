@@ -92,6 +92,24 @@
                 datalist.innerHTML = '';
             }
         });
+        
+        // Allow manual county input - check if typed county matches any available county
+        countySelect.addEventListener('input', () => {
+            const inputCounty = countySelect.value.toLowerCase().trim();
+            const availableCounties = Object.keys(coverageData);
+            
+            if (inputCounty) {
+                const matchingCounty = availableCounties.find(county => 
+                    county.toLowerCase() === inputCounty
+                );
+                
+                if (matchingCounty) {
+                    countySelect.setCustomValidity('');
+                } else {
+                    countySelect.setCustomValidity('Please select a valid county from the list');
+                }
+            }
+        });
     };
     
     const showResult = (message, type) => {
