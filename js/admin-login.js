@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorMessage = document.getElementById('login-message');
 
     const AUTH_KEY = 'linknet_admin_auth';
-    const API_BASE = 'http://localhost:5000/api'; // Use local backend
+    const API_BASE = 'https://linknet-fiber-backend.onrender.com/api'; // Use production backend
 
     if (!loginForm) return;
 

@@ -77,21 +77,32 @@
         </div>
     </div>
     
-    <script src="../js/darkmode.js"></script>
-    <script src="../js/admin-login.js"></script>
+    <script src="../js/darkmode.js?v=1.3"></script>
+    <script src="../js/admin-login.js?v=1.3"></script>
     
-    <!-- Cache-busting script to force CSS reload -->
+    <!-- Cache-busting script to force CSS and JS reload -->
     <script>
-        // Force CSS reload to prevent caching issues
+        // Force CSS and JS reload to prevent caching issues
         (function() {
-            const links = document.querySelectorAll('link[rel="stylesheet"]');
             const timestamp = new Date().getTime();
             
+            // Update CSS links
+            const links = document.querySelectorAll('link[rel="stylesheet"]');
             links.forEach(function(link) {
                 if (link.href.includes('css/style.css') || link.href.includes('css/admin.css')) {
                     const url = new URL(link.href, window.location.origin);
                     url.searchParams.set('v', timestamp);
                     link.href = url.toString();
+                }
+            });
+            
+            // Update JS scripts
+            const scripts = document.querySelectorAll('script[src]');
+            scripts.forEach(function(script) {
+                if (script.src.includes('js/admin-login.js') || script.src.includes('js/darkmode.js')) {
+                    const url = new URL(script.src, window.location.origin);
+                    url.searchParams.set('v', timestamp);
+                    script.src = url.toString();
                 }
             });
         })();
