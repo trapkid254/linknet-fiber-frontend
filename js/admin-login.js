@@ -3,7 +3,7 @@
     'use strict';
     
     const AUTH_KEY = 'linknet_admin_auth';
-    const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
+    const API_BASE = 'http://localhost:5000/api';
     
     // Password toggle
     const initPasswordToggle = () => {

@@ -148,8 +148,8 @@
             if (response_data.success && Array.isArray(response_data.data)) {
                 packages = response_data.data;
                 console.log('Packages loaded:', packages.length, 'items');
-            } else if (response_data.success && response_data.count === 0) {
-                packages = [];
+            } else if (response_data.success && response_data.count === 0 && Array.isArray(response_data.data)) {
+                packages = response_data.data; // Empty array is valid
                 console.log('No packages available - backend returned empty data');
             } else if (Array.isArray(response_data)) {
                 packages = response_data;

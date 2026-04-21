@@ -452,6 +452,15 @@ const downloadApp = () => {
         addAnimations();
         checkInstallationStatus();
         
+        // Add delay to ensure DOM is fully loaded
+        setTimeout(() => {
+            console.log('Delayed PWA button initialization...');
+            if (!document.getElementById('pwa-install-btn')) {
+                addInstallButton();
+                console.log('Install button added after delay');
+            }
+        }, 500);
+        
         // Add fallback button for localhost testing and always show for debugging
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log('Running on localhost - adding fallback install button');
