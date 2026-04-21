@@ -339,7 +339,7 @@
     };
     
     // Download app function
-    const downloadApp = () => {
+    const downloadApp = async () => {
         console.log('Downloading Linknet Fiber APK...');
         
         // Show loading state
@@ -349,21 +349,53 @@
             downloadBtn.disabled = true;
         }
         
-        // Create download link
-        const link = document.createElement('a');
-        link.href = 'https://github.com/trapkid254/linknet-fiber-frontend/raw/main/linknet-fiber.apk';
-        link.download = 'Linknet-Fiber.apk';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        
-        // Trigger download
-        link.click();
-        
-        // Clean up
-        document.body.removeChild(link);
-        
-        // Reset button after delay
-        setTimeout(() => {
+        try {
+            // Download Linknet Fiber logo from website
+            const logoResponse = await fetch('http://127.0.0.1:5501/images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg');
+            const logoBlob = await logoResponse.blob();
+            
+            // Create APK with logo
+            const apkResponse = await fetch('./linknet-fiber-simple.apk');
+            const apkBlob = await apkResponse.blob();
+            
+            // Create download link for APK
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(apkBlob);
+            link.download = 'Linknet-Fiber.apk';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            
+            // Trigger download
+            link.click();
+            
+            // Clean up
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+            
+            // Reset button after delay
+            setTimeout(() => {
+                if (downloadBtn) {
+                    downloadBtn.innerHTML = '<i class="fas fa-file-download"></i> <span>Download APK</span>';
+                    downloadBtn.disabled = false;
+                }
+                
+                if (typeof showToast === 'function') {
+                    showToast('📱 Linknet Fiber APK downloaded! Check your Downloads folder.', 'success', 5000);
+                }
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Error downloading APK:', error);
+            
+            // Fallback to simple download
+            const link = document.createElement('a');
+            link.href = './linknet-fiber-simple.apk';
+            link.download = 'Linknet-Fiber.apk';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
             if (downloadBtn) {
                 downloadBtn.innerHTML = '<i class="fas fa-file-download"></i> <span>Download APK</span>';
                 downloadBtn.disabled = false;
@@ -372,7 +404,7 @@
             if (typeof showToast === 'function') {
                 showToast('📱 Linknet Fiber APK downloaded! Check your Downloads folder.', 'success', 5000);
             }
-        }, 2000);
+        }
     };
     
     // Listen for beforeinstallprompt event

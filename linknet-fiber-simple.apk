@@ -11,17 +11,14 @@ Application-Activity: MainActivity
 Launchable-Activity: true
 Permissions: android.permission.INTERNET
 
-res/drawable/icon-192.png
-[Binary PNG icon data - 192x192 pixels]
-
-res/drawable/icon-512.png  
-[Binary PNG icon data - 512x512 pixels]
+res/icon-192.png
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGklEQVR42mNkYPhQAAiI4Xh1CQAAAAJcEhZAAAACklEQVR42mNkYPhQAAiI4Xh1CwAAAABJRU5ErkJggg==
 
 classes.dex
-[Android Dalvik Executable format]
+[Android bytecode for Linknet Fiber app]
 
 AndroidManifest.xml
-[Android package manifest]
+[Android app configuration]
 
 resources.arsc
-[Android resource compiler output]
+[Android app resources]
