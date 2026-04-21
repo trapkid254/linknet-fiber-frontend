@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- PWA / App Install -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,6 +20,8 @@
     <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
     <!-- Load PWA installer early to capture beforeinstallprompt -->
     <script src="./js/pwa-install.js" defer></script>
+
+
     <meta name="description" content="Linknet Fiber - Kenya's Premier Fiber Internet Service Provider. Experience lightning-fast, reliable internet for your home and business.">
     <meta name="keywords" content="fiber internet, Kenya ISP, high-speed internet, Linknet Fiber, broadband Kenya">
     <meta name="author" content="Linknet Fiber">
@@ -26,7 +29,25 @@
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content="Linknet Fiber - Lightning Fast Internet">
     <meta property="og:description" content="Experience Kenya's fastest fiber internet. Check coverage in your area today!">
+
     <meta property="og:type" content="website">    <!-- Favicon -->
+
+    <meta property="og:type" content="website">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1E4D8C">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Linknet Fiber">
+    <meta name="application-name" content="Linknet Fiber">
+    <meta name="msapplication-TileColor" content="#1E4D8C">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Favicon -->
+
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
     
     <title>Linknet Fiber - Kenya's Fastest Fiber Internet Provider</title>
@@ -64,6 +85,7 @@
                     <li role="listitem"><a href="packages.html" class="nav-link">Packages</a></li>
                     <li role="listitem"><a href="about.html" class="nav-link">Coverage</a></li>
                     <li role="listitem"><a href="contact.html" class="nav-link">Contact</a></li>
+
                                     
                 </ul>
 
@@ -79,17 +101,15 @@
                         <i class="fas fa-wifi"></i> Request Installation
                     </a>
                 </div>
+
+                                    </ul>
+
                 
                 <div class="nav-actions">
                     <button class="theme-toggle" aria-label="Toggle dark mode">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <button id="install-app-btn" class="btn btn-install" aria-label="Install App" title="Install Linknet Fiber App" style="display:none">
-                        <i class="fas fa-download"></i> Install App
-                    </button>
-                    <a href="admin/login.html" class="btn btn-admin" aria-label="Admin Login">
-                        <i class="fas fa-user-shield"></i> Admin
-                    </a>
+
                     <a href="request.html" class="btn btn-primary">Request Installation</a>
                 </div>
             </div>
@@ -399,5 +419,37 @@
     <script src="js/darkmode.js"></script>
     <script src="js/main.js"></script>
     <script src="js/coverage-search.js"></script>
+
+
+    <script src="js/pwa-install.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                        
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // Show update notification
+                                    if (typeof showToast === 'function') {
+                                        showToast('A new version is available! Please refresh the page.', 'info', 10000);
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+
 </body>
 </html>

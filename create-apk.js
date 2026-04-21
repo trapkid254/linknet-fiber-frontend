@@ -1,6 +1,6 @@
 // Simple script to create Android package info
 console.log('Linknet Fiber Android Package Creator');
-console.log('=====================================');
+console.log('==');
 console.log('Package Name: com.linknet.fiber');
 console.log('App Name: Linknet Fiber');
 console.log('Version: 1.0.0');

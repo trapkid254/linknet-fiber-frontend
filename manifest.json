@@ -71,18 +71,18 @@
   ],
   "screenshots": [
     {
-      "src": "icons/screenshot-wide.png",
+      "src": "https://picsum.photos/1280/720?random=100",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Linknet Fiber - Browse packages and request fiber installation"
+      "label": "Linknet Fiber Dashboard - View internet packages and manage your account"
     },
     {
-      "src": "icons/screenshot-narrow.png",
-      "sizes": "390x844",
+      "src": "https://picsum.photos/640/1136?random=101",
+      "sizes": "640x1136",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Linknet Fiber - Fast internet on the go"
+      "label": "Linknet Fiber Mobile - Fast internet on the go"
     }
   ],
   "shortcuts": [
@@ -91,21 +91,36 @@
       "short_name": "Packages",
       "description": "Browse available internet packages",
       "url": "./packages.html",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Request Installation",
       "short_name": "Request",
       "description": "Request fiber installation at your location",
       "url": "./request.html",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Contact Support",
       "short_name": "Support",
       "description": "Get help and support",
       "url": "./contact.html",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ],
   "prefer_related_applications": false

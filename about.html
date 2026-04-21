@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- PWA / App Install -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,12 +21,28 @@
     <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
     <!-- Load PWA installer early to capture beforeinstallprompt -->
     <script src="./js/pwa-install.js" defer></script>
+
+
     <meta name="description" content="Learn about Linknet Fiber's coverage areas across Kenya. Find out if high-speed fiber internet is available in your region.">
     <title>Coverage & About - Linknet Fiber</title>
     
     <!-- PWA Meta Tags -->
+
     <meta name="application-name" content="Linknet Fiber">
     <meta name="msapplication-TileColor" content="#1E4D8C">    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <meta name="theme-color" content="#1E4D8C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Linknet Fiber">
+    <meta name="application-name" content="Linknet Fiber">
+    <meta name="msapplication-TileColor" content="#1E4D8C">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -51,6 +68,7 @@
                     <li><a href="packages.html" class="nav-link">Packages</a></li>
                     <li><a href="about.html" class="nav-link active">Coverage</a></li>
                     <li><a href="contact.html" class="nav-link">Contact</a></li>
+
                                     
                 </ul>
 
@@ -66,17 +84,23 @@
                         <i class="fas fa-wifi"></i> Request Installation
                     </a>
                 </div>
+
+                                    </ul>
+
                 
                 <div class="nav-actions">
                     <button class="theme-toggle" aria-label="Toggle dark mode">
                         <i class="fas fa-moon"></i>
                     </button>
+
                     <button id="install-app-btn" class="btn btn-install" aria-label="Install App" title="Install Linknet Fiber App" style="display:none">
                         <i class="fas fa-download"></i> Install App
                     </button>
                     <a href="admin/login.html" class="btn btn-admin" aria-label="Admin Login">
                         <i class="fas fa-user-shield"></i> Admin
                     </a>
+
+
                     <a href="request.html" class="btn btn-primary">Request Installation</a>
                 </div>
             </div>
@@ -349,6 +373,26 @@
     
     <script src="js/darkmode.js"></script>
     <script src="js/main.js"></script>
+
     <script src="js/about-coverage.js"></script>
+
+    <script src="js/pwa-install.js"></script>
+    <script src="js/about-coverage.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+
 </body>
 </html>
