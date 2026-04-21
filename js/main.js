@@ -143,6 +143,12 @@
             
             const packages = await response.json();
             
+            // Ensure packages is an array
+            if (!Array.isArray(packages)) {
+                console.error('Invalid packages data:', packages);
+                throw new Error('Invalid packages data format');
+            }
+            
             // Display only first 3 packages as featured
             const featuredPackages = packages.slice(0, 3);
             
