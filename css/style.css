@@ -2203,9 +2203,10 @@ a:hover {
     }
     
     .slide-content {
-        left: 5%;
-        right: 5%;
+        left: 50%;
+        right: auto;
         text-align: center;
+        transform: translate(-50%, -50%);
     }
     
     .slide-cta {
@@ -2247,6 +2248,28 @@ a:hover {
     
     .contact-info-cards {
         grid-template-columns: 1fr;
+    }
+    
+    .location-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .location-card {
+        padding: var(--spacing-6);
+    }
+    
+    .packages-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .coverage-city {
+        padding: var(--spacing-5);
     }
     
     .form-row {
