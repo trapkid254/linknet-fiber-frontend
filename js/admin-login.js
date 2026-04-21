@@ -1,6 +1,4 @@
 
-// admin-login.js - Admin Login Implementation
-
 // admin-login.js - Clean Admin Login Implementation
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -10,9 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginBtn = document.querySelector('button[type="submit"]');
     const errorMessage = document.getElementById('login-message');
 
-
     const AUTH_KEY = 'linknet_admin_auth';
-    const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
+    const API_BASE = 'http://localhost:5000/api'; // Use local backend
 
     if (!loginForm) return;
 
@@ -32,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Password toggle
+    // Password toggle functionality
     const passwordToggle = document.querySelector('.password-toggle');
     if (passwordToggle) {
         passwordToggle.addEventListener('click', function() {
@@ -43,29 +40,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Form submission
     loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const email = emailInput.value.trim();
         const password = passwordInput.value;
 
-
-    
-    if (!loginForm) return;
-    
-    loginForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-        
         // Basic validation
-
         if (!email || !password) {
             showError('Please enter both email and password');
             return;
         }
-
 
         // Show loading state
         loginBtn.disabled = true;
@@ -74,26 +60,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             const response = await fetch(`${API_BASE}/admin/login`, {
-
-        
-        // Show loading state
-        loginBtn.disabled = true;
-        loginBtn.textContent = 'Logging in...';
-        hideError();
-        
-        try {
-            const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/login', {
-
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: email,
+                    email: email, // Use email field instead of username
                     password: password
                 })
             });
-
 
             const data = await response.json();
 
@@ -104,13 +79,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     name: data.admin.name,
                     email: data.admin.email,
                     role: data.admin.role,
-                    id: data.admin.id,
+                    id: data.admin._id || data.admin.id,
+                    permissions: data.admin.permissions || data.admin.allPermissions,
                     expires: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
                 };
                 localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
 
-                // Redirect to dashboard (login.html is inside /admin/ folder)
-                window.location.href = 'dashboard.html';
+                // Show success message
+                showSuccess('Login successful! Redirecting to dashboard...');
+                
+                // Redirect to dashboard after a short delay
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
             } else {
                 showError(data.error || 'Invalid credentials. Please try again.');
             }
@@ -123,42 +104,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                // Store token and admin info
-                localStorage.setItem('adminToken', data.token);
-                localStorage.setItem('adminInfo', JSON.stringify(data.admin));
-                
-                // Redirect to dashboard
-                window.location.href = 'admin/dashboard.html';
-            } else {
-                showError(data.error || 'Login failed');
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            showError('Network error. Please try again.');
-        } finally {
-            // Reset button state
-            loginBtn.disabled = false;
-            loginBtn.textContent = 'Login';
-        }
-    });
-    
-
     function showError(message) {
         if (errorMessage) {
             errorMessage.textContent = message;
+            errorMessage.className = 'form-message error';
             errorMessage.style.display = 'block';
+        }
+    }
 
-            errorMessage.style.color = '#e53e3e';
-            errorMessage.style.padding = '10px';
-            errorMessage.style.marginTop = '10px';
-            errorMessage.style.borderRadius = '6px';
-            errorMessage.style.background = '#fff5f5';
-            errorMessage.style.border = '1px solid #fed7d7';
+    function showSuccess(message) {
+        if (errorMessage) {
+            errorMessage.textContent = message;
+            errorMessage.className = 'form-message success';
+            errorMessage.style.display = 'block';
         }
     }
 
@@ -168,21 +126,4 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMessage.textContent = '';
         }
     }
-
-        }
-    }
-    
-    function hideError() {
-        if (errorMessage) {
-            errorMessage.style.display = 'none';
-        }
-    }
-    
-    // Check if already logged in
-    const token = localStorage.getItem('adminToken');
-    if (token) {
-        // Redirect to dashboard if already logged in
-        window.location.href = 'admin/dashboard.html';
-    }
-
 });
