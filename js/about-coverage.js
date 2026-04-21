@@ -42,6 +42,16 @@
                 );
             }
             
+            // Also check if estate contains any part of available areas (manual input flexibility)
+            if (!isAvailable && coverageData[countyLower]) {
+                const estateWords = estateLower.split(/\s+/);
+                isAvailable = estateWords.some(word => 
+                    coverageData[countyLower].some(area => 
+                        area.toLowerCase().includes(word) || word.includes(area.toLowerCase())
+                    )
+                );
+            }
+            
             if (isAvailable) {
                 showAboutResult(`
                     <i class="fas fa-check-circle"></i>
