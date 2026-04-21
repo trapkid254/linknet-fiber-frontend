@@ -1,10 +1,10 @@
 // admin-login.js - Clean Admin Login Implementation
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
-    const emailInput = document.getElementById('email');
+    const loginForm = document.getElementById('login-form');
+    const emailInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
-    const loginBtn = document.getElementById('loginBtn');
-    const errorMessage = document.getElementById('error-message');
+    const loginBtn = document.querySelector('button[type="submit"]');
+    const errorMessage = document.getElementById('login-message');
     
     if (!loginForm) return;
     
