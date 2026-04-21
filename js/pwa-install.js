@@ -342,26 +342,18 @@
 
 // Download app function
 const downloadApp = () => {
-    console.log('Downloading Linknet Fiber APK...');
+    console.log('Opening APK download page...');
     
     // Show loading state
     const downloadBtn = document.getElementById('pwa-download-btn');
     if (downloadBtn) {
-        downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Downloading...</span>';
+        downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Opening...</span>';
         downloadBtn.disabled = true;
     }
     
-    // Create direct download link that forces file download
-    const link = document.createElement('a');
-    link.href = './linknet-fiber-logo.apk';
-    link.download = 'Linknet-Fiber.apk';
-    link.style.display = 'none';
-    link.setAttribute('data-download', 'true');
-    
-    // Add to DOM and trigger download
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Open dedicated download page in new tab
+    const downloadPageUrl = window.location.origin + '/download-apk.html';
+    window.open(downloadPageUrl, '_blank', 'noopener,noreferrer');
     
     // Reset button after delay
     setTimeout(() => {
@@ -371,9 +363,9 @@ const downloadApp = () => {
         }
         
         if (typeof showToast === 'function') {
-            showToast('APK downloaded! Check your Downloads folder.', 'success', 5000);
+            showToast('Download page opened! Check new tab for APK download.', 'success', 5000);
         }
-    }, 2000);
+    }, 1500);
 };
     
     // Listen for beforeinstallprompt event

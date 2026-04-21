@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Linknet Fiber APK</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #1E4D8C;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .download-container {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1E4D8C;
+            margin-bottom: 20px;
+        }
+        .download-btn {
+            background: #28a745;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        .download-btn:hover {
+            background: #218838;
+        }
+        .instructions {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .instructions h3 {
+            color: #1E4D8C;
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="download-container">
+        <div class="logo">Linknet Fiber</div>
+        <h2>Download Android App</h2>
+        <p>Get the Linknet Fiber app for your Android device</p>
+        
+        <a href="./linknet-fiber-logo.apk" download="Linknet-Fiber.apk" class="download-btn">
+            <i class="fas fa-download"></i> Download APK
+        </a>
+        
+        <div class="instructions">
+            <h3>Installation Instructions:</h3>
+            <ol>
+                <li>Click the Download button above</li>
+                <li>Open your Downloads folder</li>
+                <li>Tap on "Linknet-Fiber.apk"</li>
+                <li>Enable "Unknown Sources" in Android settings if prompted</li>
+                <li>Install the app</li>
+            </ol>
+        </div>
+        
+        <p><small>File size: ~5MB | Version: 1.0.0</small></p>
+    </div>
+
+    <script>
+        // Auto-download after 2 seconds
+        setTimeout(() => {
+            const downloadLink = document.querySelector('.download-btn');
+            if (downloadLink) {
+                downloadLink.click();
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
