@@ -1688,26 +1688,57 @@ a:hover {
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-sm);
 }
-.location-card {
+.location-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: var(--spacing-16);
-    align-items: center;
-    background: rgb(184, 134, 11);
-    border-radius: var(--radius-2xl);
-    padding: var(--spacing-12);
-    box-shadow: var(--shadow-xl);
-    border: 1px solid var(--border-light);
-    position: relative;
-    z-index: 1;
-    backdrop-filter: blur(10px);
-    color: blue;
-    
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-8);
+    margin-top: var(--spacing-8);
 }
+
+.location-card {
+    background: linear-gradient(135deg, #C6A43F 0%, #D4B85A 100%);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-8);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-gold-dark);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #1E4D8C;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.location-card h3 {
+    color: #1E4D8C;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.location-card address {
+    color: #1E4D8C;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.location-card p {
+    color: #1E4D8C;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.location-card i {
+    color: #1E4D8C;
+}
+
+.location-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
 .location-card-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
+
 .info-card .btn {
     margin-top: var(--spacing-3);
 }
