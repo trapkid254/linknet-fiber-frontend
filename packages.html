@@ -43,7 +43,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=1.0.1">
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -67,8 +67,9 @@
                     <li><a href="packages.html" class="nav-link active">Packages</a></li>
                     <li><a href="about.html" class="nav-link">Coverage</a></li>
                     <li><a href="contact.html" class="nav-link">Contact</a></li>
-
-                                    
+                    <li><a href="download-apk.html" class="nav-link btn-install" aria-label="Install App" title="Install Linknet Fiber App">
+                        <i class="fas fa-download"></i> Install App
+                    </a></li>
                 </ul>
 
                 <!-- Mobile-only: Admin, Install & Request buttons -->
@@ -76,9 +77,9 @@
                     <a href="admin/login.html" class="nav-mobile-admin">
                         <i class="fas fa-user-shield"></i> Admin Portal
                     </a>
-                    <button id="mobile-install-btn" class="nav-mobile-install" style="display:none">
+                    <a href="download-apk.html" class="nav-mobile-install">
                         <i class="fas fa-download"></i> Install App
-                    </button>
+                    </a>
                     <a href="request.html" class="nav-mobile-request">
                         <i class="fas fa-wifi"></i> Request Installation
                     </a>
@@ -91,15 +92,9 @@
                     <button class="theme-toggle" aria-label="Toggle dark mode">
                         <i class="fas fa-moon"></i>
                     </button>
-
-                    <button id="install-app-btn" class="btn btn-install" aria-label="Install App" title="Install Linknet Fiber App" style="display:none">
-                        <i class="fas fa-download"></i> Install App
-                    </button>
                     <a href="admin/login.html" class="btn btn-admin" aria-label="Admin Login">
                         <i class="fas fa-user-shield"></i> Admin
                     </a>
-
-
                     <a href="request.html" class="btn btn-primary">Request Installation</a>
                 </div>
             </div>

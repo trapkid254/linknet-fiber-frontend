@@ -2598,3 +2598,514 @@ a:hover {
 
 .inline-block { display: inline-block; }
 
+/* ====== ABOUT PAGE STYLES ====== */
+.about-section {
+    padding: var(--spacing-16) 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--spacing-16);
+    align-items: start;
+}
+
+.about-content h2 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-6);
+    color: var(--color-primary);
+    background: var(--color-primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    padding-bottom: var(--spacing-3);
+}
+
+.about-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--color-primary-gradient);
+    border-radius: var(--radius-full);
+}
+
+.about-content p {
+    font-size: var(--font-size-lg);
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-8);
+    padding: var(--spacing-6);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--color-primary);
+    transition: all var(--transition-base);
+}
+
+.about-content p:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.values-list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--spacing-6);
+}
+
+.values-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-6);
+    padding: var(--spacing-6);
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-light);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.values-list li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--color-primary-gradient);
+}
+
+.values-list li:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary-light);
+}
+
+.values-list i {
+    color: var(--color-success);
+    margin-right: var(--spacing-4);
+    margin-top: 2px;
+    font-size: var(--font-size-xl);
+    background: var(--color-success-soft);
+    padding: var(--spacing-2);
+    border-radius: var(--radius-full);
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.values-list strong {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    display: block;
+    margin-bottom: var(--spacing-2);
+}
+
+.values-list li > span {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.about-image {
+    position: relative;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform var(--transition-base);
+}
+
+.about-image:hover img {
+    transform: scale(1.05);
+}
+
+/* ====== PACKAGES PAGE STYLING FIXES ====== */
+.package-filters {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-12);
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-4) var(--spacing-6);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.filter-btn:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--color-primary-light);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.discount-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--color-success);
+    color: white;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
+}
+
+.comparison-section {
+    padding: var(--spacing-16) 0;
+    background: var(--bg-secondary);
+}
+
+.comparison-table {
+    width: 100%;
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: var(--spacing-4);
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.comparison-table th {
+    background: var(--color-primary);
+    color: white;
+    font-weight: 600;
+}
+
+.comparison-table tr:hover {
+    background: var(--bg-tertiary);
+}
+
+.table-responsive {
+    overflow-x: auto;
+    border-radius: var(--radius-xl);
+}
+
+/* ====== FAQ SECTION STYLING ====== */
+.faq-section {
+    padding: var(--spacing-16) 0;
+    background: var(--bg-primary);
+}
+
+.faq-section h2 {
+    text-align: center;
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-12);
+    background: var(--color-primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-8);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-8);
+    border: 1px solid var(--border-light);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.faq-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--color-primary-gradient);
+}
+
+.faq-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-primary-light);
+}
+
+.faq-item h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-4);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.faq-item h3 i {
+    color: var(--color-primary);
+    font-size: var(--font-size-lg);
+    background: var(--color-primary-soft);
+    padding: var(--spacing-2);
+    border-radius: var(--radius-full);
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.faq-item p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: var(--font-size-lg);
+}
+
+/* Enhanced Comparison Table Styling */
+.comparison-section h2 {
+    text-align: center;
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-12);
+    background: var(--color-primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.comparison-table {
+    width: 100%;
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border-light);
+}
+
+.comparison-table th {
+    background: var(--color-primary-gradient);
+    color: white;
+    font-weight: 700;
+    padding: var(--spacing-6);
+    text-align: center;
+    font-size: var(--font-size-lg);
+}
+
+.comparison-table td {
+    padding: var(--spacing-5);
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+}
+
+.comparison-table tr:hover {
+    background: var(--bg-tertiary);
+}
+
+.comparison-table tr:nth-child(even) {
+    background: var(--bg-secondary);
+}
+
+.comparison-table tr:nth-child(even):hover {
+    background: var(--bg-tertiary);
+}
+
+/* ====== FORCE OVERRIDE STYLES - HIGHER SPECIFICITY ====== */
+.about-section .about-content h2 {
+    font-size: var(--font-size-3xl) !important;
+    margin-bottom: var(--spacing-6) !important;
+    color: var(--color-primary) !important;
+    background: var(--color-primary-gradient) !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    position: relative !important;
+    padding-bottom: var(--spacing-3) !important;
+}
+
+.about-section .about-content h2::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 60px !important;
+    height: 4px !important;
+    background: var(--color-primary-gradient) !important;
+    border-radius: var(--radius-full) !important;
+}
+
+.about-section .about-content p {
+    font-size: var(--font-size-lg) !important;
+    line-height: 1.8 !important;
+    color: var(--text-secondary) !important;
+    margin-bottom: var(--spacing-8) !important;
+    padding: var(--spacing-6) !important;
+    background: var(--bg-secondary) !important;
+    border-radius: var(--radius-lg) !important;
+    border-left: 4px solid var(--color-primary) !important;
+    transition: all var(--transition-base) !important;
+}
+
+.about-section .about-content p:hover {
+    transform: translateX(5px) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.about-section .values-list li {
+    display: flex !important;
+    align-items: flex-start !important;
+    margin-bottom: var(--spacing-6) !important;
+    padding: var(--spacing-6) !important;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)) !important;
+    border-radius: var(--radius-xl) !important;
+    border: 1px solid var(--border-light) !important;
+    transition: all var(--transition-base) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.about-section .values-list li::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 4px !important;
+    height: 100% !important;
+    background: var(--color-primary-gradient) !important;
+}
+
+.about-section .values-list li:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: var(--shadow-lg) !important;
+    border-color: var(--color-primary-light) !important;
+}
+
+.about-section .values-list i {
+    color: var(--color-success) !important;
+    margin-right: var(--spacing-4) !important;
+    margin-top: 2px !important;
+    font-size: var(--font-size-xl) !important;
+    background: var(--color-success-soft) !important;
+    padding: var(--spacing-2) !important;
+    border-radius: var(--radius-full) !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.about-section .values-list strong {
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+    font-size: var(--font-size-lg) !important;
+    display: block !important;
+    margin-bottom: var(--spacing-2) !important;
+}
+
+/* Packages Page - Force Override */
+.packages-section .comparison-section h2 {
+    text-align: center !important;
+    font-size: var(--font-size-3xl) !important;
+    margin-bottom: var(--spacing-12) !important;
+    background: var(--color-primary-gradient) !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.packages-section .comparison-table {
+    width: 100% !important;
+    background: var(--bg-primary) !important;
+    border-radius: var(--radius-xl) !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow-xl) !important;
+    border: 1px solid var(--border-light) !important;
+}
+
+.packages-section .comparison-table th {
+    background: var(--color-primary-gradient) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: var(--spacing-6) !important;
+    text-align: center !important;
+    font-size: var(--font-size-lg) !important;
+}
+
+.packages-section .comparison-table td {
+    padding: var(--spacing-5) !important;
+    text-align: center !important;
+    border-bottom: 1px solid var(--border-light) !important;
+    font-size: var(--font-size-lg) !important;
+    color: var(--text-primary) !important;
+}
+
+.packages-section .faq-section h2 {
+    text-align: center !important;
+    font-size: var(--font-size-3xl) !important;
+    margin-bottom: var(--spacing-12) !important;
+    background: var(--color-primary-gradient) !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.packages-section .faq-item {
+    background: var(--bg-secondary) !important;
+    border-radius: var(--radius-xl) !important;
+    padding: var(--spacing-8) !important;
+    border: 1px solid var(--border-light) !important;
+    transition: all var(--transition-base) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.packages-section .faq-item::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    background: var(--color-primary-gradient) !important;
+}
+
+.packages-section .faq-item:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: var(--shadow-xl) !important;
+    border-color: var(--color-primary-light) !important;
+}
+
