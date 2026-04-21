@@ -1,0 +1,27 @@
+PK
+
+MANIFEST.MF
+Manifest-Version: 1.0
+Created-By: Linknet Fiber
+Application-Label: Linknet Fiber
+Package-Name: com.linknet.fiber
+Version-Code: 1
+Application-Icon: icon-192.png
+Application-Activity: MainActivity
+Launchable-Activity: true
+Permissions: android.permission.INTERNET
+
+res/drawable/icon-192.png
+[Binary PNG icon data - 192x192 pixels]
+
+res/drawable/icon-512.png  
+[Binary PNG icon data - 512x512 pixels]
+
+classes.dex
+[Android Dalvik Executable format]
+
+AndroidManifest.xml
+[Android package manifest]
+
+resources.arsc
+[Android resource compiler output]

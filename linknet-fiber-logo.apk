@@ -1,0 +1,50 @@
+PK
+
+MANIFEST.MF
+Manifest-Version: 1.0
+Created-By: Linknet Fiber
+Application-Label: Linknet Fiber
+Package-Name: com.linknet.fiber
+Version-Code: 1
+Application-Icon: images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg
+Application-Activity: MainActivity
+Launchable-Activity: true
+Permissions: android.permission.INTERNET
+
+res/drawable/app_icon.jpg
+[Reference to actual Linknet Fiber logo from images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg]
+
+classes.dex
+[Android bytecode for Linknet Fiber app - Main activity with internet connectivity]
+
+AndroidManifest.xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.linknet.fiber"
+    android:versionCode="1"
+    android:versionName="1.0">
+    
+    <application
+        android:label="Linknet Fiber"
+        android:icon="@drawable/app_icon"
+        android:theme="@style/AppTheme"
+        android:allowBackup="true">
+        
+        <activity
+            android:name=".MainActivity"
+            android:label="Linknet Fiber"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <uses-permission android:name="android.permission.INTERNET" />
+    </application>
+</manifest>
+
+resources.arsc
+[Android app resources - String values for Linknet Fiber branding]
+app_name="Linknet Fiber"
+app_description="Kenya's premier fiber internet service provider"

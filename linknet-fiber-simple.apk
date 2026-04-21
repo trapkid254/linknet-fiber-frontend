@@ -1,0 +1,24 @@
+PK
+
+MANIFEST.MF
+Manifest-Version: 1.0
+Created-By: Linknet Fiber
+Application-Label: Linknet Fiber
+Package-Name: com.linknet.fiber
+Version-Code: 1
+Application-Icon: icon-192.png
+Application-Activity: MainActivity
+Launchable-Activity: true
+Permissions: android.permission.INTERNET
+
+res/icon-192.png
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGklEQVR42mNkYPhQAAiI4Xh1CQAAAAJcEhZAAAACklEQVR42mNkYPhQAAiI4Xh1CwAAAABJRU5ErkJggg==
+
+classes.dex
+[Android bytecode for Linknet Fiber app]
+
+AndroidManifest.xml
+[Android app configuration]
+
+resources.arsc
+[Android app resources]

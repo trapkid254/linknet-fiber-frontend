@@ -1,0 +1,112 @@
+{
+  "name": "Linknet Fiber - Kenya's Fastest Internet",
+  "short_name": "Linknet Fiber",
+  "description": "Kenya's premier fiber internet service provider. Experience lightning-fast, reliable internet for your home and business.",
+  "start_url": "./index.html",
+  "id": "./index.html",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "background_color": "#1E4D8C",
+  "theme_color": "#1E4D8C",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["utilities", "business", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Linknet Fiber - Browse packages and request fiber installation"
+    },
+    {
+      "src": "icons/screenshot-narrow.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Linknet Fiber - Fast internet on the go"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Packages",
+      "short_name": "Packages",
+      "description": "Browse available internet packages",
+      "url": "./packages.html",
+      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Request Installation",
+      "short_name": "Request",
+      "description": "Request fiber installation at your location",
+      "url": "./request.html",
+      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Contact Support",
+      "short_name": "Support",
+      "description": "Get help and support",
+      "url": "./contact.html",
+      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "prefer_related_applications": false
+}
