@@ -15,32 +15,58 @@
     
     // Show install prompt
     const showInstallPrompt = async () => {
-        if (!deferredPrompt || !isInstallable) return;
-        
-        // Hide the install button
-        if (installButton) {
-            installButton.style.display = 'none';
+        if (!deferredPrompt) {
+            console.log('Install prompt not available');
+            if (typeof showToast === 'function') {
+                showToast('Please wait for the install prompt to appear...', 'info', 3000);
+            }
+            return;
         }
         
-        // Show the native install prompt
+        console.log('Showing PWA install prompt...');
+        
+        // Show loading state on button
+        if (installButton) {
+            installButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Opening Install Dialog...</span>';
+            installButton.disabled = true;
+        }
+        
+        // Show the install prompt
         deferredPrompt.prompt();
         
-        // Wait for user's response
-        const { outcome } = await deferredPrompt.prompt();
+        // Wait for user to respond
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        // Reset button state
+        if (installButton) {
+            installButton.innerHTML = `
+                <i class="fas fa-download"></i>
+                <span>Install App</span>
+            `;
+            installButton.disabled = false;
+        }
         
         if (outcome === 'accepted') {
             console.log('User accepted the install prompt');
             
-            // Show success message
+            // Show detailed success message
             if (typeof showToast === 'function') {
-                showToast('App installed successfully! You can now launch it from your home screen.', 'success', 5000);
+                showToast('🎉 Installing Linknet Fiber App! Check your device home screen/app drawer.', 'success', 8000);
             }
+            
+            // Create installation progress indicator
+            showInstallationProgress();
             
             // Track installation
             trackInstallation('accepted');
         } else {
             console.log('User dismissed the install prompt');
             trackInstallation('dismissed');
+            
+            // Show info message about dismissal
+            if (typeof showToast === 'function') {
+                showToast('Install cancelled. You can install anytime from this button.', 'info', 4000);
+            }
             
             // Show button again if dismissed
             if (installButton) {
@@ -51,6 +77,48 @@
         // Clear the deferred prompt
         deferredPrompt = null;
         isInstallable = false;
+    };
+    
+    // Show installation progress indicator
+    const showInstallationProgress = () => {
+        const progressDiv = document.createElement('div');
+        progressDiv.id = 'pwa-install-progress';
+        progressDiv.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 10000;
+            text-align: center;
+            min-width: 300px;
+        `;
+        progressDiv.innerHTML = `
+            <div style="font-size: 18px; margin-bottom: 15px;">
+                <i class="fas fa-download" style="color: #28a745; font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                <strong>Installing Linknet Fiber App</strong>
+            </div>
+            <div style="color: #666; margin-bottom: 15px;">
+                The app is being added to your device<br>
+                Check your home screen or app drawer
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; color: #28a745;">
+                <i class="fas fa-check-circle"></i>
+                <span>Installation Complete!</span>
+            </div>
+        `;
+        
+        document.body.appendChild(progressDiv);
+        
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            if (progressDiv.parentNode) {
+                progressDiv.parentNode.removeChild(progressDiv);
+            }
+        }, 3000);
     };
     
     // Track installation analytics
@@ -91,9 +159,34 @@
         // Add click handler
         button.addEventListener('click', showInstallPrompt);
         
+        // Create download button
+        const downloadBtn = document.createElement('button');
+        downloadBtn.id = 'pwa-download-btn';
+        downloadBtn.className = 'pwa-download-btn';
+        downloadBtn.innerHTML = `
+            <i class="fas fa-file-download"></i>
+            <span>Download APK</span>
+        `;
+        downloadBtn.setAttribute('aria-label', 'Download Linknet Fiber APK');
+        downloadBtn.setAttribute('title', 'Download Linknet Fiber APK for Android');
+        downloadBtn.addEventListener('click', downloadApp);
+        
+        // Container for both buttons
+        const container = document.createElement('div');
+        container.className = 'pwa-buttons-container';
+        container.appendChild(button);
+        container.appendChild(downloadBtn);
+        
         // Add styles
         const style = document.createElement('style');
         style.textContent = `
+            .pwa-buttons-container {
+                display: flex;
+                align-items: center;
+                gap: var(--spacing-2);
+                flex-wrap: wrap;
+            }
+            
             .pwa-install-btn {
                 display: flex;
                 align-items: center;
@@ -123,6 +216,38 @@
             }
             
             .pwa-install-btn i {
+                font-size: 14px;
+            }
+            
+            .pwa-download-btn {
+                display: flex;
+                align-items: center;
+                gap: var(--spacing-2);
+                padding: var(--spacing-3) var(--spacing-4);
+                background: linear-gradient(135deg, #28a745 0%, #1ea085 100%);
+                color: white;
+                border: none;
+                border-radius: var(--radius-md);
+                font-weight: var(--font-weight-medium);
+                font-size: var(--font-size-sm);
+                cursor: pointer;
+                transition: all var(--transition-base);
+                box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .pwa-download-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+                background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+            }
+            
+            .pwa-download-btn:active {
+                transform: translateY(0);
+            }
+            
+            .pwa-download-btn i {
                 font-size: 14px;
             }
             
@@ -188,7 +313,7 @@
         const navActions = document.querySelector('.nav-actions');
         if (!navActions) return;
         
-        installButton = createInstallButton();
+        const buttonContainer = createInstallButton();
         
         // Add badge for first-time users
         const firstVisit = !localStorage.getItem('pwa_install_shown');
@@ -196,21 +321,58 @@
             const badge = document.createElement('span');
             badge.className = 'install-badge';
             badge.textContent = 'NEW';
-            installButton.appendChild(badge);
+            buttonContainer.querySelector('.pwa-install-btn').appendChild(badge);
             localStorage.setItem('pwa_install_shown', 'true');
         }
         
         // Insert before the request installation button
         const requestBtn = navActions.querySelector('.btn-primary');
         if (requestBtn) {
-            navActions.insertBefore(installButton, requestBtn);
+            navActions.insertBefore(buttonContainer, requestBtn);
         } else {
-            navActions.appendChild(installButton);
+            navActions.appendChild(buttonContainer);
         }
         
-        // Show button with animation
-        installButton.style.display = 'flex';
-        installButton.style.animation = 'slideInRight 0.5s ease-out';
+        // Show container with animation
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.animation = 'slideInRight 0.5s ease-out';
+    };
+    
+    // Download app function
+    const downloadApp = () => {
+        console.log('Downloading Linknet Fiber APK...');
+        
+        // Show loading state
+        const downloadBtn = document.getElementById('pwa-download-btn');
+        if (downloadBtn) {
+            downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Downloading...</span>';
+            downloadBtn.disabled = true;
+        }
+        
+        // Create download link
+        const link = document.createElement('a');
+        link.href = 'https://github.com/trapkid254/linknet-fiber-frontend/raw/main/linknet-fiber.apk';
+        link.download = 'Linknet-Fiber.apk';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        
+        // Trigger download
+        link.click();
+        
+        // Clean up
+        document.body.removeChild(link);
+        
+        // Reset button after delay
+        setTimeout(() => {
+            if (downloadBtn) {
+                downloadBtn.innerHTML = '<i class="fas fa-file-download"></i> <span>Download APK</span>';
+                downloadBtn.disabled = false;
+            }
+            
+            if (typeof showToast === 'function') {
+                showToast('📱 Linknet Fiber APK downloaded! Check your Downloads folder.', 'success', 5000);
+            }
+        }, 2000);
     };
     
     // Listen for beforeinstallprompt event
