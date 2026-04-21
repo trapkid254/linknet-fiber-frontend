@@ -130,12 +130,14 @@
     font-size: 14px;
     transition: all var(--transition-base);
     background: #FAFAFA;
+    color: #1E4D8C;
 }
 
 .login-form input:focus {
     outline: none;
     border-color: #D4AF37;
     background: white;
+    color: #1E4D8C;
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
 }
 
