@@ -1,0 +1,347 @@
+// js/pwa-install.js - PWA Install functionality
+(function() {
+    'use strict';
+    
+    let deferredPrompt = null;
+    let installButton = null;
+    let isInstallable = false;
+    
+    // Check if app is already installed
+    const isAppInstalled = () => {
+        return window.matchMedia('(display-mode: standalone)').matches || 
+               window.navigator.standalone === true ||
+               document.referrer.includes('android-app://');
+    };
+    
+    // Show install prompt
+    const showInstallPrompt = async () => {
+        if (!deferredPrompt || !isInstallable) return;
+        
+        // Hide the install button
+        if (installButton) {
+            installButton.style.display = 'none';
+        }
+        
+        // Show the native install prompt
+        deferredPrompt.prompt();
+        
+        // Wait for user's response
+        const { outcome } = await deferredPrompt.prompt();
+        
+        if (outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+            
+            // Show success message
+            if (typeof showToast === 'function') {
+                showToast('App installed successfully! You can now launch it from your home screen.', 'success', 5000);
+            }
+            
+            // Track installation
+            trackInstallation('accepted');
+        } else {
+            console.log('User dismissed the install prompt');
+            trackInstallation('dismissed');
+            
+            // Show button again if dismissed
+            if (installButton) {
+                installButton.style.display = 'flex';
+            }
+        }
+        
+        // Clear the deferred prompt
+        deferredPrompt = null;
+        isInstallable = false;
+    };
+    
+    // Track installation analytics
+    const trackInstallation = (action) => {
+        // Simple analytics tracking
+        const installData = {
+            action: action,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+            platform: navigator.platform
+        };
+        
+        // Store in localStorage for basic analytics
+        const installations = JSON.parse(localStorage.getItem('pwa_installations') || '[]');
+        installations.push(installData);
+        localStorage.setItem('pwa_installations', JSON.stringify(installations));
+        
+        console.log('PWA Installation tracked:', installData);
+    };
+    
+    // Create install button
+    const createInstallButton = () => {
+        // Check if button already exists
+        if (document.getElementById('pwa-install-btn')) {
+            return;
+        }
+        
+        const button = document.createElement('button');
+        button.id = 'pwa-install-btn';
+        button.className = 'pwa-install-btn';
+        button.innerHTML = `
+            <i class="fas fa-download"></i>
+            <span>Install App</span>
+        `;
+        button.setAttribute('aria-label', 'Install Linknet Fiber App');
+        button.setAttribute('title', 'Install Linknet Fiber App for offline access');
+        
+        // Add click handler
+        button.addEventListener('click', showInstallPrompt);
+        
+        // Add styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .pwa-install-btn {
+                display: flex;
+                align-items: center;
+                gap: var(--spacing-2);
+                padding: var(--spacing-3) var(--spacing-4);
+                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                color: white;
+                border: none;
+                border-radius: var(--radius-md);
+                font-weight: var(--font-weight-medium);
+                font-size: var(--font-size-sm);
+                cursor: pointer;
+                transition: all var(--transition-base);
+                box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .pwa-install-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+                background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+            }
+            
+            .pwa-install-btn:active {
+                transform: translateY(0);
+            }
+            
+            .pwa-install-btn i {
+                font-size: 14px;
+            }
+            
+            .pwa-install-btn::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.2);
+                transform: translate(-50%, -50%);
+                transition: width 0.3s, height 0.3s;
+            }
+            
+            .pwa-install-btn:hover::before {
+                width: 100%;
+                height: 100%;
+            }
+            
+            .pwa-install-btn .install-badge {
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: var(--color-gold);
+                color: var(--color-primary);
+                font-size: 10px;
+                padding: 2px 6px;
+                border-radius: 10px;
+                font-weight: bold;
+                animation: pulse 2s infinite;
+            }
+            
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+            
+            @media (max-width: 768px) {
+                .pwa-install-btn span {
+                    display: none;
+                }
+                
+                .pwa-install-btn {
+                    padding: var(--spacing-3);
+                    min-width: auto;
+                }
+                
+                .pwa-install-btn i {
+                    font-size: 16px;
+                }
+            }
+        `;
+        
+        document.head.appendChild(style);
+        return button;
+    };
+    
+    // Add install button to navbar
+    const addInstallButton = () => {
+        const navActions = document.querySelector('.nav-actions');
+        if (!navActions) return;
+        
+        installButton = createInstallButton();
+        
+        // Add badge for first-time users
+        const firstVisit = !localStorage.getItem('pwa_install_shown');
+        if (firstVisit) {
+            const badge = document.createElement('span');
+            badge.className = 'install-badge';
+            badge.textContent = 'NEW';
+            installButton.appendChild(badge);
+            localStorage.setItem('pwa_install_shown', 'true');
+        }
+        
+        // Insert before the request installation button
+        const requestBtn = navActions.querySelector('.btn-primary');
+        if (requestBtn) {
+            navActions.insertBefore(installButton, requestBtn);
+        } else {
+            navActions.appendChild(installButton);
+        }
+        
+        // Show button with animation
+        installButton.style.display = 'flex';
+        installButton.style.animation = 'slideInRight 0.5s ease-out';
+    };
+    
+    // Listen for beforeinstallprompt event
+    const listenForInstallPrompt = () => {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('PWA install prompt available');
+            
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            isInstallable = true;
+            
+            // Show install button if not already installed
+            if (!isAppInstalled()) {
+                addInstallButton();
+            }
+        });
+    };
+    
+    // Listen for app installed event
+    const listenForAppInstalled = () => {
+        window.addEventListener('appinstalled', (e) => {
+            console.log('PWA was installed');
+            
+            // Hide install button
+            if (installButton) {
+                installButton.style.display = 'none';
+            }
+            
+            // Show success message
+            if (typeof showToast === 'function') {
+                showToast('Thank you for installing Linknet Fiber App!', 'success', 5000);
+            }
+            
+            // Track successful installation
+            trackInstallation('installed');
+            
+            // Clear deferred prompt
+            deferredPrompt = null;
+            isInstallable = false;
+        });
+    };
+    
+    // Check installation status on page load
+    const checkInstallationStatus = () => {
+        if (isAppInstalled()) {
+            console.log('App is already installed');
+            // Hide install button if it exists
+            const existingBtn = document.getElementById('pwa-install-btn');
+            if (existingBtn) {
+                existingBtn.style.display = 'none';
+            }
+        } else {
+            console.log('App is not installed');
+            listenForInstallPrompt();
+            listenForAppInstalled();
+        }
+    };
+    
+    // Add CSS animation
+    const addAnimations = () => {
+        const animationStyle = document.createElement('style');
+        animationStyle.textContent = `
+            @keyframes slideInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        `;
+        document.head.appendChild(animationStyle);
+    };
+    
+    // Initialize PWA install functionality
+    const init = () => {
+        console.log('Initializing PWA install functionality...');
+        
+        addAnimations();
+        checkInstallationStatus();
+        
+        // Add fallback button for localhost testing
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log('Running on localhost - adding fallback install button');
+            setTimeout(() => {
+                if (!document.getElementById('pwa-install-btn') && !isAppInstalled()) {
+                    addInstallButton();
+                    console.log('Fallback install button added for localhost testing');
+                }
+            }, 2000);
+        }
+        
+        // Periodically check if install button should be shown
+        setInterval(() => {
+            if (isInstallable && !isAppInstalled() && !document.getElementById('pwa-install-btn')) {
+                addInstallButton();
+            }
+        }, 5000);
+    };
+    
+    // Export functions for external use
+    window.PWAInstall = {
+        showInstallPrompt,
+        isAppInstalled,
+        trackInstallation,
+        addInstallButton
+    };
+    
+    // Add keyboard shortcut for testing (Ctrl+Shift+I)
+    window.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+            e.preventDefault();
+            console.log('Manual install button trigger activated');
+            if (!document.getElementById('pwa-install-btn')) {
+                addInstallButton();
+                console.log('Install button added manually');
+            } else {
+                console.log('Install button already exists');
+            }
+        }
+    });
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
