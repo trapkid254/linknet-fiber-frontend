@@ -17,12 +17,15 @@
 
 
     <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Admin Login - Linknet Fiber</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.2">
+    <link rel="stylesheet" href="../css/admin.css?v=1.2">
 </head>
 <body class="admin-login-page">
     <div class="login-container">
@@ -76,5 +79,22 @@
     
     <script src="../js/darkmode.js"></script>
     <script src="../js/admin-login.js"></script>
+    
+    <!-- Cache-busting script to force CSS reload -->
+    <script>
+        // Force CSS reload to prevent caching issues
+        (function() {
+            const links = document.querySelectorAll('link[rel="stylesheet"]');
+            const timestamp = new Date().getTime();
+            
+            links.forEach(function(link) {
+                if (link.href.includes('css/style.css') || link.href.includes('css/admin.css')) {
+                    const url = new URL(link.href, window.location.origin);
+                    url.searchParams.set('v', timestamp);
+                    link.href = url.toString();
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
