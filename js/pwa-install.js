@@ -334,78 +334,47 @@
         }
         
         // Show container with animation
-        buttonContainer.style.display = 'flex';
-        buttonContainer.style.animation = 'slideInRight 0.5s ease-out';
-    };
     
-    // Download app function
-    const downloadApp = async () => {
-        console.log('Downloading Linknet Fiber APK...');
-        
-        // Show loading state
-        const downloadBtn = document.getElementById('pwa-download-btn');
+    document.head.appendChild(style);
+    return button;
+};
+
+
+// Download app function
+const downloadApp = () => {
+    console.log('Downloading Linknet Fiber APK...');
+    
+    // Show loading state
+    const downloadBtn = document.getElementById('pwa-download-btn');
+    if (downloadBtn) {
+        downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Downloading...</span>';
+        downloadBtn.disabled = true;
+    }
+    
+    // Create direct download link that forces file download
+    const link = document.createElement('a');
+    link.href = './linknet-fiber-logo.apk';
+    link.download = 'Linknet-Fiber.apk';
+    link.style.display = 'none';
+    link.setAttribute('data-download', 'true');
+    
+    // Add to DOM and trigger download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Reset button after delay
+    setTimeout(() => {
         if (downloadBtn) {
-            downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Downloading...</span>';
-            downloadBtn.disabled = true;
+            downloadBtn.innerHTML = '<i class="fas fa-file-download"></i> <span>Download APK</span>';
+            downloadBtn.disabled = false;
         }
         
-        try {
-            // Download Linknet Fiber logo from website
-            const logoResponse = await fetch('http://127.0.0.1:5501/images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg');
-            const logoBlob = await logoResponse.blob();
-            
-            // Create APK with logo
-            const apkResponse = await fetch('./linknet-fiber-simple.apk');
-            const apkBlob = await apkResponse.blob();
-            
-            // Create download link for APK
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(apkBlob);
-            link.download = 'Linknet-Fiber.apk';
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            
-            // Trigger download
-            link.click();
-            
-            // Clean up
-            document.body.removeChild(link);
-            URL.revokeObjectURL(link.href);
-            
-            // Reset button after delay
-            setTimeout(() => {
-                if (downloadBtn) {
-                    downloadBtn.innerHTML = '<i class="fas fa-file-download"></i> <span>Download APK</span>';
-                    downloadBtn.disabled = false;
-                }
-                
-                if (typeof showToast === 'function') {
-                    showToast('📱 Linknet Fiber APK downloaded! Check your Downloads folder.', 'success', 5000);
-                }
-            }, 2000);
-            
-        } catch (error) {
-            console.error('Error downloading APK:', error);
-            
-            // Fallback to simple download
-            const link = document.createElement('a');
-            link.href = './linknet-fiber-simple.apk';
-            link.download = 'Linknet-Fiber.apk';
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            if (downloadBtn) {
-                downloadBtn.innerHTML = '<i class="fas fa-file-download"></i> <span>Download APK</span>';
-                downloadBtn.disabled = false;
-            }
-            
-            if (typeof showToast === 'function') {
-                showToast('📱 Linknet Fiber APK downloaded! Check your Downloads folder.', 'success', 5000);
-            }
+        if (typeof showToast === 'function') {
+            showToast('APK downloaded! Check your Downloads folder.', 'success', 5000);
         }
-    };
+    }, 2000);
+};
     
     // Listen for beforeinstallprompt event
     const listenForInstallPrompt = () => {
