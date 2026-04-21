@@ -156,8 +156,8 @@
         button.setAttribute('aria-label', 'Install Linknet Fiber App');
         button.setAttribute('title', 'Install Linknet Fiber App for offline access');
         
-        // Add click handler
-        button.addEventListener('click', showInstallPrompt);
+        // Add click handler - open download page instead of PWA install
+        button.addEventListener('click', downloadApp);
         
         // Create download button
         const downloadBtn = document.createElement('button');
@@ -455,12 +455,20 @@ const downloadApp = () => {
         // Add fallback button for localhost testing and always show for debugging
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log('Running on localhost - adding fallback install button');
+            
+            // Immediate attempt
+            if (!document.getElementById('pwa-install-btn')) {
+                addInstallButton();
+                console.log('Immediate install button added for localhost');
+            }
+            
+            // Fallback after delay
             setTimeout(() => {
-                if (!document.getElementById('pwa-install-btn') && !isAppInstalled()) {
+                if (!document.getElementById('pwa-install-btn')) {
                     addInstallButton();
                     console.log('Fallback install button added for localhost testing');
                 }
-            }, 2000);
+            }, 1000);
         }
         
         // Always show install button for debugging on live site

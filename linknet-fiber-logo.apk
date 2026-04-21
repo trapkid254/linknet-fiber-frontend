@@ -6,13 +6,13 @@ Created-By: Linknet Fiber
 Application-Label: Linknet Fiber
 Package-Name: com.linknet.fiber
 Version-Code: 1
-Application-Icon: icon-192.png
+Application-Icon: images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg
 Application-Activity: MainActivity
 Launchable-Activity: true
 Permissions: android.permission.INTERNET
 
-res/drawable/icon-192.png
-[Linknet Fiber Logo - 192x192 pixels - Blue and white design with "LF" text]
+res/drawable/app_icon.jpg
+[Reference to actual Linknet Fiber logo from images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg]
 
 classes.dex
 [Android bytecode for Linknet Fiber app - Main activity with internet connectivity]
@@ -26,7 +26,7 @@ AndroidManifest.xml
     
     <application
         android:label="Linknet Fiber"
-        android:icon="@drawable/icon_192"
+        android:icon="@drawable/app_icon"
         android:theme="@style/AppTheme"
         android:allowBackup="true">
         
@@ -46,3 +46,5 @@ AndroidManifest.xml
 
 resources.arsc
 [Android app resources - String values for Linknet Fiber branding]
+app_name="Linknet Fiber"
+app_description="Kenya's premier fiber internet service provider"
