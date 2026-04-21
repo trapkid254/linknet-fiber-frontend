@@ -491,7 +491,7 @@
         addAnimations();
         checkInstallationStatus();
         
-        // Add fallback button for localhost testing
+        // Add fallback button for localhost testing and always show for debugging
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log('Running on localhost - adding fallback install button');
             setTimeout(() => {
@@ -500,6 +500,17 @@
                     console.log('Fallback install button added for localhost testing');
                 }
             }, 2000);
+        }
+        
+        // Always show install button for debugging on live site
+        if (window.location.hostname.includes('github.io') || window.location.hostname.includes('trapkid254')) {
+            console.log('Running on GitHub Pages - adding install button for debugging');
+            setTimeout(() => {
+                if (!document.getElementById('pwa-install-btn') && !isAppInstalled()) {
+                    addInstallButton();
+                    console.log('Install button added for GitHub Pages debugging');
+                }
+            }, 3000);
         }
         
         // Periodically check if install button should be shown

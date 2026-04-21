@@ -141,12 +141,28 @@
                 throw new Error('Failed to fetch packages');
             }
             
-            const packages = await response.json();
+            const response_data = await response.json();
             
-            // Ensure packages is an array
-            if (!Array.isArray(packages)) {
-                console.error('Invalid packages data:', packages);
+            // Handle backend response format
+            let packages = [];
+            if (response_data.success && Array.isArray(response_data.data)) {
+                packages = response_data.data;
+            } else if (Array.isArray(response_data)) {
+                packages = response_data;
+            } else {
+                console.error('Invalid packages data:', response_data);
                 throw new Error('Invalid packages data format');
+            }
+            
+            // Check if packages array is empty
+            if (packages.length === 0) {
+                container.innerHTML = `
+                    <div class="no-packages">
+                        <p>No packages available at the moment. Please check back later.</p>
+                        <a href="packages.html" class="btn btn-outline">Contact Support</a>
+                    </div>
+                `;
+                return;
             }
             
             // Display only first 3 packages as featured
