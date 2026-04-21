@@ -721,12 +721,13 @@ a:hover {
 .slide-content {
     position: absolute;
     top: 50%;
-    left: 10%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     max-width: 650px;
     color: var(--color-white);
     z-index: 3;
     animation: slideInUp 0.8s ease-out;
+    text-align: center;
 }
 
 @keyframes slideInUp {
@@ -779,6 +780,7 @@ a:hover {
     display: flex;
     gap: var(--spacing-4);
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 /* Slide Navigation */
