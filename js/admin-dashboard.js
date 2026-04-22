@@ -882,6 +882,7 @@
     const initFormHandlers = () => {
         const packageForm = document.getElementById('package-form');
         const coverageForm = document.getElementById('coverage-form');
+        const addPackageBtn = document.getElementById('add-package-btn');
         
         if (packageForm) {
             packageForm.addEventListener('submit', handlePackageSubmit);
@@ -889,6 +890,10 @@
         
         if (coverageForm) {
             coverageForm.addEventListener('submit', handleCoverageSubmit);
+        }
+        
+        if (addPackageBtn) {
+            addPackageBtn.addEventListener('click', showPackageModal);
         }
         
         // Initialize modal close buttons
