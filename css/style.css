@@ -1,5 +1,5 @@
 /* ==
-   LINKNET FIBER - PREMIUM PROFESSIONAL STYLESHEET
+   LINKNET FIBER - PREMIUM PROFESSIONAL STYLESHEET v1.0.2
    Brand Colors: Premium Blue & Gold
    Modern, Elegant, Enterprise-Grade Design
    == */
@@ -408,7 +408,11 @@ a:hover {
     list-style: none;
     margin: 0;
     padding: 0;
+    flex: 1;
+    justify-content: flex-start;
+    margin-left: 160px;
 }
+
 
 .nav-link {
     display: inline-flex;
@@ -513,6 +517,7 @@ a:hover {
 .mobile-only {
     display: none;
 }
+
 
 .theme-toggle {
     display: flex;
@@ -2261,10 +2266,10 @@ a:hover {
         transform: translateY(-15px);
         transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         z-index: var(--z-dropdown);
-        overflow: hidden;
+        overflow: visible;
         box-shadow: 0 4px 20px rgba(30, 77, 140, 0.2);
         border-radius: 0 0 var(--radius-md) var(--radius-md);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: none;
     }
     
     .nav-menu.active {
@@ -2285,7 +2290,7 @@ a:hover {
         display: flex;
         align-items: center;
         padding: 6px 8px;
-        margin-bottom: 1px;
+        margin-bottom: 0;
         text-align: left;
         font-size: 13px;
         font-weight: var(--font-weight-medium);
@@ -2344,7 +2349,7 @@ a:hover {
         font-weight: var(--font-weight-semibold);
         padding: 5px 6px;
         font-size: 12px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: none;
         margin-top: 2px;
         border: none !important;
         border-radius: 0 !important;
