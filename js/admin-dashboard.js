@@ -30,23 +30,33 @@
     
     const getAuthHeaders = () => {
         const authData = localStorage.getItem(AUTH_KEY);
+        console.log('Raw auth data from localStorage:', authData); // Debug
+        
         if (!authData) {
+            console.log('No auth data found, redirecting to login');
             window.location.href = 'login.html';
             return {};
         }
         
         try {
             const parsed = JSON.parse(authData);
+            console.log('Parsed auth data:', parsed); // Debug
+            
             if (parsed.expires && parsed.expires < Date.now()) {
+                console.log('Token expired, removing and redirecting');
                 localStorage.removeItem(AUTH_KEY);
                 window.location.href = 'login.html';
                 return {};
             }
-            return {
+            
+            const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${parsed.token}`
             };
+            console.log('Generated headers:', headers); // Debug
+            return headers;
         } catch (e) {
+            console.error('Error parsing auth data:', e);
             localStorage.removeItem(AUTH_KEY);
             window.location.href = 'login.html';
             return {};
@@ -80,6 +90,10 @@
             const headers = getAuthHeaders();
             console.log('Auth headers:', headers); // Debug log
             
+            // First try test endpoint without auth to verify API is working
+            const testResponse = await fetch(`${API_BASE}/admin/test`);
+            console.log('Test endpoint response:', testResponse.status);
+            
             const response = await fetch(`${API_BASE}/admin/dashboard/stats`, {
                 headers: headers
             });
@@ -93,6 +107,22 @@
                 // If 403, try to refresh auth or use fallback
                 if (response.status === 403) {
                     console.log('Token expired or invalid, attempting to re-authenticate...');
+                    
+                    // Try verify endpoint to check if token is valid
+                    try {
+                        const verifyResponse = await fetch(`${API_BASE}/admin/verify`, {
+                            headers: headers
+                        });
+                        console.log('Verify response:', verifyResponse.status);
+                        
+                        if (verifyResponse.ok) {
+                            const verifyData = await verifyResponse.json();
+                            console.log('Verify data:', verifyData);
+                        }
+                    } catch (verifyError) {
+                        console.error('Verify error:', verifyError);
+                    }
+                    
                     // For now, load mock data as fallback
                     loadMockStats();
                     return;
