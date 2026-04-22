@@ -137,11 +137,11 @@
     };
     
     const loadMockStats = () => {
-        console.log('Loading mock dashboard data');
-        updateStatCard('Total Customers', '1,247', 'users');
-        updateStatCard('Pending Requests', '23', 'clipboard-list');
-        updateStatCard('Active Packages', '6', 'box');
-        updateStatCard('Monthly Revenue', 'KES 2.4M', 'chart-line');
+        console.log('API unavailable - showing empty state');
+        updateStatCard('Total Customers', '0', 'users');
+        updateStatCard('Pending Requests', '0', 'clipboard-list');
+        updateStatCard('Active Packages', '0', 'box');
+        updateStatCard('Monthly Revenue', 'KES 0', 'chart-line');
     };
     
     // Navigation
@@ -226,24 +226,18 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="packages-table-body">
                         <tr>
-                            <td>Basic</td>
-                            <td>20 Mbps</td>
-                            <td>2,500</td>
-                            <td>Unlimited Data, 24/7 Support</td>
-                            <td><span class="status-badge approved">Active</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                </div>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                                No packages found. Click "Add Package" to create your first package.
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         `;
+        loadPackages();
     };
     
     const loadRequestsSection = () => {
@@ -253,8 +247,8 @@
                 <div class="table-header">
                     <h3>Installation Requests</h3>
                     <div class="table-actions">
-                        <button class="btn btn-outline btn-sm">
-                            <i class="fas fa-filter"></i> Filter
+                        <button class="btn btn-outline btn-sm" onclick="loadRequests()">
+                            <i class="fas fa-sync"></i> Refresh
                         </button>
                     </div>
                 </div>
@@ -270,26 +264,18 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="requests-table-body">
                         <tr>
-                            <td>#LN-001</td>
-                            <td>John Kamau</td>
-                            <td>Pro 50Mbps</td>
-                            <td>Kilimani, Nairobi</td>
-                            <td>2024-01-15</td>
-                            <td><span class="status-badge pending">Pending</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn"><i class="fas fa-check"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                </div>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-clipboard-list" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                                No installation requests found.
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         `;
+        loadRequests();
     };
     
     const loadCoverageSection = () => {
@@ -299,18 +285,34 @@
                 <div class="table-header">
                     <h3>Coverage Areas</h3>
                     <div class="table-actions">
-                        <button class="btn btn-primary btn-sm">
+                        <button class="btn btn-primary btn-sm" onclick="showCoverageModal()">
                             <i class="fas fa-plus"></i> Add Area
                         </button>
                     </div>
                 </div>
-                <div style="padding: 40px; text-align: center;">
-                    <i class="fas fa-map-marked-alt" style="font-size: 64px; color: #D4AF37; margin-bottom: 20px;"></i>
-                    <h3 style="color: #1E4D8C; margin-bottom: 10px;">Coverage Map</h3>
-                    <p style="color: #6B7280; max-width: 500px; margin: 0 auto;">Interactive coverage map will be displayed here showing all areas where Linknet Fiber services are available.</p>
-                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>City/Area</th>
+                            <th>Estate</th>
+                            <th>County</th>
+                            <th>Status</th>
+                            <th>Added Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="coverage-table-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                                No coverage areas found. Click "Add Area" to add your first coverage area.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         `;
+        loadCoverageAreas();
     };
     
     const loadCustomersSection = () => {
