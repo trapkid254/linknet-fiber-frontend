@@ -217,11 +217,6 @@ self.addEventListener('notificationclick', (event) => {
 
 console.log('[SW] Service worker script loaded');
 
-// sw.js - Service Worker for Linknet Fiber PWA
-const CACHE_NAME = 'linknet-fiber-v1';
-const STATIC_CACHE = 'linknet-static-v1';
-const DYNAMIC_CACHE = 'linknet-dynamic-v1';
-
 // Assets to cache for offline functionality
 const STATIC_ASSETS = [
   '/',
