@@ -404,6 +404,129 @@
         }
     };
     
+    // Load packages from API
+    const loadPackages = async () => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/packages`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to load packages');
+            
+            const data = await response.json();
+            const tbody = document.getElementById('packages-table-body');
+            if (!tbody) return;
+            
+            if (data.packages && data.packages.length > 0) {
+                tbody.innerHTML = data.packages.map(pkg => `
+                    <tr>
+                        <td>${pkg.name}</td>
+                        <td>${pkg.speed} Mbps</td>
+                        <td>KES ${pkg.price.toLocaleString()}</td>
+                        <td>${pkg.features.join(', ')}</td>
+                        <td><span class="status-badge ${pkg.isActive ? 'approved' : 'cancelled'}">${pkg.isActive ? 'Active' : 'Inactive'}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn" onclick="editPackage('${pkg._id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deletePackage('${pkg._id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Error loading packages:', error);
+        }
+    };
+    
+    // Load requests from API
+    const loadRequests = async () => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/requests`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to load requests');
+            
+            const data = await response.json();
+            const tbody = document.getElementById('requests-table-body');
+            if (!tbody) return;
+            
+            if (data.requests && data.requests.length > 0) {
+                tbody.innerHTML = data.requests.map(req => `
+                    <tr>
+                        <td>#${req.requestId || req._id}</td>
+                        <td>${req.fullname}</td>
+                        <td>${req.packageId?.name || 'N/A'}</td>
+                        <td>${req.county}</td>
+                        <td>${new Date(req.createdAt).toLocaleDateString()}</td>
+                        <td><span class="status-badge ${req.status}">${req.status}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn" onclick="viewRequest('${req._id}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                ${req.status === 'pending' ? `
+                                    <button class="action-btn" onclick="updateRequestStatus('${req._id}', 'approved')">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                ` : ''}
+                                <button class="action-btn delete" onclick="deleteRequest('${req._id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Error loading requests:', error);
+        }
+    };
+    
+    // Load coverage areas from API
+    const loadCoverageAreas = async () => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/coverage`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to load coverage areas');
+            
+            const data = await response.json();
+            const tbody = document.getElementById('coverage-table-body');
+            if (!tbody) return;
+            
+            if (data.areas && data.areas.length > 0) {
+                tbody.innerHTML = data.areas.map(area => `
+                    <tr>
+                        <td>${area.city}</td>
+                        <td>${area.estate || 'N/A'}</td>
+                        <td>${area.county}</td>
+                        <td><span class="status-badge approved">Available</span></td>
+                        <td>${new Date(area.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn" onclick="editCoverage('${area._id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteCoverage('${area._id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Error loading coverage areas:', error);
+        }
+    };
+    
     // Initialize everything
     const init = () => {
         checkAuth();
@@ -411,7 +534,274 @@
         initNavigation();
         initSidebar();
         initLogout();
+        initFormHandlers();
     };
+    
+    // Modal functions
+    const showPackageModal = () => {
+        const modal = document.getElementById('package-modal');
+        if (modal) {
+            modal.classList.add('active');
+            document.getElementById('package-form').reset();
+        }
+    };
+    
+    const showCoverageModal = () => {
+        const modal = document.getElementById('coverage-modal');
+        if (modal) {
+            modal.classList.add('active');
+            document.getElementById('coverage-form').reset();
+        }
+    };
+    
+    const hideModal = (modalId) => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('active');
+        }
+    };
+    
+    // Package operations
+    const addPackage = async (formData) => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/packages`, {
+                method: 'POST',
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            if (!response.ok) throw new Error('Failed to add package');
+            
+            showToast('Package added successfully', 'success');
+            hideModal('package-modal');
+            loadPackages();
+        } catch (error) {
+            console.error('Error adding package:', error);
+            showToast('Failed to add package', 'error');
+        }
+    };
+    
+    const editPackage = async (id) => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/packages/${id}`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to fetch package');
+            
+            const packageData = await response.json();
+            // Populate form with package data
+            document.getElementById('package-name').value = packageData.name;
+            document.getElementById('package-speed').value = packageData.speed;
+            document.getElementById('package-price').value = packageData.price;
+            document.getElementById('package-features').value = packageData.features.join(', ');
+            
+            showPackageModal();
+        } catch (error) {
+            console.error('Error editing package:', error);
+            showToast('Failed to load package data', 'error');
+        }
+    };
+    
+    const deletePackage = async (id) => {
+        if (!confirm('Are you sure you want to delete this package?')) return;
+        
+        try {
+            const response = await fetch(`${API_BASE}/admin/packages/${id}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to delete package');
+            
+            showToast('Package deleted successfully', 'success');
+            loadPackages();
+        } catch (error) {
+            console.error('Error deleting package:', error);
+            showToast('Failed to delete package', 'error');
+        }
+    };
+    
+    // Request operations
+    const updateRequestStatus = async (id, status) => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/requests/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status })
+            });
+            
+            if (!response.ok) throw new Error('Failed to update request');
+            
+            showToast(`Request ${status} successfully`, 'success');
+            loadRequests();
+        } catch (error) {
+            console.error('Error updating request:', error);
+            showToast('Failed to update request', 'error');
+        }
+    };
+    
+    const deleteRequest = async (id) => {
+        if (!confirm('Are you sure you want to delete this request?')) return;
+        
+        try {
+            const response = await fetch(`${API_BASE}/admin/requests/${id}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to delete request');
+            
+            showToast('Request deleted successfully', 'success');
+            loadRequests();
+        } catch (error) {
+            console.error('Error deleting request:', error);
+            showToast('Failed to delete request', 'error');
+        }
+    };
+    
+    // Coverage operations
+    const addCoverageArea = async (formData) => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/coverage`, {
+                method: 'POST',
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            if (!response.ok) throw new Error('Failed to add coverage area');
+            
+            showToast('Coverage area added successfully', 'success');
+            hideModal('coverage-modal');
+            loadCoverageAreas();
+        } catch (error) {
+            console.error('Error adding coverage area:', error);
+            showToast('Failed to add coverage area', 'error');
+        }
+    };
+    
+    const editCoverage = async (id) => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/coverage/${id}`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to fetch coverage area');
+            
+            const coverageData = await response.json();
+            // Populate form with coverage data
+            document.getElementById('coverage-city').value = coverageData.city;
+            document.getElementById('coverage-estate').value = coverageData.estate || '';
+            document.getElementById('coverage-county').value = coverageData.county;
+            
+            showCoverageModal();
+        } catch (error) {
+            console.error('Error editing coverage area:', error);
+            showToast('Failed to load coverage data', 'error');
+        }
+    };
+    
+    const deleteCoverage = async (id) => {
+        if (!confirm('Are you sure you want to delete this coverage area?')) return;
+        
+        try {
+            const response = await fetch(`${API_BASE}/admin/coverage/${id}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to delete coverage area');
+            
+            showToast('Coverage area deleted successfully', 'success');
+            loadCoverageAreas();
+        } catch (error) {
+            console.error('Error deleting coverage area:', error);
+            showToast('Failed to delete coverage area', 'error');
+        }
+    };
+    
+    // Form submission handlers
+    const handlePackageSubmit = async (event) => {
+        event.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('package-name').value,
+            speed: parseInt(document.getElementById('package-speed').value),
+            price: parseInt(document.getElementById('package-price').value),
+            features: document.getElementById('package-features').value.split(',').map(f => f.trim()),
+            isActive: true
+        };
+        
+        await addPackage(formData);
+    };
+    
+    const handleCoverageSubmit = async (event) => {
+        event.preventDefault();
+        
+        const formData = {
+            city: document.getElementById('coverage-city').value,
+            estate: document.getElementById('coverage-estate').value || null,
+            county: document.getElementById('coverage-county').value,
+            status: 'available'
+        };
+        
+        await addCoverageArea(formData);
+    };
+    
+    // Initialize form handlers
+    const initFormHandlers = () => {
+        const packageForm = document.getElementById('package-form');
+        const coverageForm = document.getElementById('coverage-form');
+        
+        if (packageForm) {
+            packageForm.addEventListener('submit', handlePackageSubmit);
+        }
+        
+        if (coverageForm) {
+            coverageForm.addEventListener('submit', handleCoverageSubmit);
+        }
+        
+        // Initialize modal close buttons
+        document.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const modal = e.target.closest('.modal-overlay');
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+        
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+    };
+    
+    // Make functions globally accessible
+    window.showPackageModal = showPackageModal;
+    window.showCoverageModal = showCoverageModal;
+    window.hideModal = hideModal;
+    window.editPackage = editPackage;
+    window.deletePackage = deletePackage;
+    window.updateRequestStatus = updateRequestStatus;
+    window.deleteRequest = deleteRequest;
+    window.editCoverage = editCoverage;
+    window.deleteCoverage = deleteCoverage;
+    window.handlePackageSubmit = handlePackageSubmit;
+    window.handleCoverageSubmit = handleCoverageSubmit;
     
     // Start when DOM is ready
     if (document.readyState === 'loading') {
