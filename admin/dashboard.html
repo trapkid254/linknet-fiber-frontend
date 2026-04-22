@@ -17,6 +17,9 @@
 
 
     <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Admin Dashboard - Linknet Fiber</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -326,5 +329,33 @@
     
     <script src="../js/darkmode.js?v=1.3"></script>
     <script src="../js/admin-dashboard.js?v=1.3"></script>
+    
+    <!-- Cache-busting script to force CSS reload -->
+    <script>
+        // Force CSS reload to prevent caching issues
+        (function() {
+            const links = document.querySelectorAll('link[rel="stylesheet"]');
+            const scripts = document.querySelectorAll('script[src]');
+            const timestamp = new Date().getTime();
+            
+            // Update CSS links
+            links.forEach(function(link) {
+                if (link.href.includes('css/style.css') || link.href.includes('css/admin.css')) {
+                    const url = new URL(link.href, window.location.origin);
+                    url.searchParams.set('v', timestamp);
+                    link.href = url.toString();
+                }
+            });
+            
+            // Update JS scripts
+            scripts.forEach(function(script) {
+                if (script.src.includes('js/admin-dashboard.js') || script.src.includes('js/darkmode.js')) {
+                    const url = new URL(script.src, window.location.origin);
+                    url.searchParams.set('v', timestamp);
+                    script.src = url.toString();
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
