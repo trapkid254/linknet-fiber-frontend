@@ -29,11 +29,28 @@
     };
     
     const getAuthHeaders = () => {
-        const authData = checkAuth();
-        return {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authData.token}`
-        };
+        const authData = localStorage.getItem(AUTH_KEY);
+        if (!authData) {
+            window.location.href = 'login.html';
+            return {};
+        }
+        
+        try {
+            const parsed = JSON.parse(authData);
+            if (parsed.expires && parsed.expires < Date.now()) {
+                localStorage.removeItem(AUTH_KEY);
+                window.location.href = 'login.html';
+                return {};
+            }
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${parsed.token}`
+            };
+        } catch (e) {
+            localStorage.removeItem(AUTH_KEY);
+            window.location.href = 'login.html';
+            return {};
+        }
     };
     
     // Toast notification
@@ -322,18 +339,34 @@
                 <div class="table-header">
                     <h3>Customer Management</h3>
                     <div class="table-actions">
-                        <button class="btn btn-primary btn-sm">
-                            <i class="fas fa-user-plus"></i> Add Customer
+                        <button class="btn btn-primary btn-sm" onclick="showCustomerModal()">
+                            <i class="fas fa-plus"></i> Add Customer
                         </button>
                     </div>
                 </div>
-                <div style="padding: 40px; text-align: center;">
-                    <i class="fas fa-users" style="font-size: 64px; color: #D4AF37; margin-bottom: 20px;"></i>
-                    <h3 style="color: #1E4D8C; margin-bottom: 10px;">Customer Database</h3>
-                    <p style="color: #6B7280; max-width: 500px; margin: 0 auto;">Customer management interface with search, filtering, and detailed customer profiles.</p>
-                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>County</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-table-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-users" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                                No customers found. Click "Add Customer" to add your first customer.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         `;
+        loadCustomers();
     };
     
     const loadAnalyticsSection = () => {
@@ -546,6 +579,14 @@
         }
     };
     
+    const showCustomerModal = () => {
+        const modal = document.getElementById('customer-modal');
+        if (modal) {
+            modal.classList.add('active');
+            document.getElementById('customer-form').reset();
+        }
+    };
+    
     const showCoverageModal = () => {
         const modal = document.getElementById('coverage-modal');
         if (modal) {
@@ -744,6 +785,39 @@
         await addPackage(formData);
     };
     
+    const handleCustomerSubmit = async (event) => {
+        event.preventDefault();
+        
+        const formData = {
+            fullname: document.getElementById('customer-name').value,
+            email: document.getElementById('customer-email').value,
+            phone: document.getElementById('customer-phone').value,
+            address: document.getElementById('customer-address').value,
+            county: document.getElementById('customer-county').value,
+            status: 'active'
+        };
+        
+        try {
+            const response = await fetch(`${API_BASE}/admin/customers`, {
+                method: 'POST',
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            if (!response.ok) throw new Error('Failed to add customer');
+            
+            showToast('Customer added successfully', 'success');
+            hideModal('customer-modal');
+            loadCustomers();
+        } catch (error) {
+            console.error('Error adding customer:', error);
+            showToast('Failed to add customer', 'error');
+        }
+    };
+    
     const handleCoverageSubmit = async (event) => {
         event.preventDefault();
         
@@ -790,8 +864,48 @@
         });
     };
     
+    // Load customers function
+    const loadCustomers = async () => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/customers`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to load customers');
+            
+            const data = await response.json();
+            const tbody = document.getElementById('customers-table-body');
+            if (!tbody) return;
+            
+            if (data.customers && data.customers.length > 0) {
+                tbody.innerHTML = data.customers.map(customer => `
+                    <tr>
+                        <td>${customer.fullname}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.phone}</td>
+                        <td>${customer.county}</td>
+                        <td><span class="status-badge ${customer.status}">${customer.status}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn" onclick="editCustomer('${customer._id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteCustomer('${customer._id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Error loading customers:', error);
+        }
+    };
+    
     // Make functions globally accessible
     window.showPackageModal = showPackageModal;
+    window.showCustomerModal = showCustomerModal;
     window.showCoverageModal = showCoverageModal;
     window.hideModal = hideModal;
     window.editPackage = editPackage;
@@ -801,6 +915,7 @@
     window.editCoverage = editCoverage;
     window.deleteCoverage = deleteCoverage;
     window.handlePackageSubmit = handlePackageSubmit;
+    window.handleCustomerSubmit = handleCustomerSubmit;
     window.handleCoverageSubmit = handleCoverageSubmit;
     
     // Start when DOM is ready

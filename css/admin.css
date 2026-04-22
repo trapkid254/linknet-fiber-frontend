@@ -637,7 +637,7 @@
 .stat-value {
     font-size: 32px;
     font-weight: 700;
-    color: #fff;
+    color: #D4AF37;
     line-height: 1.2;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -662,12 +662,12 @@ color: var(--color-error);
 
 /* Data Table */
 .data-table-container {
-background: linear-gradient(135deg, rgba(30, 77, 140, 0.95), rgba(212, 175, 55, 0.1));
+background: linear-gradient(135deg, rgba(20, 108, 148, 0.95), rgba(64, 224, 208, 0.1));
 backdrop-filter: blur(10px);
 border-radius: 16px;
-border: 1px solid rgba(212, 175, 55, 0.3);
+border: 1px solid rgba(64, 224, 208, 0.3);
 overflow: hidden;
-box-shadow: 0 8px 32px rgba(30, 77, 140, 0.2), 0 2px 8px rgba(212, 175, 55, 0.15);
+box-shadow: 0 8px 32px rgba(20, 108, 148, 0.2), 0 2px 8px rgba(64, 224, 208, 0.15);
 position: relative;
 }
 
@@ -678,7 +678,7 @@ top: 0;
 left: 0;
 right: 0;
 height: 2px;
-background: linear-gradient(90deg, #1E4D8C, #D4AF37, #1E4D8C);
+background: linear-gradient(90deg, #146C94, #40E0D0, #146C94);
 background-size: 200% 100%;
 animation: shimmer 3s linear infinite;
 }
@@ -694,7 +694,7 @@ background: rgba(255, 255, 255, 0.05);
 
 .table-header h3 {
 margin: 0;
-color: #fff;
+color: #D4AF37;
 font-size: 18px;
 font-weight: 600;
 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
