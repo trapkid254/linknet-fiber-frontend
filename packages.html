@@ -52,29 +52,11 @@
         <nav class="navbar" role="navigation">
             <div class="nav-container">
                 <div class="nav-brand">
-                    <a href="index.html" class="logo">
+                    <a href="index.html" class="logo" aria-label="Linknet Fiber Home">
                         <img src="images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg" alt="Linknet Fiber Logo" width="40" height="40">
                         <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
                     </a>
                 </div>
-                
-                <button class="mobile-toggle" aria-label="Toggle navigation menu">
-                    <span class="hamburger"></span>
-                </button>
-                
-                <ul class="nav-menu" role="list">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="packages.html" class="nav-link active" aria-current="page">Packages</a></li>
-                    <li><a href="about.html" class="nav-link">Coverage</a></li>
-                    <li><a href="contact.html" class="nav-link">Contact</a></li>
-                    <!-- Mobile-only menu items -->
-                    <li class="mobile-only"><a href="admin/login.html" class="nav-link">
-                        <i class="fas fa-user-shield"></i> Admin Portal
-                    </a></li>
-                    <li class="mobile-only"><a href="request.html" class="nav-link">
-                        <i class="fas fa-wifi"></i> Request Installation
-                    </a></li>
-                </ul>
                 
                 <div class="nav-actions">
                     <a href="download-apk.html" class="btn-install-icon" aria-label="Install App" title="Install Linknet Fiber App">
@@ -88,6 +70,24 @@
                     </a>
                     <a href="request.html" class="btn btn-primary">Request Installation</a>
                 </div>
+                
+                <button class="mobile-toggle" aria-label="Toggle navigation menu">
+                    <span class="hamburger"></span>
+                </button>
+                
+                <ul class="nav-menu" role="list">
+                    <li role="listitem"><a href="index.html" class="nav-link">Home</a></li>
+                    <li role="listitem"><a href="packages.html" class="nav-link active" aria-current="page">Packages</a></li>
+                    <li role="listitem"><a href="about.html" class="nav-link">Coverage</a></li>
+                    <li role="listitem"><a href="contact.html" class="nav-link">Contact</a></li>
+                    <!-- Mobile-only menu items -->
+                    <li role="listitem" class="mobile-only"><a href="admin/login.html" class="nav-link">
+                        <i class="fas fa-user-shield"></i> Admin Portal
+                    </a></li>
+                    <li role="listitem" class="mobile-only"><a href="request.html" class="nav-link">
+                        <i class="fas fa-wifi"></i> Request Installation
+                    </a></li>
+                </ul>
             </div>
         </nav>
     </header>

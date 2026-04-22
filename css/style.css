@@ -365,6 +365,7 @@ a:hover {
     max-width: var(--container-xl);
     margin: 0 auto;
     padding: 0 var(--container-padding);
+    position: relative;
 }
 
 /* Logo */
@@ -543,16 +544,37 @@ a:hover {
     justify-content: center;
     width: 44px;
     height: 44px;
-    background: transparent;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--color-primary), #2563EB);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
     cursor: pointer;
     padding: var(--spacing-2);
-    transition: all var(--transition-fast);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(30, 77, 140, 0.3);
+}
+
+.mobile-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.mobile-toggle:hover::before {
+    left: 100%;
 }
 
 .mobile-toggle:hover {
-    background: var(--bg-secondary);
+    background: linear-gradient(135deg, #2563EB, var(--color-primary));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 77, 140, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .hamburger,
@@ -561,9 +583,9 @@ a:hover {
     display: block;
     width: 22px;
     height: 2px;
-    background: var(--text-primary);
+    background: #fff;
     border-radius: var(--radius-full);
-    transition: all var(--transition-base);
+    transition: all 0.3s ease;
     position: relative;
 }
 
@@ -588,13 +610,13 @@ a:hover {
 .mobile-toggle.active .hamburger::before {
     top: 0;
     transform: rotate(45deg);
-    background: var(--color-primary);
+    background: #fff;
 }
 
 .mobile-toggle.active .hamburger::after {
     bottom: 0;
     transform: rotate(-45deg);
-    background: var(--color-primary);
+    background: #fff;
 }
 
 /* ====== BUTTONS ====== */
@@ -2223,26 +2245,32 @@ a:hover {
     }
     
     .nav-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 85%;
-        max-width: 320px;
-        height: 100vh;
-        background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 180px;
+        max-width: 65vw;
+        height: auto;
+        background: linear-gradient(135deg, rgba(30, 77, 140, 0.98), rgba(37, 99, 235, 0.95));
+        backdrop-filter: blur(8px);
         flex-direction: column;
-        align-items: flex-start;
-        padding: var(--spacing-3xl) var(--spacing-xl);
+        align-items: stretch;
+        padding: var(--spacing-sm) var(--spacing-xs);
         visibility: hidden;
-        transition: all var(--transition-base);
-        z-index: var(--z-modal);
-        overflow-y: auto;
-        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transform: translateY(-15px);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: var(--z-dropdown);
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(30, 77, 140, 0.2);
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
+        border: 1px solid rgba(255, 255, 255, 0.15);
     }
     
     .nav-menu.active {
-        right: 0;
         visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
     }
     
     .nav-menu li {
@@ -2250,43 +2278,97 @@ a:hover {
         margin: 0;
     }
     
-    .nav-menu .nav-link {
-        display: block;
-        padding: var(--spacing-lg) var(--spacing-xl);
-        border-radius: var(--radius-lg);
-        margin-bottom: var(--spacing-sm);
+    .nav-menu .nav-link,
+    .nav-menu .nav-link *,
+    .nav-menu a.nav-link,
+    .nav-menu a {
+        display: flex;
+        align-items: center;
+        padding: 6px 8px;
+        margin-bottom: 1px;
         text-align: left;
-        font-size: var(--font-size-lg);
+        font-size: 13px;
         font-weight: var(--font-weight-medium);
-        transition: all var(--transition-base);
-        border: 1px solid transparent;
+        transition: all 0.3s ease;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        border: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        outline: none !important;
+        box-shadow: none !important;
+        cursor: pointer;
+    }
+    
+    .nav-menu .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .nav-menu .nav-link:hover::before {
+        left: 100%;
     }
     
     .nav-menu .nav-link:hover,
-    .nav-menu .nav-link.active {
-        background: var(--color-primary-soft);
-        color: var(--color-primary);
-        transform: translateX(4px);
-        border-color: var(--color-primary);
+    .nav-menu .nav-link.active,
+    .nav-menu .nav-link *:hover,
+    .nav-menu .nav-link *.active,
+    .nav-menu a.nav-link:hover,
+    .nav-menu a.nav-link.active,
+    .nav-menu a:hover,
+    .nav-menu a.active {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        transform: translateX(1px);
+        border: none !important;
+        border-radius: 0 !important;
+        outline: none !important;
+        box-shadow: none !important;
     }
     
     /* Style mobile-only menu items differently */
-    .nav-menu .mobile-only .nav-link {
-        background: linear-gradient(135deg, rgba(30, 77, 140, 0.1), rgba(37, 99, 235, 0.05));
-        border-color: rgba(30, 77, 140, 0.2);
-        color: var(--color-primary);
+    .nav-menu .mobile-only .nav-link,
+    .nav-menu .mobile-only .nav-link *,
+    .nav-menu .mobile-only a.nav-link,
+    .nav-menu .mobile-only a {
+        background: transparent !important;
+        color: rgba(255, 255, 255, 0.95) !important;
+        font-weight: var(--font-weight-semibold);
+        padding: 5px 6px;
+        font-size: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 2px;
+        border: none !important;
+        border-radius: 0 !important;
+        outline: none !important;
+        box-shadow: none !important;
+        cursor: pointer;
     }
     
-    .nav-menu .mobile-only .nav-link:hover {
-        background: linear-gradient(135deg, var(--color-primary), #2563EB);
-        color: #fff;
-        transform: translateX(4px);
-        box-shadow: 0 4px 12px rgba(30, 77, 140, 0.3);
+    .nav-menu .mobile-only .nav-link:hover,
+    .nav-menu .mobile-only .nav-link *:hover,
+    .nav-menu .mobile-only a.nav-link:hover,
+    .nav-menu .mobile-only a:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #fff !important;
+        transform: translateX(1px);
+        border: none !important;
+        border-radius: 0 !important;
+        outline: none !important;
+        box-shadow: none !important;
     }
     
     .nav-menu .mobile-only .nav-link i {
-        margin-right: var(--spacing-sm);
-        font-size: 16px;
+        margin-right: 4px;
+        font-size: 10px;
     }
     
     .nav-actions .btn {

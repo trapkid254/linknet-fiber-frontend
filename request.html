@@ -44,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=1.0.1">
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -59,40 +59,6 @@
                     </a>
                 </div>
                 
-                <button class="mobile-toggle" aria-label="Toggle navigation menu">
-                    <span class="hamburger"></span>
-                </button>
-                
-                <ul class="nav-menu" role="list">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="packages.html" class="nav-link">Packages</a></li>
-                    <li><a href="about.html" class="nav-link">Coverage</a></li>
-                    <li><a href="contact.html" class="nav-link">Contact</a></li>
-                    <!-- Mobile-only menu items -->
-                    <li class="mobile-only"><a href="admin/login.html" class="nav-link">
-                        <i class="fas fa-user-shield"></i> Admin Portal
-                    </a></li>
-                    <li class="mobile-only"><a href="request.html" class="nav-link">
-                        <i class="fas fa-wifi"></i> Request Installation
-                    </a></li>
-                </ul>
-
-                <!-- Mobile-only: Admin, Install & Request buttons -->
-                <div class="nav-mobile-extras">
-                    <a href="admin/login.html" class="nav-mobile-admin">
-                        <i class="fas fa-user-shield"></i> Admin Portal
-                    </a>
-                    <a href="download-apk.html" class="nav-mobile-install">
-                        <i class="fas fa-download"></i> Install App
-                    </a>
-                    <a href="request.html" class="nav-mobile-request">
-                        <i class="fas fa-wifi"></i> Request Installation
-                    </a>
-                </div>
-
-                                    </ul>
-
-                
                 <div class="nav-actions">
                     <a href="download-apk.html" class="btn-install-icon" aria-label="Install App" title="Install Linknet Fiber App">
                         <i class="fas fa-download"></i>
@@ -100,12 +66,29 @@
                     <button class="theme-toggle" aria-label="Toggle dark mode">
                         <i class="fas fa-moon"></i>
                     </button>
-
                     <a href="admin/login.html" class="btn btn-admin" aria-label="Admin Login">
                         <i class="fas fa-user-shield"></i> Admin
                     </a>
                     <a href="request.html" class="btn btn-primary">Request Installation</a>
                 </div>
+                
+                <button class="mobile-toggle" aria-label="Toggle navigation menu">
+                    <span class="hamburger"></span>
+                </button>
+                
+                <ul class="nav-menu" role="list">
+                    <li role="listitem"><a href="index.html" class="nav-link">Home</a></li>
+                    <li role="listitem"><a href="packages.html" class="nav-link">Packages</a></li>
+                    <li role="listitem"><a href="about.html" class="nav-link">Coverage</a></li>
+                    <li role="listitem"><a href="contact.html" class="nav-link">Contact</a></li>
+                    <!-- Mobile-only menu items -->
+                    <li role="listitem" class="mobile-only"><a href="admin/login.html" class="nav-link">
+                        <i class="fas fa-user-shield"></i> Admin Portal
+                    </a></li>
+                    <li role="listitem" class="mobile-only"><a href="request.html" class="nav-link">
+                        <i class="fas fa-wifi"></i> Request Installation
+                    </a></li>
+                </ul>
             </div>
         </nav>
     </header>
