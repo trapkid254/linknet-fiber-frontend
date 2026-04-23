@@ -427,6 +427,21 @@
                         // Load profile data
                         setTimeout(loadAdminProfile, 100);
                     }
+                } else if (section === 'customers') {
+                    // Load customers section
+                    loadCustomersSection();
+                } else if (section === 'packages') {
+                    // Load packages section
+                    loadPackagesSection();
+                } else if (section === 'install-requests') {
+                    // Load install requests section
+                    loadInstallRequestsSection();
+                } else if (section === 'coverage') {
+                    // Load coverage areas section
+                    loadCoverageAreasSection();
+                } else if (section === 'analytics') {
+                    // Load analytics section
+                    loadAnalyticsSection();
                 } else {
                     // Hide settings, show dashboard
                     const settingsSection = document.getElementById('settings-section');
@@ -645,6 +660,76 @@
                 sidebar.classList.remove('active');
             }
         });
+    };
+    
+    // Load install requests section
+    const loadInstallRequestsSection = () => {
+        const content = document.querySelector('.admin-content');
+        content.innerHTML = `
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h2>Installation Requests</h2>
+                    <button class="btn btn-primary" onclick="addInstallRequest()">
+                        <i class="fas fa-plus"></i> Add Request
+                    </button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Package</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="install-requests-table-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px;">
+                                <div class="loading-spinner">Loading installation requests...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+        loadInstallRequests();
+    };
+    
+    // Load coverage areas section
+    const loadCoverageAreasSection = () => {
+        const content = document.querySelector('.admin-content');
+        content.innerHTML = `
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h2>Coverage Areas</h2>
+                    <button class="btn btn-primary" onclick="addCoverageArea()">
+                        <i class="fas fa-plus"></i> Add Area
+                    </button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>City</th>
+                            <th>Estate</th>
+                            <th>County</th>
+                            <th>Status</th>
+                            <th>Date Added</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="coverage-table-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px;">
+                                <div class="loading-spinner">Loading coverage areas...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+        loadCoverageAreas();
     };
     
     // Logout functionality
