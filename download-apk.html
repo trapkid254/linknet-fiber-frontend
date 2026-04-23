@@ -22,7 +22,7 @@
             color: #333;
             padding: 30px;
             border-radius: 10px;
-            max-width: 400px;
+            max-width: 500px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         .logo {
@@ -46,6 +46,14 @@
         .download-btn:hover {
             background: #218838;
         }
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 14px;
+        }
         .instructions {
             text-align: left;
             margin-top: 20px;
@@ -68,7 +76,11 @@
         <h2>Download Android App</h2>
         <p>Get the Linknet Fiber app for your Android device</p>
         
-        <a href="./linknet-fiber-logo.apk" download="Linknet-Fiber.apk" class="download-btn">
+        <div class="info-box">
+            <strong>Important:</strong> After downloading, navigate to your Downloads folder to install the APK.
+        </div>
+        
+        <a href="./linknet-fiber.apk" download="Linknet-Fiber.apk" class="download-btn">
             <i class="fas fa-download"></i> Download APK
         </a>
         
@@ -76,11 +88,23 @@
             <h3>Installation Instructions:</h3>
             <ol>
                 <li>Click the Download button above</li>
-                <li>Open your Downloads folder</li>
-                <li>Tap on "Linknet-Fiber.apk"</li>
-                <li>Enable "Unknown Sources" in Android settings if prompted</li>
-                <li>Install the app</li>
+                <li>The APK file will be saved to your Downloads folder</li>
+                <li>Open your device's File Manager or Downloads app</li>
+                <li>Navigate to the Downloads folder</li>
+                <li>Tap on "Linknet-Fiber.apk" file</li>
+                <li>If prompted, enable "Install from Unknown Sources" in Settings > Security</li>
+                <li>Tap "Install" to complete the installation</li>
+                <li>Once installed, open the app from your home screen</li>
             </ol>
+        </div>
+        
+        <div class="instructions">
+            <h3>Troubleshooting:</h3>
+            <ul>
+                <li>If you see "Parse Error", the APK file may be corrupted - try downloading again</li>
+                <li>Make sure you have enough storage space on your device</li>
+                <li>Some Android versions require you to allow installation from the specific source app</li>
+            </ul>
         </div>
         
         <p><small>File size: ~5MB | Version: 1.0.0</small></p>

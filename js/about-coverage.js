@@ -7,17 +7,17 @@
     let isLoading = false;
     
     const initAboutCoverageSearch = () => {
-        const form = document.getElementById('about-coverage-form');
+        const form = document.getElementById('coverage-form');
         if (!form) return;
         
-        const countySelect = document.getElementById('about-county');
-        const estateInput = document.getElementById('about-estate');
-        const resultDiv = document.getElementById('about-coverage-result');
+        const countyInput = document.getElementById('county');
+        const estateInput = document.getElementById('estate');
+        const resultDiv = document.getElementById('coverage-result');
         
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const county = countySelect.value;
+            const county = countyInput.value.trim();
             const estate = estateInput.value.trim();
             
             if (!county || !estate) {
@@ -77,7 +77,7 @@
     };
     
     const showAboutResult = (message, type) => {
-        const resultDiv = document.getElementById('about-coverage-result');
+        const resultDiv = document.getElementById('coverage-result');
         if (resultDiv) {
             resultDiv.className = `coverage-result ${type}`;
             resultDiv.innerHTML = message;

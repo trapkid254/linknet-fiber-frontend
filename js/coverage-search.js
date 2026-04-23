@@ -10,14 +10,14 @@
         const form = document.getElementById('coverage-form');
         if (!form) return;
         
-        const countySelect = document.getElementById('county');
+        const countyInput = document.getElementById('county');
         const estateInput = document.getElementById('estate');
         const resultDiv = document.getElementById('coverage-result');
         
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const county = countySelect.value;
+            const county = countyInput.value.trim();
             const estate = estateInput.value.trim();
             
             if (!county || !estate) {

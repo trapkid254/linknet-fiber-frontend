@@ -535,6 +535,16 @@
         button.setAttribute('aria-label', 'Install Linknet Fiber App');
         button.setAttribute('title', 'Install Linknet Fiber App for offline access');
         
+        // Add badge for first-time users
+        const firstVisit = !localStorage.getItem('pwa_install_shown');
+        if (firstVisit) {
+            const badge = document.createElement('span');
+            badge.className = 'install-badge';
+            badge.textContent = 'NEW';
+            button.appendChild(badge);
+            localStorage.setItem('pwa_install_shown', 'true');
+        }
+        
         // Add click handler - open download page instead of PWA install
         button.addEventListener('click', downloadApp);
         
@@ -693,16 +703,7 @@
         if (!navActions) return;
         
         const buttonContainer = createInstallButton();
-        
-        // Add badge for first-time users
-        const firstVisit = !localStorage.getItem('pwa_install_shown');
-        if (firstVisit) {
-            const badge = document.createElement('span');
-            badge.className = 'install-badge';
-            badge.textContent = 'NEW';
-            buttonContainer.querySelector('.pwa-install-btn').appendChild(badge);
-            localStorage.setItem('pwa_install_shown', 'true');
-        }
+        if (!buttonContainer) return;
         
         // Insert before the request installation button
         const requestBtn = navActions.querySelector('.btn-primary');
@@ -713,10 +714,14 @@
         }
         
         // Show container with animation
-    
-    document.head.appendChild(style);
-    return button;
-};
+        buttonContainer.style.opacity = '0';
+        buttonContainer.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+            buttonContainer.style.transition = 'all 0.3s ease';
+            buttonContainer.style.opacity = '1';
+            buttonContainer.style.transform = 'translateY(0)';
+        }, 100);
+    };
 
 
 // Download app function
