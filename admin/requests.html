@@ -708,7 +708,7 @@
         // Load requests from API
         async function loadRequests(page = 1, status = '', priority = '', search = '') {
             try {
-                const response = await fetch(`/api/requests?page=${page}&status=${encodeURIComponent(status)}&priority=${encodeURIComponent(priority)}&search=${encodeURIComponent(search)}`);
+                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/requests?page=${page}&status=${encodeURIComponent(status)}&priority=${encodeURIComponent(priority)}&search=${encodeURIComponent(search)}`);
                 const data = await response.json();
                 
                 if (data.success) {

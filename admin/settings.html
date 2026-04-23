@@ -26,34 +26,59 @@
     <link rel="stylesheet" href="../css/style.css?v=1.3">
     <link rel="stylesheet" href="../css/admin.css?v=1.3">
     <style>
-        /* Settings Page Specific Styles */
+        /* Settings Page Specific Styles - Enhanced Professional Design */
         .admin-content {
             padding: 2rem;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(248, 250, 252, 0.9));
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
         }
         
         .section-header {
             margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(30, 77, 140, 0.1), rgba(30, 77, 140, 0.05));
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            padding: 2rem;
+            background: linear-gradient(135deg, #1E4D8C 0%, #2A5F9F 50%, #1E4D8C 100%);
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 8px 32px rgba(30, 77, 140, 0.25);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
         }
         
         .section-header h2 {
             color: #ffffff;
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 2;
         }
         
         .section-header p {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1.1rem;
             margin: 0;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
         }
         
         .settings-card {
@@ -167,20 +192,28 @@
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             border: 2px solid #e1e8ed;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: white;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
             color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group input:hover,
+        .form-group textarea:hover {
+            border-color: #1E4D8C;
+            box-shadow: 0 4px 12px rgba(30, 77, 140, 0.1);
         }
         
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #1E4D8C;
-            box-shadow: 0 0 0 3px rgba(30, 77, 140, 0.1);
+            box-shadow: 0 0 0 4px rgba(30, 77, 140, 0.15);
+            background: #ffffff;
         }
         
         .form-group input.readonly-field {
@@ -204,9 +237,9 @@
         }
         
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.875rem 1.75rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -215,12 +248,45 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
             color: white;
             box-shadow: 0 4px 15px rgba(30, 77, 140, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 77, 140, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
         }
         
         .btn-primary:hover {
@@ -330,27 +396,83 @@
         @media (max-width: 768px) {
             .admin-content {
                 padding: 1rem;
+                margin: 0.5rem;
+                border-radius: 16px;
+            }
+            
+            .section-header {
+                padding: 1.5rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
             }
             
             .profile-section {
                 grid-template-columns: 1fr;
-                text-align: center;
-            }
-            
-            .profile-image-container {
-                margin: 0 auto 1rem;
+                gap: 1.5rem;
             }
             
             .form-row {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
             .form-actions {
                 flex-direction: column;
             }
             
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
             .checkbox-group {
                 grid-template-columns: 1fr;
+            }
+            
+            .settings-card {
+                margin-bottom: 1.5rem;
+            }
+            
+            .settings-content {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .admin-content {
+                padding: 0.75rem;
+                margin: 0.25rem;
+            }
+            
+            .section-header {
+                padding: 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .section-header p {
+                font-size: 1rem;
+            }
+            
+            .settings-content {
+                padding: 1rem;
+            }
+            
+            .form-group input,
+            .form-group textarea {
+                padding: 0.75rem;
+            }
+            
+            .btn {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>

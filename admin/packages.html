@@ -688,7 +688,7 @@
         // Load packages from API
         async function loadPackages(category = '', status = '', search = '') {
             try {
-                const response = await fetch(`/api/packages?category=${encodeURIComponent(category)}&status=${encodeURIComponent(status)}&search=${encodeURIComponent(search)}`);
+                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/packages?category=${encodeURIComponent(category)}&status=${encodeURIComponent(status)}&search=${encodeURIComponent(search)}`);
                 const data = await response.json();
                 
                 if (data.success) {

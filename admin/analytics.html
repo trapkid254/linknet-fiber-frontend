@@ -804,7 +804,7 @@
         // Load analytics data from API
         async function loadAnalytics() {
             try {
-                const response = await fetch('/api/analytics');
+                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/analytics');
                 const data = await response.json();
                 
                 if (data.success) {
