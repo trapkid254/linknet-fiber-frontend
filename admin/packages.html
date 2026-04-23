@@ -330,8 +330,8 @@
                 });
                 const data = await response.json();
                 
-                if (data.success && data.packages) {
-                    displayPackages(data.packages);
+                if (data.success && data.data) {
+                    displayPackages(data.data);
                 } else {
                     showEmptyState();
                 }
