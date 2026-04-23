@@ -78,13 +78,13 @@
         </nav>
         
         <div class="sidebar-footer">
-            <div class="user-info">
+            <div class="user-info" id="admin-user-info">
                 <div class="user-avatar">
-                    <span>A</span>
+                    <span id="user-avatar-initial">A</span>
                 </div>
                 <div class="user-details">
-                    <div class="user-name">Admin User</div>
-                    <div class="user-role">Administrator</div>
+                    <div class="user-name" id="user-name">Loading...</div>
+                    <div class="user-role" id="user-role">Administrator</div>
                 </div>
             </div>
             <button class="btn btn-outline btn-block" id="logout-btn">
@@ -124,10 +124,10 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">1,247</div>
+                        <div class="stat-value">Loading...</div>
                         <div class="stat-label">Total Customers</div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i> +12% this month
+                        <div class="stat-change">
+                            <i class="fas fa-spinner fa-spin"></i> Loading
                         </div>
                     </div>
                 </div>
@@ -137,10 +137,10 @@
                         <i class="fas fa-clipboard-list"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">23</div>
+                        <div class="stat-value">Loading...</div>
                         <div class="stat-label">Pending Requests</div>
                         <div class="stat-change">
-                            <i class="fas fa-minus"></i> 5 new today
+                            <i class="fas fa-spinner fa-spin"></i> Loading
                         </div>
                     </div>
                 </div>
@@ -150,10 +150,10 @@
                         <i class="fas fa-box"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">6</div>
+                        <div class="stat-value">Loading...</div>
                         <div class="stat-label">Active Packages</div>
                         <div class="stat-change">
-                            <i class="fas fa-check"></i> All active
+                            <i class="fas fa-spinner fa-spin"></i> Loading
                         </div>
                     </div>
                 </div>
@@ -163,10 +163,10 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">KES 2.4M</div>
+                        <div class="stat-value">Loading...</div>
                         <div class="stat-label">Monthly Revenue</div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i> +8.3%
+                        <div class="stat-change">
+                            <i class="fas fa-spinner fa-spin"></i> Loading
                         </div>
                     </div>
                 </div>
@@ -200,45 +200,9 @@
                     </thead>
                     <tbody id="requests-table-body">
                         <tr>
-                            <td>#LN-001</td>
-                            <td>John Kamau</td>
-                            <td>Pro 50Mbps</td>
-                            <td>Kilimani, Nairobi</td>
-                            <td>2024-01-15</td>
-                            <td><span class="status-badge pending">Pending</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn" title="View"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn" title="Approve"><i class="fas fa-check"></i></button>
-                                    <button class="action-btn delete" title="Delete"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#LN-002</td>
-                            <td>Sarah Wanjiku</td>
-                            <td>Business 100Mbps</td>
-                            <td>Westlands, Nairobi</td>
-                            <td>2024-01-14</td>
-                            <td><span class="status-badge approved">Approved</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn" title="View"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn" title="Complete"><i class="fas fa-check-double"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#LN-003</td>
-                            <td>Michael Odhiambo</td>
-                            <td>Basic 20Mbps</td>
-                            <td>Nyali, Mombasa</td>
-                            <td>2024-01-14</td>
-                            <td><span class="status-badge completed">Completed</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn" title="View"><i class="fas fa-eye"></i></button>
-                                </div>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 16px; display: block;"></i>
+                                Loading installation requests...
                             </td>
                         </tr>
                     </tbody>

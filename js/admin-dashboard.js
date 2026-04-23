@@ -269,6 +269,39 @@
         });
     };
     
+    const loadAdminUserInfo = () => {
+        const authData = localStorage.getItem(AUTH_KEY);
+        if (!authData) return;
+        
+        try {
+            const parsed = JSON.parse(authData);
+            if (parsed.admin) {
+                // Update user name
+                const userNameEl = document.getElementById('user-name');
+                if (userNameEl) {
+                    userNameEl.textContent = parsed.admin.name || 'Admin User';
+                }
+                
+                // Update user role
+                const userRoleEl = document.getElementById('user-role');
+                if (userRoleEl) {
+                    userRoleEl.textContent = parsed.admin.role ? 
+                        parsed.admin.role.charAt(0).toUpperCase() + parsed.admin.role.slice(1) : 
+                        'Administrator';
+                }
+                
+                // Update avatar initial
+                const userAvatarEl = document.getElementById('user-avatar-initial');
+                if (userAvatarEl && parsed.admin.name) {
+                    const initial = parsed.admin.name.charAt(0).toUpperCase();
+                    userAvatarEl.textContent = initial;
+                }
+            }
+        } catch (error) {
+            console.error('Error loading admin user info:', error);
+        }
+    };
+    
     const loadRecentRequests = (requests) => {
         const tbody = document.getElementById('requests-table-body');
         if (!tbody || !requests.length) return;
@@ -773,6 +806,7 @@
     const init = () => {
         checkAuth();
         loadDashboardStats();
+        loadAdminUserInfo();
         initNavigation();
         initSidebar();
         initLogout();
