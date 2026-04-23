@@ -1,0 +1,690 @@
+<!-- admin/analytics.html - Admin Analytics Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA / App Install -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Linknet Fiber">
+    <meta name="theme-color" content="#1E4D8C">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Analytics - Admin Dashboard - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.3">
+    <link rel="stylesheet" href="../css/admin.css?v=1.3">
+    <style>
+        /* Analytics Page Specific Styles */
+        .admin-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(30, 77, 140, 0.1), rgba(30, 77, 140, 0.05));
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-header h2 {
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        
+        .date-range-selector {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .date-input {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            background: white;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .date-input:focus {
+            outline: none;
+            border-color: #1E4D8C;
+            box-shadow: 0 0 0 3px rgba(30, 77, 140, 0.1);
+        }
+        
+        .export-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 77, 140, 0.4);
+        }
+        
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .analytics-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .analytics-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .metric-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e1e8ed;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1E4D8C;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+        
+        .change-positive {
+            color: #28a745;
+        }
+        
+        .change-negative {
+            color: #dc3545;
+        }
+        
+        .chart-container {
+            margin-top: 1.5rem;
+            height: 300px;
+            position: relative;
+        }
+        
+        .chart-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: #f8f9fa;
+            border: 2px dashed #e1e8ed;
+            border-radius: 8px;
+            color: #6c757d;
+        }
+        
+        .table-container {
+            margin-top: 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+        }
+        
+        .analytics-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        
+        .analytics-table th {
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .analytics-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e1e8ed;
+            color: #2c3e50;
+        }
+        
+        .analytics-table tr:hover {
+            background: rgba(30, 77, 140, 0.05);
+        }
+        
+        .package-name {
+            font-weight: 600;
+            color: #1E4D8C;
+        }
+        
+        .revenue-amount {
+            font-weight: 700;
+            color: #28a745;
+        }
+        
+        .growth-rate {
+            font-weight: 600;
+        }
+        
+        .growth-positive {
+            color: #28a745;
+        }
+        
+        .growth-negative {
+            color: #dc3545;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: #e1e8ed;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .admin-content {
+                padding: 1rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .date-range-selector {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .analytics-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            .analytics-table {
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
+<body class="admin-dashboard">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Admin Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="packages.html">
+                        <i class="fas fa-box"></i> Packages
+                    </a>
+                </li>
+                <li>
+                    <a href="requests.html">
+                        <i class="fas fa-clipboard-list"></i> Installation Requests
+                    </a>
+                </li>
+                <li>
+                    <a href="coverage.html">
+                        <i class="fas fa-map-marker-alt"></i> Coverage Areas
+                    </a>
+                </li>
+                <li>
+                    <a href="customers.html">
+                        <i class="fas fa-users"></i> Customers
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="analytics.html">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info" id="admin-user-info">
+                <div class="user-avatar">
+                    <span id="user-avatar-initial">A</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">Loading...</div>
+                    <div class="user-role" id="user-role">Administrator</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Analytics</h1>
+            </div>
+            
+            <div class="header-right">
+                <div class="admin-search">
+                    <i class="fas fa-search"></i>
+                    <input type="search" placeholder="Search analytics...">
+                </div>
+                
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+        </header>
+        
+        <div class="admin-content">
+            <div class="section-header">
+                <div>
+                    <h2>Analytics Dashboard</h2>
+                    <p>View detailed analytics and business insights</p>
+                </div>
+                <div class="date-range-selector">
+                    <input type="date" id="start-date" class="date-input" value="">
+                    <input type="date" id="end-date" class="date-input" value="">
+                    <button class="export-btn" onclick="exportAnalytics()">
+                        <i class="fas fa-download"></i> Export Report
+                    </button>
+                </div>
+            </div>
+            
+            <div class="analytics-grid">
+                <!-- Revenue Analytics -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-dollar-sign"></i> Revenue Analytics
+                        </div>
+                        <div class="card-subtitle">Last 30 days</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" id="total-revenue">KES 0</div>
+                                <div class="metric-label">Total Revenue</div>
+                                <div class="metric-change change-positive">+0%</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="monthly-revenue">KES 0</div>
+                                <div class="metric-label">Monthly Revenue</div>
+                                <div class="metric-change change-positive">+0%</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line fa-3x"></i>
+                                <div>Revenue Chart</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Customer Analytics -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-users"></i> Customer Analytics
+                        </div>
+                        <div class="card-subtitle">Customer growth & retention</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" id="total-customers">0</div>
+                                <div class="metric-label">Total Customers</div>
+                                <div class="metric-change change-positive">+0</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="new-customers">0</div>
+                                <div class="metric-label">New Customers</div>
+                                <div class="metric-change change-positive">+0</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-area fa-3x"></i>
+                                <div>Customer Growth Chart</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Package Analytics -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-box"></i> Package Analytics
+                        </div>
+                        <div class="card-subtitle">Most popular packages</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" id="active-packages">0</div>
+                                <div class="metric-label">Active Packages</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="popular-package">N/A</div>
+                                <div class="metric-label">Most Popular</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-pie fa-3x"></i>
+                                <div>Package Distribution</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Installation Analytics -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-clipboard-list"></i> Installation Analytics
+                        </div>
+                        <div class="card-subtitle">Installation performance</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" id="pending-installations">0</div>
+                                <div class="metric-label">Pending</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="completed-installations">0</div>
+                                <div class="metric-label">Completed</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-bar fa-3x"></i>
+                                <div>Installation Status</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Top Packages Table -->
+            <div class="table-container">
+                <table class="analytics-table">
+                    <thead>
+                        <tr>
+                            <th>Package Name</th>
+                            <th>Active Subscriptions</th>
+                            <th>Monthly Revenue</th>
+                            <th>Growth Rate</th>
+                            <th>Trend</th>
+                        </tr>
+                    </thead>
+                    <tbody id="packages-tbody">
+                        <!-- Package rows will be populated here -->
+                    </tbody>
+                </table>
+                
+                <div id="empty-state" class="empty-state" style="display: none;">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>No Analytics Data Available</h3>
+                    <p>Start collecting data to see analytics insights.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="../js/darkmode.js?v=1.3"></script>
+    <script src="../js/admin-dashboard.js?v=1.3"></script>
+    <script>
+        // Analytics page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAnalytics();
+            initDateRange();
+        });
+        
+        // Load analytics data from API
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('/api/analytics');
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateAnalyticsDisplay(data.analytics);
+                    updatePackagesTable(data.topPackages);
+                } else {
+                    showEmptyState();
+                }
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+                showEmptyState();
+            }
+        }
+        
+        // Update analytics display
+        function updateAnalyticsDisplay(analytics) {
+            // Update revenue metrics
+            document.getElementById('total-revenue').textContent = `KES ${analytics.totalRevenue?.toLocaleString() || '0'}`;
+            document.getElementById('monthly-revenue').textContent = `KES ${analytics.monthlyRevenue?.toLocaleString() || '0'}`;
+            
+            // Update customer metrics
+            document.getElementById('total-customers').textContent = analytics.totalCustomers?.toLocaleString() || '0';
+            document.getElementById('new-customers').textContent = analytics.newCustomers?.toLocaleString() || '0';
+            
+            // Update package metrics
+            document.getElementById('active-packages').textContent = analytics.activePackages?.toLocaleString() || '0';
+            document.getElementById('popular-package').textContent = analytics.mostPopularPackage || 'N/A';
+            
+            // Update installation metrics
+            document.getElementById('pending-installations').textContent = analytics.pendingInstallations?.toLocaleString() || '0';
+            document.getElementById('completed-installations').textContent = analytics.completedInstallations?.toLocaleString() || '0';
+        }
+        
+        // Update packages table
+        function updatePackagesTable(packages) {
+            const tbody = document.getElementById('packages-tbody');
+            const emptyState = document.getElementById('empty-state');
+            
+            if (!packages || packages.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            tbody.innerHTML = packages.map(pkg => `
+                <tr>
+                    <td>
+                        <div class="package-name">${pkg.name}</div>
+                    </td>
+                    <td>
+                        ${pkg.activeSubscriptions?.toLocaleString() || '0'}
+                    </td>
+                    <td>
+                        <div class="revenue-amount">KES ${pkg.monthlyRevenue?.toLocaleString() || '0'}</div>
+                    </td>
+                    <td>
+                        <span class="growth-rate ${pkg.growthRate >= 0 ? 'growth-positive' : 'growth-negative'}">
+                            ${pkg.growthRate >= 0 ? '+' : ''}${pkg.growthRate}%
+                        </span>
+                    </td>
+                    <td>
+                        <i class="fas fa-${pkg.trend === 'up' ? 'arrow-up text-success' : pkg.trend === 'down' ? 'arrow-down text-danger' : 'minus text-muted'}"></i>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        // Show empty state
+        function showEmptyState() {
+            const tbody = document.getElementById('packages-tbody');
+            const emptyState = document.getElementById('empty-state');
+            tbody.innerHTML = '';
+            emptyState.style.display = 'block';
+        }
+        
+        // Initialize date range selector
+        function initDateRange() {
+            const startDate = document.getElementById('start-date');
+            const endDate = document.getElementById('end-date');
+            
+            // Set default date range (last 30 days)
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+            
+            startDate.value = thirtyDaysAgo.toISOString().split('T')[0];
+            endDate.value = today.toISOString().split('T')[0];
+            
+            // Add change listeners
+            startDate.addEventListener('change', function() {
+                loadAnalytics();
+            });
+            
+            endDate.addEventListener('change', function() {
+                loadAnalytics();
+            });
+        }
+        
+        // Export analytics
+        function exportAnalytics() {
+            console.log('Export analytics data');
+            // TODO: Implement analytics export functionality
+        }
+    </script>
+</body>
+</html>
