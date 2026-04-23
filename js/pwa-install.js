@@ -377,7 +377,6 @@
 
 
 // js/pwa-install.js - PWA Install functionality
-(function() {
     'use strict';
     
     let deferredPrompt = null;
