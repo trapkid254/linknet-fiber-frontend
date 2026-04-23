@@ -55,13 +55,16 @@
             };
             console.log('Generated headers:', headers); // Debug
             return headers;
-        } catch (e) {
-            console.error('Error parsing auth data:', e);
+        } catch (error) {
+            console.error('Error parsing auth data:', error);
             localStorage.removeItem(AUTH_KEY);
             window.location.href = 'login.html';
             return {};
         }
     };
+    
+    // Expose getAuthHeaders to window for use in other pages
+    window.getAuthHeaders = getAuthHeaders;
     
     // Toast notification - Professional and compact
     const showToast = (message, type = 'info') => {
@@ -181,6 +184,9 @@
             }, 300);
         }, 4000);
     };
+    
+    // Expose showToast to window for use in other pages
+    window.showToast = showToast;
     
     // Load dashboard statistics
     const loadDashboardStats = async () => {
@@ -899,6 +905,9 @@
             modal.classList.remove('active');
         }
     };
+    
+    // Expose hideModal to window for use in other pages
+    window.hideModal = hideModal;
     
     // Package operations
     const addPackage = async (formData) => {
