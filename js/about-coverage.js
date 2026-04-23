@@ -73,99 +73,7 @@
             }
         });
         
-        // Load coverage data and populate county dropdown
-        const loadCoverageData = async () => {
-            try {
-                const response = await fetch(`${API_BASE}/admin/public/coverage`);
-                if (!response.ok) throw new Error('Failed to load coverage data');
-                
-                const data = await response.json();
-                if (data.success) {
-                    // Convert API data to the format expected by the UI
-                    coverageData = {};
-                    data.coverage.forEach(countyData => {
-                        coverageData[countyData.county.toLowerCase()] = countyData.estates;
-                    });
-                    
-                    // Populate county dropdown
-                    populateCountyDropdown(data.availableCounties || data.coverage.map(c => c.county));
-                }
-            } catch (error) {
-                console.error('Failed to load coverage data:', error);
-                // Fallback to static data if API fails
-                coverageData = {
-                    nairobi: ['Westlands', 'Kilimani', 'Karen', 'Lavington', 'Kileleshwa', 'Parklands', 'Upper Hill', 'CBD', 'Runda', 'Muthaiga'],
-                    mombasa: ['Nyali', 'Bamburi', 'Diani', 'Mtwapa', 'Old Town', 'Kizingo', 'Shanzu', 'Likoni'],
-                    kisumu: ['Milimani', 'Kibuye', 'Mamboleo', 'Kanyakwar', 'Nyalenda', 'Kondele'],
-                    nakuru: ['Milimani', 'Section 58', 'Lanet', 'Njoro', 'London', 'Kiamunyi'],
-                    kericho: ['Kapsoya', 'Kipkelion', 'Ainamoi', 'Soin', 'Belgut', 'Elgon View', 'Langas', 'Pioneer', 'Kapsabet Road'],
-                    kiambu: ['Juja', 'Kenyatta road', 'Juja Farm', 'Ruiru', 'Thika', 'Githurai', 'Gachororo', 'JKUAT'],
-                };
-                populateCountyDropdown(Object.keys(coverageData));
-            }
-        };
-
-        const populateCountyDropdown = (counties) => {
-            countySelect.innerHTML = '<option value="">Select County</option>';
-            counties.sort().forEach(county => {
-                const option = document.createElement('option');
-                option.value = county;
-                option.textContent = county.charAt(0).toUpperCase() + county.slice(1);
-                countySelect.appendChild(option);
-            });
-        };
-
-        // Auto-suggest estates based on county
-        countySelect.addEventListener('change', () => {
-            const county = countySelect.value.toLowerCase();
-            const datalistId = 'about-estate-suggestions';
-            let datalist = document.getElementById(datalistId);
-            
-            if (!datalist) {
-                datalist = document.createElement('datalist');
-                datalist.id = datalistId;
-                document.body.appendChild(datalist);
-            }
-            
-            estateInput.setAttribute('list', datalistId);
-            
-            if (coverageData[county]) {
-                datalist.innerHTML = coverageData[county]
-                    .map(area => `<option value="${area}">`)
-                    .join('');
-            } else {
-                datalist.innerHTML = '';
-            }
-        });
-
-        // Real-time estate search as user types
-        estateInput.addEventListener('input', () => {
-            const county = countySelect.value.toLowerCase();
-            const estate = estateInput.value.trim().toLowerCase();
-            
-            if (!county || !estate || estate.length < 2) return;
-            
-            const datalistId = 'about-estate-suggestions';
-            let datalist = document.getElementById(datalistId);
-            
-            if (!datalist) {
-                datalist = document.createElement('datalist');
-                datalist.id = datalistId;
-                document.body.appendChild(datalist);
-            }
-            
-            estateInput.setAttribute('list', datalistId);
-            
-            if (coverageData[county]) {
-                const suggestions = coverageData[county].filter(area => 
-                    area.toLowerCase().includes(estate)
-                );
-                
-                datalist.innerHTML = suggestions
-                    .map(area => `<option value="${area}">`)
-                    .join('');
-            }
-        });
+        // No need to load coverage data for dropdowns since we're using manual input
     };
     
     const showAboutResult = (message, type) => {
@@ -182,12 +90,8 @@
     
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            initAboutCoverageSearch();
-            loadCoverageData();
-        });
+        document.addEventListener('DOMContentLoaded', initAboutCoverageSearch);
     } else {
         initAboutCoverageSearch();
-        loadCoverageData();
     }
 })();
