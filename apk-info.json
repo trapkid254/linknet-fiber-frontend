@@ -1,0 +1,28 @@
+{
+  "name": "Linknet Fiber",
+  "package": "com.linknet.fiber",
+  "version": "1.0.0",
+  "versionCode": 1,
+  "minSdk": 21,
+  "targetSdk": 33,
+  "permissions": [
+    "INTERNET",
+    "ACCESS_NETWORK_STATE",
+    "ACCESS_WIFI_STATE"
+  ],
+  "features": [
+    "WebView wrapper",
+    "PWA support",
+    "Offline capability",
+    "Push notifications ready",
+    "Geolocation support"
+  ],
+  "buildInstructions": [
+    "1. Install Android Studio",
+    "2. Create new Android project",
+    "3. Copy the generated files to the project",
+    "4. Build and sign the APK",
+    "5. Test on device/emulator"
+  ],
+  "note": "This is a WebView wrapper app that loads the PWA. For best performance, the PWA should be hosted online."
+}

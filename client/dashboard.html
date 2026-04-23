@@ -1,0 +1,1187 @@
+<!-- client/dashboard.html - Client Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA / App Install -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Linknet Fiber">
+    <meta name="theme-color" content="#1E4D8C">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Client Dashboard - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.3">
+    <link rel="stylesheet" href="../css/admin.css?v=1.3">
+    <style>
+        /* Client Dashboard Styles */
+        .client-dashboard {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .client-sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .client-sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header .brand-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header .brand-accent {
+            color: #4ecdc4;
+        }
+
+        .sidebar-header p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .client-nav {
+            padding: 1rem 0;
+        }
+
+        .client-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .client-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .client-nav a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .client-nav a:hover,
+        .client-nav a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: #4ecdc4;
+        }
+
+        .client-nav i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .client-main {
+            margin-left: 280px;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .client-main.full-width {
+            margin-left: 0;
+        }
+
+        .client-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #1E4D8C;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: rgba(30, 77, 140, 0.1);
+        }
+
+        .header-left h1 {
+            color: #1E4D8C;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .client-search {
+            position: relative;
+        }
+
+        .client-search i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .client-search input {
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 250px;
+            transition: border-color 0.3s ease;
+        }
+
+        .client-search input:focus {
+            outline: none;
+            border-color: #1E4D8C;
+        }
+
+        .notification-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+
+        .notification-btn:hover {
+            background: rgba(108, 117, 125, 0.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #dc3545;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .client-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-section {
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h2 {
+            color: #1E4D8C;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-section p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #1E4D8C;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .service-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-detail label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .service-detail span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .service-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .recent-activity {
+            margin-top: 2rem;
+        }
+
+        .recent-activity h3 {
+            color: #1E4D8C;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            transition: background 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: #f8f9fa;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .activity-time {
+            color: #6c757d;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4ecdc4, #1E4D8C);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-role {
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .client-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .client-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .client-main {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .client-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .client-search input {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-details {
+                grid-template-columns: 1fr;
+            }
+
+            .service-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #1E4D8C;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #f8f9fa;
+            color: #dc3545;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .package-options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .package-option {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .package-option:hover {
+            border-color: #1E4D8C;
+            box-shadow: 0 4px 12px rgba(30, 77, 140, 0.2);
+        }
+
+        .package-option h4 {
+            margin: 0 0 0.5rem 0;
+            color: #1E4D8C;
+        }
+
+        .package-option p {
+            margin: 0 0 1rem 0;
+            color: #6c757d;
+        }
+
+        .package-price {
+            font-weight: 600;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .package-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .package-features span {
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            color: #495057;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body class="client-dashboard">
+    <!-- Sidebar -->
+    <aside class="client-sidebar" id="client-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="brand-text">
+                Linknet<span class="brand-accent">Fiber</span>
+            </a>
+            <p>Client Portal</p>
+        </div>
+        
+        <nav class="client-nav">
+            <ul>
+                <li>
+                    <a href="#" class="active">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-wifi"></i> My Services
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-file-invoice"></i> Billing
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-headset"></i> Support
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer" style="padding: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <div class="user-info">
+                <div class="user-avatar" id="client-avatar">C</div>
+                <div class="user-details">
+                    <div class="user-name" id="client-name">Loading...</div>
+                    <div class="user-role">Customer</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()" style="width: 100%; margin-top: 1rem;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="client-main" id="client-main">
+        <header class="client-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Dashboard</h1>
+            </div>
+            
+            <div class="header-right">
+                <div class="client-search">
+                    <i class="fas fa-search"></i>
+                    <input type="search" placeholder="Search...">
+                </div>
+                
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+        </header>
+        
+        <div class="client-content">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h2>Welcome back, <span id="welcome-name">Customer</span>!</h2>
+                <p>Here's an overview of your Linknet Fiber services and account information.</p>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div class="stat-value" id="active-services">0</div>
+                    <div class="stat-label">Active Services</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-value" id="account-age">0</div>
+                    <div class="stat-label">Days as Customer</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="stat-value" id="monthly-bill">KES 0</div>
+                    <div class="stat-label">Monthly Bill</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="stat-value" id="support-tickets">0</div>
+                    <div class="stat-label">Support Tickets</div>
+                </div>
+            </div>
+            
+            <!-- Current Service -->
+            <div class="service-card" id="current-service">
+                <h3>
+                    <i class="fas fa-wifi"></i> Current Service
+                </h3>
+                <div class="service-details">
+                    <div class="service-detail">
+                        <label>Package</label>
+                        <span id="service-package">No active service</span>
+                    </div>
+                    <div class="service-detail">
+                        <label>Speed</label>
+                        <span id="service-speed">-</span>
+                    </div>
+                    <div class="service-detail">
+                        <label>Monthly Fee</label>
+                        <span id="service-fee">-</span>
+                    </div>
+                    <div class="service-detail">
+                        <label>Status</label>
+                        <span id="service-status">-</span>
+                    </div>
+                </div>
+                <div class="service-actions">
+                    <button class="btn btn-primary" onclick="upgradeService()">
+                        <i class="fas fa-arrow-up"></i> Upgrade
+                    </button>
+                    <button class="btn btn-outline" onclick="reportIssue()">
+                        <i class="fas fa-exclamation-triangle"></i> Report Issue
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h3>Recent Activity</h3>
+                <ul class="activity-list" id="activity-list">
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Service Installation</div>
+                            <div class="activity-description">Your fiber internet service was successfully installed</div>
+                        </div>
+                        <div class="activity-time">2 days ago</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Payment Received</div>
+                            <div class="activity-description">Monthly payment of KES 2,500 processed successfully</div>
+                        </div>
+                        <div class="activity-time">5 days ago</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Account Created</div>
+                            <div class="activity-description">Welcome to Linknet Fiber! Your account has been created</div>
+                        </div>
+                        <div class="activity-time">1 week ago</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    
+    <script src="../js/darkmode.js"></script>
+    <script src="../js/auth-manager.js?v=1.0.0"></script>
+    <script src="../js/validation.js?v=1.0.0"></script>
+    <script src="../js/offline-manager.js?v=1.0.0"></script>
+    <script>
+        // Client Dashboard JavaScript
+        let sidebarOpen = false;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('client-sidebar');
+            const main = document.getElementById('client-main');
+            
+            sidebarOpen = !sidebarOpen;
+            
+            if (sidebarOpen) {
+                sidebar.classList.add('active');
+                main.classList.add('full-width');
+            } else {
+                sidebar.classList.remove('active');
+                main.classList.remove('full-width');
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('clientToken');
+                localStorage.removeItem('clientData');
+                window.location.href = '../login.html';
+            }
+        }
+
+        function showMessage(message, isError = false) {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 9999;
+                max-width: 300px;
+                word-wrap: break-word;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            if (isError) {
+                toast.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+            } else {
+                toast.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            }
+            
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 5000);
+        }
+
+        async function upgradeService() {
+            try {
+                const token = localStorage.getItem('clientToken');
+                const response = await fetch('/api/packages', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const packages = await response.json();
+                    showPackageUpgradeModal(packages);
+                } else {
+                    showMessage('Failed to load packages', true);
+                }
+            } catch (error) {
+                showMessage('Error loading packages', true);
+            }
+        }
+
+        async function reportIssue() {
+            showSupportTicketModal();
+        }
+
+        function showPackageUpgradeModal(packages) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Upgrade Your Package</h3>
+                        <button class="modal-close" onclick="closeModal(this)">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="package-options">
+                            ${packages.map(pkg => `
+                                <div class="package-option" onclick="selectPackage('${pkg._id}', '${pkg.name}', ${pkg.price})">
+                                    <h4>${pkg.name}</h4>
+                                    <p>${pkg.description}</p>
+                                    <div class="package-price">KES ${pkg.price}/month</div>
+                                    <div class="package-features">
+                                        ${pkg.features.map(feature => `<span>${feature}</span>`).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function showSupportTicketModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Create Support Ticket</h3>
+                        <button class="modal-close" onclick="closeModal(this)">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form onsubmit="submitSupportTicket(event)">
+                            <div class="form-group">
+                                <label for="ticket-category">Category</label>
+                                <select id="ticket-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="technical">Technical Issue</option>
+                                    <option value="billing">Billing Issue</option>
+                                    <option value="service">Service Request</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ticket-subject">Subject</label>
+                                <input type="text" id="ticket-subject" required placeholder="Brief description of your issue">
+                            </div>
+                            <div class="form-group">
+                                <label for="ticket-description">Description</label>
+                                <textarea id="ticket-description" required placeholder="Detailed description of your issue"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="ticket-priority">Priority</label>
+                                <select id="ticket-priority">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        async function selectPackage(packageId, packageName, price) {
+            try {
+                const token = localStorage.getItem('clientToken');
+                const response = await fetch('/api/customers/upgrade-package', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ packageId, packageName, price })
+                });
+
+                if (response.ok) {
+                    showMessage('Package upgrade request submitted successfully!');
+                    closeModal(document.querySelector('.modal-overlay'));
+                    loadCustomerData(); // Refresh dashboard
+                } else {
+                    showMessage('Failed to submit upgrade request', true);
+                }
+            } catch (error) {
+                showMessage('Error submitting upgrade request', true);
+            }
+        }
+
+        async function submitSupportTicket(event) {
+            event.preventDefault();
+            
+            const category = document.getElementById('ticket-category').value;
+            const subject = document.getElementById('ticket-subject').value;
+            const description = document.getElementById('ticket-description').value;
+            const priority = document.getElementById('ticket-priority').value;
+
+            try {
+                const token = localStorage.getItem('clientToken');
+                const response = await fetch('/api/customers/support-ticket', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category, subject, description, priority })
+                });
+
+                if (response.ok) {
+                    showMessage('Support ticket created successfully!');
+                    closeModal(document.querySelector('.modal-overlay'));
+                } else {
+                    showMessage('Failed to create support ticket', true);
+                }
+            } catch (error) {
+                showMessage('Error creating support ticket', true);
+            }
+        }
+
+        function closeModal(element) {
+            if (element && element.parentElement) {
+                element.parentElement.remove();
+            }
+        }
+
+        // Load customer data
+        async function loadCustomerData() {
+            try {
+                const token = localStorage.getItem('clientToken');
+                if (!token) {
+                    window.location.href = '../login.html';
+                    return;
+                }
+
+                const response = await fetch('/api/customers/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const customer = data.customer;
+                    updateDashboard(customer);
+                } else {
+                    console.error('Failed to load customer data');
+                    // Handle token expiration
+                    if (response.status === 401) {
+                        localStorage.removeItem('clientToken');
+                        localStorage.removeItem('clientData');
+                        window.location.href = '../login.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading customer data:', error);
+                // Handle network errors
+                showMessage('Failed to load your data. Please check your connection.', true);
+            }
+        }
+
+        function updateDashboard(customer) {
+            // Update user info
+            document.getElementById('client-name').textContent = customer.fullname;
+            document.getElementById('welcome-name').textContent = customer.fullname;
+            
+            // Update avatar
+            const initial = customer.fullname.charAt(0).toUpperCase();
+            document.getElementById('client-avatar').textContent = initial;
+            
+            // Update stats
+            document.getElementById('active-services').textContent = customer.activeServices?.length || 0;
+            document.getElementById('account-age').textContent = customer.accountAge || 0;
+            document.getElementById('monthly-bill').textContent = `KES ${customer.totalMonthlyCost || 0}`;
+            
+            const supportStats = customer.getSupportStats ? customer.getSupportStats() : { total: 0 };
+            document.getElementById('support-tickets').textContent = supportStats.total;
+            
+            // Update current service
+            if (customer.currentPackage) {
+                document.getElementById('service-package').textContent = customer.currentPackage.name || 'Active Package';
+                document.getElementById('service-speed').textContent = customer.currentPackage.formattedSpeed || 'Unknown';
+                document.getElementById('service-fee').textContent = `KES ${customer.currentPackage.price || 0}`;
+                document.getElementById('service-status').textContent = 'Active';
+            } else {
+                document.getElementById('service-package').textContent = 'No active service';
+                document.getElementById('service-speed').textContent = '-';
+                document.getElementById('service-fee').textContent = '-';
+                document.getElementById('service-status').textContent = 'Inactive';
+            }
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCustomerData();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                sidebarOpen = false;
+                document.getElementById('client-sidebar').classList.remove('active');
+                document.getElementById('client-main').classList.remove('full-width');
+            }
+        });
+    </script>
+</body>
+</html>

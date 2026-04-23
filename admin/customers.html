@@ -1,0 +1,1458 @@
+<!-- admin/customers.html - Customer Management Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA / App Install -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Linknet Fiber">
+    <meta name="theme-color" content="#1E4D8C">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Customers - Admin Dashboard - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.3">
+    <link rel="stylesheet" href="../css/admin.css?v=1.3">
+    <style>
+        /* Customer Management Styles */
+        .customers-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .customers-header h2 {
+            color: #1E4D8C;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #1E4D8C;
+        }
+
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid #e1e8ed;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: #1E4D8C;
+        }
+
+        .filter-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .filter-menu.show {
+            display: block;
+        }
+
+        .filter-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .filter-option:last-child {
+            border-bottom: none;
+        }
+
+        .filter-option:hover {
+            background: #f8f9fa;
+        }
+
+        .filter-option.active {
+            background: #1E4D8C;
+            color: white;
+        }
+
+        .customers-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: #1E4D8C;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .customers-table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .table-actions button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e1e8ed;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .table-actions button:hover {
+            background: #f8f9fa;
+            border-color: #1E4D8C;
+        }
+
+        .customers-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .customers-table th {
+            background: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 1px solid #e9ecef;
+            white-space: nowrap;
+        }
+
+        .customers-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f8f9fa;
+            vertical-align: middle;
+        }
+
+        .customers-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .customer-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .customer-email {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-suspended {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-terminated {
+            background: #6c757d;
+            color: white;
+        }
+
+        .package-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .package-speed {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .billing-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .billing-amount {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .billing-cycle {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .action-btn.view {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .action-btn.view:hover {
+            background: #bbdefb;
+        }
+
+        .action-btn.edit {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .action-btn.edit:hover {
+            background: #ffe0b2;
+        }
+
+        .action-btn.suspend {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .action-btn.suspend:hover {
+            background: #f8bbd9;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .pagination-info {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e1e8ed;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: #f8f9fa;
+            border-color: #1E4D8C;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background: #1E4D8C;
+            color: white;
+            border-color: #1E4D8C;
+        }
+
+        .customer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .customer-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #f8f9fa;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .customer-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .detail-section h4 {
+            color: #1E4D8C;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .services-list {
+            margin-top: 1rem;
+        }
+
+        .service-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .service-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .service-details {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 77, 140, 0.3);
+        }
+
+        .btn-outline {
+            background: white;
+            color: #1E4D8C;
+            border: 2px solid #1E4D8C;
+        }
+
+        .btn-outline:hover {
+            background: #1E4D8C;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .customers-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: auto;
+            }
+
+            .customers-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .customers-table-container {
+                overflow-x: auto;
+            }
+
+            .customers-table {
+                min-width: 800px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .customer-detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="admin-dashboard">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Admin Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="packages">
+                        <i class="fas fa-box"></i> Packages
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="requests">
+                        <i class="fas fa-clipboard-list"></i> Installation Requests
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="coverage">
+                        <i class="fas fa-map-marker-alt"></i> Coverage Areas
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="customers.html">
+                        <i class="fas fa-users"></i> Customers
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="analytics">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info" id="admin-user-info">
+                <div class="user-avatar">
+                    <span id="user-avatar-initial">A</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">Loading...</div>
+                    <div class="user-role" id="user-role">Administrator</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Customers</h1>
+            </div>
+            
+            <div class="header-right">
+                <div class="admin-search">
+                    <i class="fas fa-search"></i>
+                    <input type="search" placeholder="Search customers...">
+                </div>
+                
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+        </header>
+        
+        <div class="admin-content">
+            <!-- Customer Stats -->
+            <div class="customers-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value" id="total-customers">0</div>
+                    <div class="stat-label">Total Customers</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-value" id="active-customers">0</div>
+                    <div class="stat-label">Active Customers</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                    <div class="stat-value" id="pending-customers">0</div>
+                    <div class="stat-label">Pending Customers</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-slash"></i>
+                    </div>
+                    <div class="stat-value" id="suspended-customers">0</div>
+                    <div class="stat-label">Suspended Customers</div>
+                </div>
+            </div>
+            
+            <!-- Search and Filters -->
+            <div class="search-filters">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="search" id="customer-search" placeholder="Search by name, email, phone...">
+                </div>
+                
+                <div class="filter-dropdown">
+                    <button class="filter-btn" onclick="toggleFilterMenu()">
+                        <i class="fas fa-filter"></i> Filter
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="filter-menu" id="filter-menu">
+                        <div class="filter-option active" onclick="filterByStatus('all')">All Customers</div>
+                        <div class="filter-option" onclick="filterByStatus('active')">Active</div>
+                        <div class="filter-option" onclick="filterByStatus('pending')">Pending</div>
+                        <div class="filter-option" onclick="filterByStatus('suspended')">Suspended</div>
+                        <div class="filter-option" onclick="filterByStatus('terminated')">Terminated</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="exportCustomers()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+            </div>
+            
+            <!-- Customers Table -->
+            <div class="customers-table-container">
+                <div class="table-header">
+                    <h3 class="table-title">Customer List</h3>
+                    <div class="table-actions">
+                        <button onclick="refreshCustomers()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button onclick="addNewCustomer()">
+                            <i class="fas fa-plus"></i> Add Customer
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="customers-table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Current Package</th>
+                            <th>Billing</th>
+                            <th>Registration Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-tbody">
+                        <!-- Customer rows will be populated here -->
+                    </tbody>
+                </table>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="pagination-info">
+                        Showing <span id="start-record">0</span> to <span id="end-record">0</span> of <span id="total-records">0</span> customers
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" onclick="previousPage()" id="prev-btn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn" onclick="nextPage()" id="next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Customer Detail Modal -->
+    <div class="customer-modal" id="customer-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Customer Details</h3>
+                <button class="modal-close" onclick="closeCustomerModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="customer-modal-body">
+                <!-- Customer details will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeCustomerModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button class="btn btn-primary" onclick="editCustomer()">
+                    <i class="fas fa-edit"></i> Edit Customer
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/darkmode.js"></script>
+    <script src="../js/admin-dashboard.js"></script>
+    <script src="../js/auth-manager.js?v=1.0.0"></script>
+    <script src="../js/validation.js?v=1.0.0"></script>
+    <script src="../js/offline-manager.js?v=1.0.0"></script>
+    <script>
+        // Customer Management JavaScript
+        let customers = [];
+        let filteredCustomers = [];
+        let currentPage = 1;
+        let customersPerPage = 10;
+        let currentFilter = 'all';
+
+        // Initialize customer management
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCustomers();
+            loadAdminProfile();
+        });
+
+        // Load customers from API
+        async function loadCustomers() {
+            try {
+                const response = await fetch('/api/customers/all', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    customers = data.customers || [];
+                    filteredCustomers = [...customers];
+                    updateCustomerStats();
+                    renderCustomers();
+                } else {
+                    console.error('Failed to load customers');
+                    // Show mock data for demo
+                    showMockCustomers();
+                }
+            } catch (error) {
+                console.error('Error loading customers:', error);
+                showMockCustomers();
+            }
+        }
+
+        // Show mock customers for demo
+        function showMockCustomers() {
+            customers = [
+                {
+                    customerId: 'CUST-ABC123',
+                    fullname: 'John Doe',
+                    email: 'john.doe@example.com',
+                    phone: '+254712345678',
+                    accountStatus: 'active',
+                    currentPackage: { name: 'Fiber Pro', speed: '100 Mbps', price: 2500 },
+                    billingCycle: 'monthly',
+                    outstandingBalance: 0,
+                    registrationDate: new Date('2024-01-15'),
+                    county: 'nairobi',
+                    estate: 'Kilimani'
+                },
+                {
+                    customerId: 'CUST-DEF456',
+                    fullname: 'Jane Smith',
+                    email: 'jane.smith@example.com',
+                    phone: '+254723456789',
+                    accountStatus: 'pending',
+                    currentPackage: null,
+                    billingCycle: 'monthly',
+                    outstandingBalance: 0,
+                    registrationDate: new Date('2024-02-20'),
+                    county: 'nairobi',
+                    estate: 'Westlands'
+                },
+                {
+                    customerId: 'CUST-GHI789',
+                    fullname: 'Michael Johnson',
+                    email: 'michael.j@example.com',
+                    phone: '+254734567890',
+                    accountStatus: 'suspended',
+                    currentPackage: { name: 'Fiber Basic', speed: '50 Mbps', price: 1500 },
+                    billingCycle: 'monthly',
+                    outstandingBalance: 2500,
+                    registrationDate: new Date('2023-12-10'),
+                    county: 'mombasa',
+                    estate: 'Nyali'
+                }
+            ];
+            filteredCustomers = [...customers];
+            updateCustomerStats();
+            renderCustomers();
+        }
+
+        // Update customer statistics
+        function updateCustomerStats() {
+            const totalCustomers = customers.length;
+            const activeCustomers = customers.filter(c => c.accountStatus === 'active').length;
+            const pendingCustomers = customers.filter(c => c.accountStatus === 'pending').length;
+            const suspendedCustomers = customers.filter(c => c.accountStatus === 'suspended').length;
+
+            document.getElementById('total-customers').textContent = totalCustomers;
+            document.getElementById('active-customers').textContent = activeCustomers;
+            document.getElementById('pending-customers').textContent = pendingCustomers;
+            document.getElementById('suspended-customers').textContent = suspendedCustomers;
+        }
+
+        // Render customers table
+        function renderCustomers() {
+            const tbody = document.getElementById('customers-tbody');
+            const start = (currentPage - 1) * customersPerPage;
+            const end = start + customersPerPage;
+            const pageCustomers = filteredCustomers.slice(start, end);
+
+            tbody.innerHTML = '';
+
+            pageCustomers.forEach(customer => {
+                const row = createCustomerRow(customer);
+                tbody.appendChild(row);
+            });
+
+            updatePagination();
+        }
+
+        // Create customer row
+        function createCustomerRow(customer) {
+            const row = document.createElement('tr');
+            
+            const customerInfo = `
+                <div class="customer-info">
+                    <div class="customer-avatar">${customer.fullname.charAt(0).toUpperCase()}</div>
+                    <div class="customer-details">
+                        <div class="customer-name">${customer.fullname}</div>
+                        <div class="customer-email">${customer.email}</div>
+                    </div>
+                </div>
+            `;
+
+            const statusBadge = `
+                <span class="status-badge status-${customer.accountStatus}">${customer.accountStatus}</span>
+            `;
+
+            const packageInfo = customer.currentPackage ? `
+                <div class="package-info">
+                    <div class="package-name">${customer.currentPackage.name}</div>
+                    <div class="package-speed">${customer.currentPackage.speed}</div>
+                </div>
+            ` : '<span class="text-muted">No package</span>';
+
+            const billingInfo = `
+                <div class="billing-info">
+                    <div class="billing-amount">KES ${customer.currentPackage?.price || 0}</div>
+                    <div class="billing-cycle">${customer.billingCycle}</div>
+                </div>
+            `;
+
+            const actions = `
+                <div class="action-buttons">
+                    <button class="action-btn view" onclick="viewCustomer('${customer.customerId}')" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="action-btn edit" onclick="editCustomer('${customer.customerId}')" title="Edit Customer">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn suspend" onclick="suspendCustomer('${customer.customerId}')" title="Suspend/Activate">
+                        <i class="fas fa-ban"></i>
+                    </button>
+                </div>
+            `;
+
+            row.innerHTML = `
+                <td>${customerInfo}</td>
+                <td>${statusBadge}</td>
+                <td>${packageInfo}</td>
+                <td>${billingInfo}</td>
+                <td>${new Date(customer.registrationDate).toLocaleDateString()}</td>
+                <td>${actions}</td>
+            `;
+
+            return row;
+        }
+
+        // Update pagination
+        function updatePagination() {
+            const totalRecords = filteredCustomers.length;
+            const start = (currentPage - 1) * customersPerPage + 1;
+            const end = Math.min(currentPage * customersPerPage, totalRecords);
+            const totalPages = Math.ceil(totalRecords / customersPerPage);
+
+            document.getElementById('start-record').textContent = start;
+            document.getElementById('end-record').textContent = end;
+            document.getElementById('total-records').textContent = totalRecords;
+
+            document.getElementById('prev-btn').disabled = currentPage === 1;
+            document.getElementById('next-btn').disabled = currentPage === totalPages;
+
+            // Update page buttons
+            const paginationControls = document.querySelector('.pagination-controls');
+            const pageButtons = paginationControls.querySelectorAll('.pagination-btn:not(:first-child):not(:last-child)');
+            
+            pageButtons.forEach((btn, index) => {
+                const pageNum = index + 1;
+                if (pageNum <= totalPages) {
+                    btn.textContent = pageNum;
+                    btn.classList.toggle('active', pageNum === currentPage);
+                    btn.style.display = 'block';
+                    btn.onclick = () => goToPage(pageNum);
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+        }
+
+        // View customer details
+        function viewCustomer(customerId) {
+            const customer = customers.find(c => c.customerId === customerId);
+            if (!customer) return;
+
+            const modalBody = document.getElementById('customer-modal-body');
+            
+            modalBody.innerHTML = `
+                <div class="customer-detail-grid">
+                    <div class="detail-section">
+                        <h4><i class="fas fa-user"></i> Personal Information</h4>
+                        <div class="detail-item">
+                            <span class="detail-label">Customer ID:</span>
+                            <span class="detail-value">${customer.customerId}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Full Name:</span>
+                            <span class="detail-value">${customer.fullname}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Email:</span>
+                            <span class="detail-value">${customer.email}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value">${customer.phone}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Account Status:</span>
+                            <span class="detail-value">
+                                <span class="status-badge status-${customer.accountStatus}">${customer.accountStatus}</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4><i class="fas fa-map-marker-alt"></i> Address Information</h4>
+                        <div class="detail-item">
+                            <span class="detail-label">County:</span>
+                            <span class="detail-value">${customer.county}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Estate:</span>
+                            <span class="detail-value">${customer.estate}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Full Address:</span>
+                            <span class="detail-value">${customer.fullAddress || 'N/A'}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4><i class="fas fa-wifi"></i> Service Information</h4>
+                        <div class="detail-item">
+                            <span class="detail-label">Current Package:</span>
+                            <span class="detail-value">${customer.currentPackage?.name || 'No package'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Speed:</span>
+                            <span class="detail-value">${customer.currentPackage?.speed || 'N/A'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Monthly Fee:</span>
+                            <span class="detail-value">KES ${customer.currentPackage?.price || 0}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Billing Cycle:</span>
+                            <span class="detail-value">${customer.billingCycle}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4><i class="fas fa-dollar-sign"></i> Billing Information</h4>
+                        <div class="detail-item">
+                            <span class="detail-label">Outstanding Balance:</span>
+                            <span class="detail-value">KES ${customer.outstandingBalance || 0}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Payment Method:</span>
+                            <span class="detail-value">${customer.paymentMethod || 'MPesa'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Registration Date:</span>
+                            <span class="detail-value">${new Date(customer.registrationDate).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                ${customer.services && customer.services.length > 0 ? `
+                    <div class="services-list">
+                        <h4><i class="fas fa-list"></i> Service History</h4>
+                        ${customer.services.map(service => `
+                            <div class="service-item">
+                                <div class="service-header">
+                                    <span class="service-name">${service.package?.name || 'Unknown Package'}</span>
+                                    <span class="service-status status-${service.status}">${service.status}</span>
+                                </div>
+                                <div class="service-details">
+                                    ${service.installationDate ? `Installed: ${new Date(service.installationDate).toLocaleDateString()}` : ''}
+                                    ${service.monthlyFee ? ` | Monthly: KES ${service.monthlyFee}` : ''}
+                                    ${service.billingCycle ? ` | Cycle: ${service.billingCycle}` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+            `;
+
+            document.getElementById('customer-modal').classList.add('show');
+        }
+
+        // Close customer modal
+        function closeCustomerModal() {
+            document.getElementById('customer-modal').classList.remove('show');
+        }
+
+        // Toggle filter menu
+        function toggleFilterMenu() {
+            const menu = document.getElementById('filter-menu');
+            menu.classList.toggle('show');
+        }
+
+        // Filter by status
+        function filterByStatus(status) {
+            currentFilter = status;
+            
+            // Update filter options
+            document.querySelectorAll('.filter-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter customers
+            if (status === 'all') {
+                filteredCustomers = [...customers];
+            } else {
+                filteredCustomers = customers.filter(c => c.accountStatus === status);
+            }
+            
+            currentPage = 1;
+            renderCustomers();
+            
+            // Close filter menu
+            document.getElementById('filter-menu').classList.remove('show');
+        }
+
+        // Search customers
+        document.getElementById('customer-search').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredCustomers = currentFilter === 'all' ? [...customers] : customers.filter(c => c.accountStatus === currentFilter);
+            } else {
+                filteredCustomers = customers.filter(customer => 
+                    customer.fullname.toLowerCase().includes(searchTerm) ||
+                    customer.email.toLowerCase().includes(searchTerm) ||
+                    customer.phone.includes(searchTerm) ||
+                    customer.customerId.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            currentPage = 1;
+            renderCustomers();
+        });
+
+        // Pagination functions
+        function goToPage(page) {
+            currentPage = page;
+            renderCustomers();
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderCustomers();
+            }
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredCustomers.length / customersPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderCustomers();
+            }
+        }
+
+        // Action functions
+        function refreshCustomers() {
+            loadCustomers();
+        }
+
+        function addNewCustomer() {
+            alert('Add customer feature coming soon!');
+        }
+
+        async function editCustomer(customerId) {
+            try {
+                const response = await fetch(`/api/admin/customers/${customerId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const customer = await response.json();
+                    showEditCustomerModal(customer);
+                } else {
+                    showMessage('Failed to load customer data', true);
+                }
+            } catch (error) {
+                showMessage('Error loading customer data', true);
+            }
+        }
+
+        async function deleteCustomer(customerId) {
+            if (confirm('Are you sure you want to delete this customer? This action cannot be undone.')) {
+                try {
+                    const response = await fetch(`/api/admin/customers/${customerId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        showMessage('Customer deleted successfully');
+                        loadCustomers(); // Refresh the list
+                    } else {
+                        showMessage('Failed to delete customer', true);
+                    }
+                } catch (error) {
+                    showMessage('Error deleting customer', true);
+                }
+            }
+        }
+
+        function showEditCustomerModal(customer) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Edit Customer</h3>
+                        <button class="modal-close" onclick="closeModal(this)">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form onsubmit="updateCustomer(event, '${customer._id}')">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-fullname">Full Name</label>
+                                    <input type="text" id="edit-fullname" value="${customer.fullname}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-email">Email</label>
+                                    <input type="email" id="edit-email" value="${customer.email}" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-phone">Phone</label>
+                                    <input type="tel" id="edit-phone" value="${customer.phone}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-status">Account Status</label>
+                                    <select id="edit-status">
+                                        <option value="active" ${customer.accountStatus === 'active' ? 'selected' : ''}>Active</option>
+                                        <option value="inactive" ${customer.accountStatus === 'inactive' ? 'selected' : ''}>Inactive</option>
+                                        <option value="suspended" ${customer.accountStatus === 'suspended' ? 'selected' : ''}>Suspended</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-county">County</label>
+                                    <input type="text" id="edit-county" value="${customer.address.county}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-estate">Estate</label>
+                                    <input type="text" id="edit-estate" value="${customer.address.estate}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-street">Street</label>
+                                <input type="text" id="edit-street" value="${customer.address.street}">
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="closeModal(this)">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Update Customer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        async function updateCustomer(event, customerId) {
+            event.preventDefault();
+            
+            const formData = {
+                fullname: document.getElementById('edit-fullname').value,
+                email: document.getElementById('edit-email').value,
+                phone: document.getElementById('edit-phone').value,
+                accountStatus: document.getElementById('edit-status').value,
+                address: {
+                    county: document.getElementById('edit-county').value,
+                    estate: document.getElementById('edit-estate').value,
+                    street: document.getElementById('edit-street').value
+                }
+            };
+
+            try {
+                const response = await fetch(`/api/admin/customers/${customerId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    showMessage('Customer updated successfully');
+                    closeModal(document.querySelector('.modal-overlay'));
+                    loadCustomers(); // Refresh the list
+                } else {
+                    showMessage('Failed to update customer', true);
+                }
+            } catch (error) {
+                showMessage('Error updating customer', true);
+            }
+        }
+
+        function closeModal(element) {
+            if (element && element.closest('.modal-overlay')) {
+                element.closest('.modal-overlay').remove();
+            }
+        }
+
+        function exportCustomers() {
+            alert('Export customers feature coming soon!');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('customer-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCustomerModal();
+            }
+        });
+    </script>
+</body>
+</html>

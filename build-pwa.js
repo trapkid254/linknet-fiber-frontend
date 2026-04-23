@@ -1,0 +1,112 @@
+// build-pwa.js - PWA Build System
+const fs = require('fs');
+const path = require('path');
+
+// Create proper PWA manifest with all required fields
+const manifest = {
+    name: "Linknet Fiber - Kenya's Fastest Internet",
+    short_name: "Linknet Fiber",
+    description: "Kenya's premier fiber internet service provider. Experience lightning-fast, reliable internet for your home and business.",
+    start_url: "./index.html",
+    id: "./index.html",
+    display: "standalone",
+    display_override: ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+    background_color: "#1E4D8C",
+    theme_color: "#1E4D8C",
+    orientation: "portrait-primary",
+    scope: "./",
+    lang: "en",
+    dir: "ltr",
+    categories: ["utilities", "business", "productivity"],
+    icons: [
+        {
+            src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiMxRTREOEMiLz4KPHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMCA2MEwxMCAxMEwxMTAgNjBMMTAgMTEwWiIgZmlsbD0id2hpdGUiLz4KPHJlY3QgeD0iMjAiIHk9IjQwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMUU0RDhDIi8+Cjx0ZXh0IHg9IjYwIiB5PSI2NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RkxFUjwvdGV4dD4KPC9zdmc+Cjwvc3ZnPgo=",
+            sizes: "192x192",
+            type: "image/svg+xml",
+            purpose: "any maskable"
+        },
+        {
+            src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9IiMxRTREOEMiLz4KPHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgdmlld0JveD0iMCAwIDMyMCAzMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zMCAxNjBMMzAgMjBMMjkwIDE2MEwzMCAzMDBaIiBmaWxsPSJ3aGl0ZSIvPgo8cmVjdCB4PSI2MCIgeT0iMTA4IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwNCIgcng9IjIwIiBmaWxsPSIjMUU0RDhDIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iMTc2IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMzgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5GTEVSPC90ZXh0Pgo8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=",
+            sizes: "512x512",
+            type: "image/svg+xml",
+            purpose: "any maskable"
+        }
+    ],
+    screenshots: [
+        {
+            src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIiBmaWxsPSIjZjBmMGYwIi8+CjxyZWN0IHg9IjY0IiB5PSIzNiIgd2lkdGg9IjExNTIiIGhlaWdodD0iNjQ4IiByeD0iMTYiIGZpbGw9IndoaXRlIi8+Cjx0ZXh0IHg9IjY0MCIgeT0iMzYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMxRTREOEMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxpbmtuZXQgRmliZXIgRGFzaGJvYXJkPC90ZXh0Pgo8L3N2Zz4K",
+            sizes: "1280x720",
+            type: "image/svg+xml",
+            form_factor: "wide",
+            label: "Linknet Fiber Dashboard - View internet packages and manage your account"
+        },
+        {
+            src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjExMzYiIHZpZXdCb3g9IjAgMCA2NDAgMTEzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSIxMTM2IiBmaWxsPSIjZjBmMGYwIi8+CjxyZWN0IHg9IjMyIiB5PSI1NiIgd2lkdGg9IjU3NiIgaGVpZ2h0PSIxMDI0IiByeD0iMTIiIGZpbGw9IndoaXRlIi8+Cjx0ZXh0IHg9IjMyMCIgeT0iNTY4IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiMxRTREOEMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxpbmtuZXQgRmliZXI8L3RleHQ+CjwvN3ZnPgo=",
+            sizes: "640x1136",
+            type: "image/svg+xml",
+            form_factor: "narrow",
+            label: "Linknet Fiber Mobile - Fast internet on the go"
+        }
+    ],
+    shortcuts: [
+        {
+            name: "View Packages",
+            short_name: "Packages",
+            description: "Browse available internet packages",
+            url: "./packages.html",
+            icons: [
+                {
+                    src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDgiIGZpbGw9IiMxRTREOEMiLz4KPHRleHQgeD0iNDgiIHk9IjU4IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QYWNrPC90ZXh0Pgo8L3N2Zz4K",
+                    sizes: "96x96",
+                    type: "image/svg+xml"
+                }
+            ]
+        },
+        {
+            name: "Request Installation",
+            short_name: "Request",
+            description: "Request fiber installation at your location",
+            url: "./request.html",
+            icons: [
+                {
+                    src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDgiIGZpbGw9IiMyOGE3NDUiLz4KPHRleHQgeD0iNDgiIHk9IjU4IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5SRVM8L3RleHQ+Cjwvc3ZnPgo=",
+                    sizes: "96x96",
+                    type: "image/svg+xml"
+                }
+            ]
+        },
+        {
+            name: "Contact Support",
+            short_name: "Support",
+            description: "Get help and support",
+            url: "./contact.html",
+            icons: [
+                {
+                    src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDgiIGZpbGw9IiNmZmMwMDciLz4KPHRleHQgeD0iNDgiIHk9IjU4IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9ImJsYWNrIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TVDwvdGV4dD4KPC9zdmc+Cjw=",
+                    sizes: "96x96",
+                    type: "image/svg+xml"
+                }
+            ]
+        }
+    ],
+    prefer_related_applications: false,
+    launch_handler: {
+        client_mode: "navigate-existing"
+    },
+    edge_side_panel: {
+        preferred_width: 400
+    }
+};
+
+// Write the updated manifest
+fs.writeFileSync('./manifest.json', JSON.stringify(manifest, null, 2));
+
+console.log('✅ PWA Manifest updated successfully!');
+console.log('🚀 Features added:');
+console.log('  - Inline SVG icons (no external files needed)');
+console.log('  - Complete app shortcuts');
+console.log('  - Proper screenshots');
+console.log('  - Edge sidebar support');
+console.log('  - Launch handler');
+console.log('');
+console.log('📱 PWA is now ready for installation!');

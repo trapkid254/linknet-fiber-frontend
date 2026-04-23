@@ -3,7 +3,7 @@
     'use strict';
     
     const AUTH_KEY = 'linknet_admin_auth';
-    const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
+    const API_BASE = '/api';
     
     // Check authentication
     const checkAuth = () => {
@@ -30,20 +30,16 @@
     
     const getAuthHeaders = () => {
         const authData = localStorage.getItem(AUTH_KEY);
-        console.log('Raw auth data from localStorage:', authData); // Debug
         
         if (!authData) {
-            console.log('No auth data found, redirecting to login');
             window.location.href = 'login.html';
             return {};
         }
         
         try {
             const parsed = JSON.parse(authData);
-            console.log('Parsed auth data:', parsed); // Debug
             
             if (parsed.expires && parsed.expires < Date.now()) {
-                console.log('Token expired, removing and redirecting');
                 localStorage.removeItem(AUTH_KEY);
                 window.location.href = 'login.html';
                 return {};
@@ -53,7 +49,6 @@
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${parsed.token}`
             };
-            console.log('Generated headers:', headers); // Debug
             return headers;
         } catch (e) {
             console.error('Error parsing auth data:', e);

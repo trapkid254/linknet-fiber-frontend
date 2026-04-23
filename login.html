@@ -1,0 +1,741 @@
+<!-- login.html - Dual Login Portal -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA / App Install -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Linknet Fiber">
+    <meta name="theme-color" content="#1E4D8C">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Login Portal - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.3">
+    <style>
+        /* Login Portal Styles */
+        .login-portal {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1E4D8C 0%, #2A5F9F 50%, #3A7BC8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-portal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="20" cy="80" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            background-size: 100px 100px;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100px, 100px); }
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .login-header h1 {
+            color: #1E4D8C;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .login-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-option {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .login-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(30, 77, 140, 0.2);
+            border-color: #1E4D8C;
+        }
+
+        .login-option:hover::before {
+            opacity: 0.1;
+        }
+
+        .login-option.active {
+            border-color: #1E4D8C;
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+        }
+
+        .login-option-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #1E4D8C;
+            transition: all 0.3s ease;
+        }
+
+        .login-option:hover .login-option-icon,
+        .login-option.active .login-option-icon {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .login-option h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1E4D8C;
+            transition: color 0.3s ease;
+        }
+
+        .login-option:hover h3,
+        .login-option.active h3 {
+            color: white;
+        }
+
+        .login-option p {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            transition: color 0.3s ease;
+        }
+
+        .login-option:hover p,
+        .login-option.active p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .login-forms {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .login-forms.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: #2c3e50;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1E4D8C;
+            box-shadow: 0 0 0 3px rgba(30, 77, 140, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            box-shadow: 0 4px 15px rgba(30, 77, 140, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 77, 140, 0.4);
+        }
+
+        .btn-outline {
+            background: white;
+            color: #1E4D8C;
+            border: 2px solid #1E4D8C;
+        }
+
+        .btn-outline:hover {
+            background: #1E4D8C;
+            color: white;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e1e8ed;
+        }
+
+        .form-footer p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .form-footer a {
+            color: #1E4D8C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .back-link a {
+            color: #6c757d;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: #1E4D8C;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #fcc;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #393;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #cfc;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .login-portal {
+                padding: 1rem;
+            }
+
+            .login-container {
+                padding: 2rem;
+            }
+
+            .login-header h1 {
+                font-size: 2rem;
+            }
+
+            .login-options {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-portal">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Welcome Back</h1>
+                <p>Choose your login type to access your account</p>
+            </div>
+
+            <div class="login-options">
+                <div class="login-option" onclick="showLoginForm('admin')">
+                    <div class="login-option-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Admin Portal</h3>
+                    <p>For administrators and staff members</p>
+                </div>
+
+                <div class="login-option" onclick="showLoginForm('client')">
+                    <div class="login-option-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Client Portal</h3>
+                    <p>For customers and service users</p>
+                </div>
+            </div>
+
+            <!-- Admin Login Form -->
+            <div id="admin-login-form" class="login-forms">
+                <form onsubmit="handleAdminLogin(event)">
+                    <div class="error-message" id="admin-error"></div>
+                    <div class="success-message" id="admin-success"></div>
+                    
+                    <div class="form-group">
+                        <label for="admin-email">Email Address</label>
+                        <input type="email" id="admin-email" name="email" required placeholder="admin@linknetfiber.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" name="password" required placeholder="Enter your password">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login as Admin
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="resetForm('admin')">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Forgot your password? <a href="#">Contact Support</a></p>
+                </div>
+            </div>
+
+            <!-- Client Login Form -->
+            <div id="client-login-form" class="login-forms">
+                <form onsubmit="handleClientLogin(event)">
+                    <div class="error-message" id="client-error"></div>
+                    <div class="success-message" id="client-success"></div>
+                    
+                    <div class="form-group">
+                        <label for="client-email">Email Address</label>
+                        <input type="email" id="client-email" name="email" required placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="client-password">Password</label>
+                        <input type="password" id="client-password" name="password" required placeholder="Enter your password">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login as Client
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="resetForm('client')">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" onclick="showRegistrationForm()">Register Now</a></p>
+                    <p>Forgot your password? <a href="#">Reset Password</a></p>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div id="registration-form" class="login-forms">
+                <form onsubmit="handleRegistration(event)">
+                    <div class="error-message" id="registration-error"></div>
+                    <div class="success-message" id="registration-success"></div>
+                    
+                    <div class="form-group">
+                        <label for="reg-fullname">Full Name *</label>
+                        <input type="text" id="reg-fullname" name="fullname" required placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-email">Email Address *</label>
+                        <input type="email" id="reg-email" name="email" required placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-phone">Phone Number *</label>
+                        <input type="tel" id="reg-phone" name="phone" required placeholder="+254 7XX XXX XXX">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-idnumber">ID Number *</label>
+                        <input type="text" id="reg-idnumber" name="idnumber" required placeholder="12345678">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-password">Password *</label>
+                        <input type="password" id="reg-password" name="password" required placeholder="Min 6 characters">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-confirm-password">Confirm Password *</label>
+                        <input type="password" id="reg-confirm-password" name="confirmPassword" required placeholder="Confirm your password">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Register Account
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="resetForm('registration')">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" onclick="showLoginForm('client')">Login Now</a></p>
+                </div>
+            </div>
+
+            <div class="back-link" id="back-link" style="display: none;">
+                <a href="#" onclick="showLoginOptions()">
+                    <i class="fas fa-arrow-left"></i> Back to Login Options
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/darkmode.js"></script>
+    <script>
+        let currentForm = null;
+
+        function showLoginOptions() {
+            // Hide all forms
+            document.querySelectorAll('.login-forms').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            // Remove active class from all options
+            document.querySelectorAll('.login-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Hide back link
+            document.getElementById('back-link').style.display = 'none';
+            
+            // Reset current form
+            currentForm = null;
+        }
+
+        function showLoginForm(type) {
+            // Hide all forms
+            document.querySelectorAll('.login-forms').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            // Remove active class from all options
+            document.querySelectorAll('.login-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Show selected form
+            const formId = type + '-login-form';
+            const form = document.getElementById(formId);
+            if (form) {
+                form.classList.add('active');
+            }
+            
+            // Add active class to selected option
+            event.target.closest('.login-option').classList.add('active');
+            
+            // Show back link
+            document.getElementById('back-link').style.display = 'block';
+            
+            // Set current form
+            currentForm = type;
+        }
+
+        function showRegistrationForm() {
+            // Hide all forms
+            document.querySelectorAll('.login-forms').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            // Remove active class from all options
+            document.querySelectorAll('.login-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Show registration form
+            const form = document.getElementById('registration-form');
+            if (form) {
+                form.classList.add('active');
+            }
+            
+            // Show back link
+            document.getElementById('back-link').style.display = 'block';
+            
+            // Set current form
+            currentForm = 'registration';
+        }
+
+        function resetForm(type) {
+            const form = document.getElementById(type + '-login-form') || document.getElementById(type + '-form');
+            if (form) {
+                form.reset();
+            }
+            
+            // Hide messages
+            const errorId = type + '-error';
+            const successId = type + '-success';
+            const errorElement = document.getElementById(errorId);
+            const successElement = document.getElementById(successId);
+            
+            if (errorElement) errorElement.classList.remove('show');
+            if (successElement) successElement.classList.remove('show');
+        }
+
+        function showMessage(type, message, isError = false) {
+            const elementId = type + (isError ? '-error' : '-success');
+            const element = document.getElementById(elementId);
+            
+            if (element) {
+                element.textContent = message;
+                element.classList.add('show');
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    element.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        async function handleAdminLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('admin', 'Login successful! Redirecting...', false);
+                    setTimeout(() => {
+                        window.location.href = 'admin/dashboard.html';
+                    }, 1500);
+                } else {
+                    showMessage('admin', data.message || 'Login failed', true);
+                }
+            } catch (error) {
+                showMessage('admin', 'Network error. Please try again.', true);
+            }
+        }
+
+        async function handleClientLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('client-email').value;
+            const password = document.getElementById('client-password').value;
+            
+            try {
+                const response = await fetch('/api/customers/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('client', 'Login successful! Redirecting...', false);
+                    setTimeout(() => {
+                        window.location.href = 'client/dashboard.html';
+                    }, 1500);
+                } else {
+                    showMessage('client', data.message || 'Login failed', true);
+                }
+            } catch (error) {
+                showMessage('client', 'Network error. Please try again.', true);
+            }
+        }
+
+        async function handleRegistration(event) {
+            event.preventDefault();
+            
+            const fullname = document.getElementById('reg-fullname').value;
+            const email = document.getElementById('reg-email').value;
+            const phone = document.getElementById('reg-phone').value;
+            const idnumber = document.getElementById('reg-idnumber').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                showMessage('registration', 'Passwords do not match', true);
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/customers/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        fullname, 
+                        email, 
+                        phone, 
+                        idNumber: idnumber, 
+                        password 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('registration', 'Registration successful! Redirecting to login...', false);
+                    setTimeout(() => {
+                        showLoginForm('client');
+                    }, 2000);
+                } else {
+                    showMessage('registration', data.message || 'Registration failed', true);
+                }
+            } catch (error) {
+                showMessage('registration', 'Network error. Please try again.', true);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
+            const adminToken = localStorage.getItem('adminToken');
+            const clientToken = localStorage.getItem('clientToken');
+            
+            if (adminToken) {
+                window.location.href = 'admin/dashboard.html';
+            } else if (clientToken) {
+                window.location.href = 'client/dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

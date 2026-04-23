@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linknet Fiber - APK Installer</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1E4D8C, #2a6f97);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            display: block;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        .features {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        .features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .features li:before {
+            content: "✓ ";
+            color: #4ade80;
+            font-weight: bold;
+        }
+        .install-btn {
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(74, 222, 128, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .install-btn:hover {
+            transform: translateY(-2px);
+        }
+        .note {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .steps {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .steps h3 {
+            margin-top: 0;
+            color: #4ade80;
+        }
+        .steps ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .steps li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">
+            <svg viewBox="0 0 120 120" fill="none">
+                <rect width="120" height="120" rx="20" fill="#1E4D8C"/>
+                <path d="M10 60L10 10L110 60L10 110Z" fill="white"/>
+                <rect x="20" y="40" width="80" height="40" rx="8" fill="#1E4D8C"/>
+                <text x="60" y="65" font-family="Arial" font-size="14" fill="white" text-anchor="middle">FLER</text>
+            </svg>
+        </div>
+        
+        <h1>Linknet Fiber</h1>
+        
+        <ul class="features">
+            <li>Lightning Fast Fiber Internet</li>
+            <li>Kenya's Premier ISP</li>
+            <li>24/7 Customer Support</li>
+            <li>Easy Package Management</li>
+            <li>Offline Capability</li>
+            <li>Push Notifications</li>
+        </ul>
+        
+        <div class="steps">
+            <h3>📱 Installation Instructions</h3>
+            <ol>
+                <li>Click the download button below</li>
+                <li>Allow installation from unknown sources in your Android settings</li>
+                <li>Open the downloaded APK file</li>
+                <li>Tap "Install" and follow the prompts</li>
+                <li>Enjoy blazing fast fiber internet management!</li>
+            </ol>
+        </div>
+        
+        <a href="https://linknet-fiber.netlify.app" class="install-btn">
+            🚀 Install Linknet Fiber App
+        </a>
+        
+        <div class="note">
+            <strong>💡 Note:</strong> This is a PWA (Progressive Web App) that provides a native app experience. 
+            For the best performance, ensure you have a stable internet connection during first launch.
+        </div>
+        
+        <div class="steps">
+            <h3>🔧 Troubleshooting</h3>
+            <p><strong>"Parse Error" or "Installation Failed":</strong></p>
+            <ul>
+                <li>Enable "Install from unknown sources" in Android settings</li>
+                <li>Ensure you have enough storage space</li>
+                <li>Try downloading again with a stable connection</li>
+                <li>Clear your browser cache and retry</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
