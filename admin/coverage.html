@@ -666,7 +666,9 @@
         // Load coverage from API
         async function loadCoverage(county = '', search = '') {
             try {
-                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/coverage?county=${encodeURIComponent(county)}&search=${encodeURIComponent(search)}`);
+                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/coverage`, {
+                    headers: getAuthHeaders()
+                });
                 const data = await response.json();
                 
                 if (data.success) {

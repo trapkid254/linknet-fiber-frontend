@@ -313,7 +313,9 @@
         // Load analytics data from API
         async function loadAnalytics() {
             try {
-                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/analytics');
+                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/analytics', {
+                    headers: getAuthHeaders()
+                });
                 const data = await response.json();
                 
                 if (data.success) {
@@ -405,8 +407,12 @@
         function showEmptyState() {
             const tbody = document.getElementById('packages-tbody');
             const emptyState = document.getElementById('empty-state');
-            tbody.innerHTML = '';
-            emptyState.style.display = 'block';
+            if (tbody) {
+                tbody.innerHTML = '';
+            }
+            if (emptyState) {
+                emptyState.style.display = 'block';
+            }
         }
         
         // Initialize date range selector

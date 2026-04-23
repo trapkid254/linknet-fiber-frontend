@@ -290,7 +290,9 @@
         // Load requests from API
         async function loadRequests(page = 1, status = '', priority = '', search = '') {
             try {
-                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/requests?page=${page}&status=${encodeURIComponent(status)}&priority=${encodeURIComponent(priority)}&search=${encodeURIComponent(search)}`);
+                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests`, {
+                    headers: getAuthHeaders()
+                });
                 const data = await response.json();
                 
                 if (data.success && data.requests) {
@@ -310,17 +312,7 @@
             const tbody = document.getElementById('requests-tbody');
             
             if (!requests || requests.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="8" style="text-align: center; padding: 60px; color: var(--gray-500);">
-                            <div class="empty-queue">
-                                <i class="fas fa-clipboard-list"></i>
-                                <div>No service requests found</div>
-                                <p>No requests match your current filters</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+                showEmptyState();
                 return;
             }
             
@@ -380,6 +372,23 @@
                     </td>
                 </tr>
             `).join('');
+        }
+        
+        function showEmptyState() {
+            const tbody = document.getElementById('requests-tbody');
+            if (tbody) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 60px; color: var(--gray-500);">
+                            <div class="empty-queue">
+                                <i class="fas fa-clipboard-list"></i>
+                                <div>No service requests found</div>
+                                <p>No requests match your current filters</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
         }
         
         // Toast notification function

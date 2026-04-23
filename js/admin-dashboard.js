@@ -1097,6 +1097,7 @@
             name: document.getElementById('package-name').value,
             speed: parseInt(document.getElementById('package-speed').value),
             price: parseInt(document.getElementById('package-price').value),
+            category: document.getElementById('package-category')?.value || 'home',
             features: document.getElementById('package-features').value.split(',').map(f => f.trim()),
             isActive: true
         };
