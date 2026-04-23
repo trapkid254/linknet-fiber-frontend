@@ -647,11 +647,18 @@
     <script>
         // Settings page specific initialization
         document.addEventListener('DOMContentLoaded', function() {
-            // Load admin profile data
-            loadAdminProfile();
-            
-            // Load system settings if super admin
-            loadSystemSettings();
+            // Wait for admin dashboard script to initialize
+            setTimeout(() => {
+                // Load admin profile data
+                if (typeof loadAdminProfile === 'function') {
+                    loadAdminProfile();
+                }
+                
+                // Load system settings if super admin
+                if (typeof loadSystemSettings === 'function') {
+                    loadSystemSettings();
+                }
+            }, 100);
             
             // Initialize settings functionality
             initSettings();

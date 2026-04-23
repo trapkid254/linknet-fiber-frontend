@@ -5,6 +5,9 @@
     const AUTH_KEY = 'linknet_admin_auth';
     const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
     
+    // Force API_BASE to be used - debug logging
+    console.log('🔧 ADMIN DASHBOARD API_BASE SET TO:', API_BASE);
+    
     // Check authentication
     const checkAuth = () => {
         const authData = localStorage.getItem(AUTH_KEY);
@@ -655,6 +658,55 @@
                     window.location.href = 'login.html';
                 }, 1000);
             });
+        }
+    };
+    
+    // Load installation requests from API
+    const loadInstallRequests = async () => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/install-requests`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to load installation requests');
+            
+            const data = await response.json();
+            const tbody = document.getElementById('install-requests-table-body');
+            if (!tbody) return;
+            
+            if (data.success && data.data && data.data.length > 0) {
+                tbody.innerHTML = data.data.map(request => `
+                    <tr>
+                        <td>${request.customerName || 'N/A'}</td>
+                        <td>${request.packageName || 'N/A'}</td>
+                        <td>${request.location || 'N/A'}</td>
+                        <td><span class="status-badge ${request.status === 'approved' ? 'approved' : request.status === 'pending' ? 'pending' : 'cancelled'}">${request.status}</span></td>
+                        <td>${new Date(request.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn" onclick="approveRequest('${request._id}')">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="action-btn" onclick="deleteRequest('${request._id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                            <i class="fas fa-tools" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                            No installation requests found.
+                        </td>
+                    </tr>
+                `;
+            }
+        } catch (error) {
+            console.error('Error loading installation requests:', error);
+            showToast('Failed to load installation requests. Please try again.', 'error');
         }
     };
     
@@ -1687,6 +1739,15 @@
     window.handleSystemSettingsSubmit = handleSystemSettingsSubmit;
     window.showSettingsPage = showSettingsPage;
     window.showDashboardPage = showDashboardPage;
+    
+    // Expose functions globally for other pages
+    window.loadAdminProfile = loadAdminProfile;
+    window.loadSystemSettings = loadSystemSettings;
+    window.loadCustomers = loadCustomers;
+    window.loadPackages = loadPackages;
+    window.loadInstallRequests = loadInstallRequests;
+    window.loadCoverageAreas = loadCoverageAreas;
+    window.loadAnalytics = loadAnalytics;
     
     // Start when DOM is ready
     if (document.readyState === 'loading') {
