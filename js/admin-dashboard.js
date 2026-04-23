@@ -1369,9 +1369,12 @@ window.hideModal = hideModal;
             
         } catch (error) {
             console.error('Error loading profile:', error);
-            showToast('Failed to load profile data', 'error');
+            showToast('Failed to load profile', 'error');
         }
     };
+    
+    // Expose loadAdminProfile to window for use in other pages
+    window.loadAdminProfile = loadAdminProfile;
     
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
