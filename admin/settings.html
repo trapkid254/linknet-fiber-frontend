@@ -1,0 +1,661 @@
+<!-- admin/settings.html - Admin Settings Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA / App Install -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Linknet Fiber">
+    <meta name="theme-color" content="#1E4D8C">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Settings - Admin Dashboard - Linknet Fiber</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.3">
+    <link rel="stylesheet" href="../css/admin.css?v=1.3">
+    <style>
+        /* Settings Page Specific Styles */
+        .admin-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(30, 77, 140, 0.1), rgba(30, 77, 140, 0.05));
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-header h2 {
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        
+        .settings-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .settings-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .settings-header {
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .settings-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .settings-header i {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .settings-content {
+            padding: 2rem;
+        }
+        
+        .profile-section {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .profile-image-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #1E4D8C;
+            box-shadow: 0 4px 20px rgba(30, 77, 140, 0.3);
+        }
+        
+        .image-upload-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(30, 77, 140, 0.9), transparent);
+            border-radius: 0 0 90px 90px;
+            padding: 1rem 0;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .profile-image-container:hover .image-upload-overlay {
+            opacity: 1;
+        }
+        
+        .upload-btn {
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: #2c3e50;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1E4D8C;
+            box-shadow: 0 0 0 3px rgba(30, 77, 140, 0.1);
+        }
+        
+        .form-group input.readonly-field {
+            background: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e1e8ed;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1E4D8C, #2A5F9F);
+            color: white;
+            box-shadow: 0 4px 15px rgba(30, 77, 140, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 77, 140, 0.4);
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #1E4D8C;
+            border: 2px solid #1E4D8C;
+        }
+        
+        .btn-outline:hover {
+            background: #1E4D8C;
+            color: white;
+        }
+        
+        .settings-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .settings-section h4 {
+            color: #1E4D8C;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .password-strength {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e1e8ed;
+        }
+        
+        .strength-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .strength-meter {
+            width: 100%;
+            height: 8px;
+            background: #e1e8ed;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        .strength-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .checkbox-label:hover {
+            background: #f8f9fa;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .checkbox-label span {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .admin-content {
+                padding: 1rem;
+            }
+            
+            .profile-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .profile-image-container {
+                margin: 0 auto 1rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="admin-dashboard">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Admin Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="packages">
+                        <i class="fas fa-box"></i> Packages
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="requests">
+                        <i class="fas fa-clipboard-list"></i> Installation Requests
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="coverage">
+                        <i class="fas fa-map-marker-alt"></i> Coverage Areas
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="customers">
+                        <i class="fas fa-users"></i> Customers
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="analytics">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info" id="admin-user-info">
+                <div class="user-avatar">
+                    <span id="user-avatar-initial">A</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">Loading...</div>
+                    <div class="user-role" id="user-role">Administrator</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Settings</h1>
+            </div>
+            
+            <div class="header-right">
+                <div class="admin-search">
+                    <i class="fas fa-search"></i>
+                    <input type="search" placeholder="Search...">
+                </div>
+                
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+        </header>
+        
+        <div class="admin-content">
+            <div class="section-header">
+                <h2>Settings</h2>
+                <p>Manage your profile and system settings</p>
+            </div>
+            
+            <!-- Profile Settings -->
+            <div class="settings-card">
+                <div class="settings-header">
+                    <h3><i class="fas fa-user"></i> Profile Settings</h3>
+                </div>
+                <div class="settings-content">
+                    <div class="profile-section">
+                        <div class="profile-image-section">
+                            <div class="profile-image-container">
+                                <img id="profile-image-display" src="https://via.placeholder.com/150x150" alt="Profile Image" class="profile-image">
+                                <div class="image-upload-overlay">
+                                    <label for="profile-image-upload" class="upload-btn">
+                                        <i class="fas fa-camera"></i>
+                                        Change Photo
+                                    </label>
+                                    <input type="file" id="profile-image-upload" accept="image/*" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-form-section">
+                            <form id="profile-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profile-name">Full Name *</label>
+                                        <input type="text" id="profile-name" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-email">Email Address *</label>
+                                        <input type="email" id="profile-email" name="email" required class="readonly-field" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profile-phone">Phone Number</label>
+                                        <input type="tel" id="profile-phone" name="phone" placeholder="+254 7XX XXX XXX">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-role">Role</label>
+                                        <input type="text" id="profile-role" name="role" class="readonly-field" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+                                    <button type="button" class="btn btn-outline" id="reset-profile">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Security Settings -->
+            <div class="settings-card">
+                <div class="settings-header">
+                    <h3><i class="fas fa-shield-alt"></i> Security Settings</h3>
+                </div>
+                <div class="settings-content">
+                    <form id="password-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="current-password">Current Password *</label>
+                                <input type="password" id="current-password" name="currentPassword" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="new-password">New Password *</label>
+                                <input type="password" id="new-password" name="newPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password *</label>
+                                <input type="password" id="confirm-password" name="confirmPassword" required>
+                            </div>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-label">Password Strength:</div>
+                            <div class="strength-meter">
+                                <div class="strength-bar" id="strength-bar"></div>
+                            </div>
+                            <div class="strength-text" id="strength-text">Enter a password</div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Change Password</button>
+                            <button type="button" class="btn btn-outline" id="cancel-password">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- System Settings (Super Admin Only) -->
+            <div class="settings-card" id="system-settings-card">
+                <div class="settings-header">
+                    <h3><i class="fas fa-cogs"></i> System Settings</h3>
+                </div>
+                <div class="settings-content">
+                    <form id="system-settings-form">
+                        <div class="settings-section">
+                            <h4>General Settings</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="site-name">Site Name</label>
+                                    <input type="text" id="site-name" name="siteName" placeholder="Linknet Fiber">
+                                </div>
+                                <div class="form-group">
+                                    <label for="site-description">Site Description</label>
+                                    <textarea id="site-description" name="siteDescription" rows="3" placeholder="Fast and reliable internet solutions"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Contact Information</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contact-email">Contact Email</label>
+                                    <input type="email" id="contact-email" name="contactEmail" placeholder="info@linknetfiber.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact-phone">Contact Phone</label>
+                                    <input type="tel" id="contact-phone" name="contactPhone" placeholder="+254 7XX XXX XXX">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-address">Physical Address</label>
+                                <input type="text" id="contact-address" name="contactAddress" placeholder="Nairobi, Kenya">
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Social Media</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="facebook-url">Facebook</label>
+                                    <input type="url" id="facebook-url" name="facebookUrl" placeholder="https://facebook.com/linknetfiber">
+                                </div>
+                                <div class="form-group">
+                                    <label for="twitter-url">Twitter</label>
+                                    <input type="url" id="twitter-url" name="twitterUrl" placeholder="https://twitter.com/linknetfiber">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Business Hours</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="weekdays-hours">Weekdays</label>
+                                    <input type="text" id="weekdays-hours" name="weekdays" placeholder="e.g., 8:00 AM - 6:00 PM">
+                                </div>
+                                <div class="form-group">
+                                    <label for="saturday-hours">Saturday</label>
+                                    <input type="text" id="saturday-hours" name="saturday" placeholder="e.g., 9:00 AM - 4:00 PM">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sunday-hours">Sunday</label>
+                                <input type="text" id="sunday-hours" name="sunday" placeholder="e.g., Closed">
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Notifications</h4>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="email-notifications" name="emailNotifications">
+                                    <span>Email Notifications</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="sms-notifications" name="smsNotifications">
+                                    <span>SMS Notifications</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="new-request-alert" name="newRequestAlert">
+                                    <span>New Request Alerts</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="monthly-reports" name="monthlyReports">
+                                    <span>Monthly Reports</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save System Settings</button>
+                            <button type="button" class="btn btn-outline" id="reset-settings">Reset to Defaults</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="../js/darkmode.js?v=1.3"></script>
+    <script src="../js/admin-dashboard.js?v=1.3"></script>
+    <script>
+        // Settings page specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load admin profile data
+            loadAdminProfile();
+            
+            // Load system settings if super admin
+            loadSystemSettings();
+            
+            // Initialize settings functionality
+            initSettings();
+        });
+    </script>
+</body>
+</html>

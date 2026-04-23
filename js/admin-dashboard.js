@@ -235,25 +235,34 @@
                 throw new Error(data.error || 'Failed to load dashboard stats');
             }
             
-            // Update stats cards
-            updateStatCard('Total Customers', data.stats.requests?.total || 1247, 'users');
-            updateStatCard('Pending Requests', data.stats.requests?.pending || 23, 'clipboard-list');
-            updateStatCard('Active Packages', data.stats.packages?.active || 6, 'box');
-            updateStatCard('Monthly Revenue', `KES ${(data.stats.revenue?.total / 1000000).toFixed(1)}M`, 'chart-line');
+            // Update stats cards with real data or 0
+            const customers = data.stats.requests?.total || 0;
+            const pending = data.stats.requests?.pending || 0;
+            const packages = data.stats.packages?.active || 0;
+            const revenue = data.stats.revenue?.total || 0;
             
-            // Load recent requests
-            if (data.stats.recentRequests) {
-                loadRecentRequests(data.stats.recentRequests);
-            }
+            updateStatCard('Total Customers', customers, 'users');
+            updateStatCard('Pending Requests', pending, 'clipboard-list');
+            updateStatCard('Active Packages', packages, 'box');
+            updateStatCard('Monthly Revenue', `KES ${revenue}`, 'chart-line');
+            
+            // Update stat change messages based on actual values
+            updateStatChangeMessages(customers, pending, packages, revenue);
+            
+            // Load recent requests (always call to show empty state if no data)
+            const recentRequests = data.stats.recentRequests || [];
+            loadRecentRequests(recentRequests);
             
         } catch (error) {
             console.error('Stats load failed:', error);
-            showToast('Failed to load dashboard statistics. Please check your connection.', 'error');
-            // Show empty state instead of mock data
-            updateStatCard('Total Customers', 'Loading...', 'users');
-            updateStatCard('Pending Requests', 'Loading...', 'clipboard-list');
-            updateStatCard('Active Packages', 'Loading...', 'box');
-            updateStatCard('Monthly Revenue', 'Loading...', 'chart-line');
+            // Show 0 values when API fails
+            updateStatCard('Total Customers', 0, 'users');
+            updateStatCard('Pending Requests', 0, 'clipboard-list');
+            updateStatCard('Active Packages', 0, 'box');
+            updateStatCard('Monthly Revenue', 'KES 0', 'chart-line');
+            updateStatChangeMessages(0, 0, 0, 0);
+            // Show empty state for requests
+            loadRecentRequests([]);
         }
     };
     
@@ -265,6 +274,49 @@
                 card.querySelector('.stat-value').textContent = value;
                 const icon = card.querySelector('.stat-icon i');
                 if (icon) icon.className = `fas fa-${iconClass}`;
+            }
+        });
+    };
+    
+    const updateStatChangeMessages = (customers, requests, packages, revenue) => {
+        const statCards = document.querySelectorAll('.stat-card');
+        
+        statCards.forEach(card => {
+            const label = card.querySelector('.stat-label').textContent;
+            const changeElement = card.querySelector('.stat-change');
+            
+            if (label === 'Total Customers') {
+                if (customers === 0) {
+                    changeElement.innerHTML = '<i class="fas fa-info-circle"></i> No customers yet';
+                    changeElement.className = 'stat-change';
+                } else if (customers > 0) {
+                    changeElement.innerHTML = '<i class="fas fa-arrow-up"></i> Active customers';
+                    changeElement.className = 'stat-change positive';
+                }
+            } else if (label === 'Pending Requests') {
+                if (requests === 0) {
+                    changeElement.innerHTML = '<i class="fas fa-info-circle"></i> No requests yet';
+                    changeElement.className = 'stat-change';
+                } else {
+                    changeElement.innerHTML = `<i class="fas fa-clock"></i> ${requests} pending`;
+                    changeElement.className = 'stat-change';
+                }
+            } else if (label === 'Active Packages') {
+                if (packages === 0) {
+                    changeElement.innerHTML = '<i class="fas fa-info-circle"></i> No packages added';
+                    changeElement.className = 'stat-change';
+                } else {
+                    changeElement.innerHTML = '<i class="fas fa-check"></i> All active';
+                    changeElement.className = 'stat-change positive';
+                }
+            } else if (label === 'Monthly Revenue') {
+                if (revenue === 0) {
+                    changeElement.innerHTML = '<i class="fas fa-info-circle"></i> No revenue yet';
+                    changeElement.className = 'stat-change';
+                } else {
+                    changeElement.innerHTML = '<i class="fas fa-arrow-up"></i> Generating revenue';
+                    changeElement.className = 'stat-change positive';
+                }
             }
         });
     };
@@ -304,14 +356,28 @@
     
     const loadRecentRequests = (requests) => {
         const tbody = document.getElementById('requests-table-body');
-        if (!tbody || !requests.length) return;
+        if (!tbody) return;
+        
+        if (!requests || requests.length === 0) {
+            // Show empty state
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                        <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 16px; display: block;"></i>
+                        <div style="font-size: 16px; margin-bottom: 8px;">No installation requests yet</div>
+                        <div style="font-size: 14px;">When customers submit requests, they will appear here</div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
         
         tbody.innerHTML = requests.map(req => `
             <tr>
                 <td>#${req.requestId || req._id}</td>
-                <td>${req.fullname || 'John Kamau'}</td>
-                <td>${req.packageId?.name || 'Pro 50Mbps'}</td>
-                <td>${req.county || 'Kilimani, Nairobi'}</td>
+                <td>${req.fullname || 'N/A'}</td>
+                <td>${req.packageId?.name || 'N/A'}</td>
+                <td>${req.county || 'N/A'}</td>
                 <td>${new Date(req.createdAt || Date.now()).toLocaleDateString()}</td>
                 <td><span class="status-badge ${req.status || 'pending'}">${req.status || 'Pending'}</span></td>
                 <td>
@@ -336,59 +402,37 @@
         
     // Navigation
     const initNavigation = () => {
+        // Simple direct navigation
         document.querySelectorAll('.sidebar-nav a[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
+                const section = link.dataset.section;
+                
+                // Update active state
                 document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
                 link.parentElement.classList.add('active');
-                const section = link.dataset.section;
+                
+                // Update header
                 const h1 = document.querySelector('.admin-header h1');
                 if (h1) h1.textContent = section.charAt(0).toUpperCase() + section.slice(1);
-                loadSectionContent(section);
+                
+                // Simple section switching
+                if (section === 'settings') {
+                    // Hide dashboard, show settings
+                    document.getElementById('dashboard-section').style.display = 'none';
+                    document.getElementById('settings-section').style.display = 'block';
+                    // Load profile data
+                    setTimeout(loadAdminProfile, 100);
+                } else {
+                    // Hide settings, show dashboard
+                    document.getElementById('settings-section').style.display = 'none';
+                    document.getElementById('dashboard-section').style.display = 'block';
+                }
             });
         });
     };
     
-    const loadSectionContent = (section) => {
-        const content = document.querySelector('.admin-content');
-        if (!content) return;
         
-        // Show loading state
-        content.innerHTML = `
-            <div style="text-align: center; padding: 60px 20px;">
-                <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #D4AF37; margin-bottom: 20px;"></i>
-                <h3 style="color: #1E4D8C; margin-bottom: 10px;">Loading ${section}...</h3>
-                <p style="color: #6B7280;">Please wait while we load the content.</p>
-            </div>
-        `;
-        
-        // Load section-specific content
-        setTimeout(() => {
-            switch(section) {
-                case 'packages':
-                    loadPackagesSection();
-                    break;
-                case 'requests':
-                    loadRequestsSection();
-                    break;
-                case 'coverage':
-                    loadCoverageSection();
-                    break;
-                case 'customers':
-                    loadCustomersSection();
-                    break;
-                case 'analytics':
-                    loadAnalyticsSection();
-                    break;
-                case 'settings':
-                    loadSettingsSection();
-                    break;
-                default:
-                    loadDashboardSection();
-            }
-        }, 500);
-    };
-    
     const loadDashboardSection = () => {
         location.reload(); // Simple reload for dashboard
     };
@@ -811,6 +855,7 @@
         initSidebar();
         initLogout();
         initFormHandlers();
+        initSettings();
     };
     
     // Modal functions
@@ -1250,6 +1295,383 @@
     window.handlePackageSubmit = handlePackageSubmit;
     window.handleCustomerSubmit = handleCustomerSubmit;
     window.handleCoverageSubmit = handleCoverageSubmit;
+    
+    // Settings functionality
+    const loadAdminProfile = async () => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/profile`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to load profile');
+            
+            const result = await response.json();
+            if (!result.success) throw new Error(result.error || 'Failed to load profile');
+            
+            const profile = result.data;
+            
+            // Update profile form
+            document.getElementById('profile-name').value = profile.name || '';
+            document.getElementById('profile-email').value = profile.email || '';
+            document.getElementById('profile-phone').value = profile.phone || '';
+            document.getElementById('profile-role').value = profile.role || '';
+            
+            // Update profile image if available
+            if (profile.profileImage) {
+                document.getElementById('profile-image-display').src = profile.profileImage;
+            }
+            
+            // Show system settings for super admin
+            if (profile.role === 'super_admin') {
+                document.getElementById('system-settings-card').style.display = 'block';
+                loadSystemSettings();
+            }
+            
+        } catch (error) {
+            console.error('Error loading profile:', error);
+            showToast('Failed to load profile data', 'error');
+        }
+    };
+    
+    const handleProfileSubmit = async (e) => {
+        e.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('profile-name').value,
+            email: document.getElementById('profile-email').value,
+            phone: document.getElementById('profile-phone').value
+        };
+        
+        try {
+            const response = await fetch(`${API_BASE}/admin/profile`, {
+                method: 'PUT',
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            if (!response.ok) throw new Error('Failed to update profile');
+            
+            const result = await response.json();
+            if (!result.success) throw new Error(result.error || 'Failed to update profile');
+            
+            showToast('Profile updated successfully', 'success');
+            
+            // Update sidebar user info
+            loadAdminUserInfo();
+            
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            showToast('Failed to update profile', 'error');
+        }
+    };
+    
+    const handlePasswordSubmit = async (e) => {
+        e.preventDefault();
+        
+        const currentPassword = document.getElementById('current-password').value;
+        const newPassword = document.getElementById('new-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        
+        if (newPassword !== confirmPassword) {
+            showToast('New passwords do not match', 'error');
+            return;
+        }
+        
+        if (newPassword.length < 6) {
+            showToast('Password must be at least 6 characters', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch(`${API_BASE}/admin/change-password`, {
+                method: 'POST',
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    currentPassword,
+                    newPassword
+                })
+            });
+            
+            if (!response.ok) throw new Error('Failed to change password');
+            
+            const result = await response.json();
+            if (!result.success) throw new Error(result.error || 'Failed to change password');
+            
+            showToast('Password changed successfully', 'success');
+            
+            // Clear form
+            document.getElementById('password-form').reset();
+            updatePasswordStrength('');
+            
+        } catch (error) {
+            console.error('Error changing password:', error);
+            showToast(error.message || 'Failed to change password', 'error');
+        }
+    };
+    
+    const handleProfileImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('Image size must be less than 5MB', 'error');
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            const imageData = event.target.result;
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/profile/image`, {
+                    method: 'POST',
+                    headers: {
+                        ...getAuthHeaders(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ imageData })
+                });
+                
+                if (!response.ok) throw new Error('Failed to upload image');
+                
+                const result = await response.json();
+                if (!result.success) throw new Error(result.error || 'Failed to upload image');
+                
+                // Update profile image display
+                document.getElementById('profile-image-display').src = imageData;
+                
+                // Update sidebar avatar
+                loadAdminUserInfo();
+                
+                showToast('Profile image updated successfully', 'success');
+                
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                showToast('Failed to upload image', 'error');
+            }
+        };
+        
+        reader.readAsDataURL(file);
+    };
+    
+    const loadSystemSettings = async () => {
+        try {
+            const response = await fetch(`${API_BASE}/admin/settings`, {
+                headers: getAuthHeaders()
+            });
+            
+            if (!response.ok) throw new Error('Failed to load settings');
+            
+            const result = await response.json();
+            if (!result.success) throw new Error(result.error || 'Failed to load settings');
+            
+            const settings = result.data;
+            
+            // Populate system settings form
+            document.getElementById('site-name').value = settings.siteName || '';
+            document.getElementById('site-description').value = settings.siteDescription || '';
+            document.getElementById('contact-email').value = settings.contactEmail || '';
+            document.getElementById('contact-phone').value = settings.contactPhone || '';
+            document.getElementById('support-email').value = settings.supportEmail || '';
+            document.getElementById('whatsapp-number').value = settings.whatsappNumber || '';
+            
+            // Social media
+            document.getElementById('facebook-url').value = settings.socialMedia?.facebook || '';
+            document.getElementById('twitter-url').value = settings.socialMedia?.twitter || '';
+            document.getElementById('instagram-url').value = settings.socialMedia?.instagram || '';
+            document.getElementById('linkedin-url').value = settings.socialMedia?.linkedin || '';
+            
+            // Business hours
+            document.getElementById('weekdays-hours').value = settings.businessHours?.weekdays || '';
+            document.getElementById('saturday-hours').value = settings.businessHours?.saturday || '';
+            document.getElementById('sunday-hours').value = settings.businessHours?.sunday || '';
+            
+            // Notifications
+            document.getElementById('email-notifications').checked = settings.notifications?.emailNotifications || false;
+            document.getElementById('sms-notifications').checked = settings.notifications?.smsNotifications || false;
+            document.getElementById('new-request-alert').checked = settings.notifications?.newRequestAlert || false;
+            document.getElementById('monthly-reports').checked = settings.notifications?.monthlyReports || false;
+            
+        } catch (error) {
+            console.error('Error loading system settings:', error);
+            showToast('Failed to load system settings', 'error');
+        }
+    };
+    
+    const handleSystemSettingsSubmit = async (e) => {
+        e.preventDefault();
+        
+        const formData = {
+            siteName: document.getElementById('site-name').value,
+            siteDescription: document.getElementById('site-description').value,
+            contactEmail: document.getElementById('contact-email').value,
+            contactPhone: document.getElementById('contact-phone').value,
+            supportEmail: document.getElementById('support-email').value,
+            whatsappNumber: document.getElementById('whatsapp-number').value,
+            socialMedia: {
+                facebook: document.getElementById('facebook-url').value,
+                twitter: document.getElementById('twitter-url').value,
+                instagram: document.getElementById('instagram-url').value,
+                linkedin: document.getElementById('linkedin-url').value
+            },
+            businessHours: {
+                weekdays: document.getElementById('weekdays-hours').value,
+                saturday: document.getElementById('saturday-hours').value,
+                sunday: document.getElementById('sunday-hours').value
+            },
+            notifications: {
+                emailNotifications: document.getElementById('email-notifications').checked,
+                smsNotifications: document.getElementById('sms-notifications').checked,
+                newRequestAlert: document.getElementById('new-request-alert').checked,
+                monthlyReports: document.getElementById('monthly-reports').checked
+            }
+        };
+        
+        try {
+            const response = await fetch(`${API_BASE}/admin/settings`, {
+                method: 'PUT',
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            if (!response.ok) throw new Error('Failed to update settings');
+            
+            const result = await response.json();
+            if (!result.success) throw new Error(result.error || 'Failed to update settings');
+            
+            showToast('System settings updated successfully', 'success');
+            
+        } catch (error) {
+            console.error('Error updating system settings:', error);
+            showToast('Failed to update system settings', 'error');
+        }
+    };
+    
+    const updatePasswordStrength = (password) => {
+        const strengthBar = document.getElementById('strength-bar');
+        const strengthText = document.getElementById('strength-text');
+        
+        if (!password) {
+            strengthBar.style.width = '0%';
+            strengthBar.className = 'strength-bar';
+            strengthText.textContent = 'Enter a password';
+            return;
+        }
+        
+        let strength = 0;
+        let strengthLabel = '';
+        let strengthClass = '';
+        
+        // Check password strength
+        if (password.length >= 6) strength += 25;
+        if (password.length >= 10) strength += 25;
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 25;
+        if (/[0-9]/.test(password)) strength += 12.5;
+        if (/[^a-zA-Z0-9]/.test(password)) strength += 12.5;
+        
+        if (strength <= 25) {
+            strengthLabel = 'Weak';
+            strengthClass = 'weak';
+        } else if (strength <= 50) {
+            strengthLabel = 'Fair';
+            strengthClass = 'fair';
+        } else if (strength <= 75) {
+            strengthLabel = 'Good';
+            strengthClass = 'good';
+        } else {
+            strengthLabel = 'Strong';
+            strengthClass = 'strong';
+        }
+        
+        strengthBar.style.width = `${strength}%`;
+        strengthBar.className = `strength-bar ${strengthClass}`;
+        strengthText.textContent = strengthLabel;
+    };
+    
+    // Initialize settings event listeners
+    const initSettings = () => {
+        // Profile form
+        const profileForm = document.getElementById('profile-form');
+        if (profileForm) {
+            profileForm.addEventListener('submit', handleProfileSubmit);
+        }
+        
+        // Password form
+        const passwordForm = document.getElementById('password-form');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', handlePasswordSubmit);
+        }
+        
+        // Profile image upload
+        const imageUpload = document.getElementById('profile-image-upload');
+        if (imageUpload) {
+            imageUpload.addEventListener('change', handleProfileImageUpload);
+        }
+        
+        // System settings form
+        const systemSettingsForm = document.getElementById('system-settings-form');
+        if (systemSettingsForm) {
+            systemSettingsForm.addEventListener('submit', handleSystemSettingsSubmit);
+        }
+        
+        // Password strength meter
+        const newPasswordInput = document.getElementById('new-password');
+        if (newPasswordInput) {
+            newPasswordInput.addEventListener('input', (e) => {
+                updatePasswordStrength(e.target.value);
+            });
+        }
+    };
+    
+        
+    // Simple settings navigation function
+    const showSettingsPage = () => {
+        // Hide dashboard, show settings
+        document.getElementById('dashboard-section').style.display = 'none';
+        document.getElementById('settings-section').style.display = 'block';
+        
+        // Update header
+        const h1 = document.querySelector('.admin-header h1');
+        if (h1) h1.textContent = 'Settings';
+        
+        // Update active state
+        document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
+        document.querySelector('a[onclick="showSettingsPage();"]').parentElement.classList.add('active');
+        
+        // Load profile data
+        setTimeout(loadAdminProfile, 100);
+    };
+    
+    // Simple dashboard navigation function
+    const showDashboardPage = () => {
+        // Hide settings, show dashboard
+        document.getElementById('settings-section').style.display = 'none';
+        document.getElementById('dashboard-section').style.display = 'block';
+        
+        // Update header
+        const h1 = document.querySelector('.admin-header h1');
+        if (h1) h1.textContent = 'Dashboard';
+        
+        // Update active state
+        document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
+        document.querySelector('li:first-child').classList.add('active');
+    };
+    
+    // Make functions globally accessible
+    window.handleProfileSubmit = handleProfileSubmit;
+    window.handlePasswordSubmit = handlePasswordSubmit;
+    window.handleSystemSettingsSubmit = handleSystemSettingsSubmit;
+    window.showSettingsPage = showSettingsPage;
+    window.showDashboardPage = showDashboardPage;
     
     // Start when DOM is ready
     if (document.readyState === 'loading') {

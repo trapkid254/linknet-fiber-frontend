@@ -41,7 +41,7 @@
             <ul>
                 <li class="active">
                     <a href="dashboard.html">
-                        <i class="fas fa-dashboard"></i> Dashboard
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
                     </a>
                 </li>
                 <li>
@@ -70,7 +70,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-section="settings">
+                    <a href="settings.html">
                         <i class="fas fa-cog"></i> Settings
                     </a>
                 </li>
@@ -117,17 +117,19 @@
         </header>
         
         <div class="admin-content">
-            <!-- Stats Overview -->
-            <div class="stats-grid">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="admin-section">
+                <!-- Stats Overview -->
+                <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">Loading...</div>
+                        <div class="stat-value">0</div>
                         <div class="stat-label">Total Customers</div>
                         <div class="stat-change">
-                            <i class="fas fa-spinner fa-spin"></i> Loading
+                            <i class="fas fa-info-circle"></i> No customers yet
                         </div>
                     </div>
                 </div>
@@ -137,10 +139,10 @@
                         <i class="fas fa-clipboard-list"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">Loading...</div>
+                        <div class="stat-value">0</div>
                         <div class="stat-label">Pending Requests</div>
                         <div class="stat-change">
-                            <i class="fas fa-spinner fa-spin"></i> Loading
+                            <i class="fas fa-info-circle"></i> No requests yet
                         </div>
                     </div>
                 </div>
@@ -150,10 +152,10 @@
                         <i class="fas fa-box"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">Loading...</div>
+                        <div class="stat-value">0</div>
                         <div class="stat-label">Active Packages</div>
                         <div class="stat-change">
-                            <i class="fas fa-spinner fa-spin"></i> Loading
+                            <i class="fas fa-info-circle"></i> No packages added
                         </div>
                     </div>
                 </div>
@@ -163,10 +165,10 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value">Loading...</div>
+                        <div class="stat-value">KES 0</div>
                         <div class="stat-label">Monthly Revenue</div>
                         <div class="stat-change">
-                            <i class="fas fa-spinner fa-spin"></i> Loading
+                            <i class="fas fa-info-circle"></i> No revenue yet
                         </div>
                     </div>
                 </div>
@@ -201,8 +203,9 @@
                     <tbody id="requests-table-body">
                         <tr>
                             <td colspan="7" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
-                                <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 16px; display: block;"></i>
-                                Loading installation requests...
+                                <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 16px; display: block;"></i>
+                                <div style="font-size: 16px; margin-bottom: 8px;">No installation requests yet</div>
+                                <div style="font-size: 14px;">When customers submit requests, they will appear here</div>
                             </td>
                         </tr>
                     </tbody>
@@ -235,6 +238,215 @@
                         <!-- Dynamically populated -->
                     </tbody>
                 </table>
+            </div>
+            </div>
+            
+            <!-- Settings Section (Hidden by default) -->
+            <div id="settings-section" class="admin-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                    <p>Manage your profile and system settings</p>
+                </div>
+                
+                <!-- Profile Settings -->
+                <div class="settings-card">
+                    <div class="settings-header">
+                        <h3><i class="fas fa-user"></i> Profile Settings</h3>
+                    </div>
+                    <div class="settings-content">
+                        <div class="profile-section">
+                            <div class="profile-image-section">
+                                <div class="profile-image-container">
+                                    <img id="profile-image-display" src="https://via.placeholder.com/150x150" alt="Profile Image" class="profile-image">
+                                    <div class="image-upload-overlay">
+                                        <label for="profile-image-upload" class="upload-btn">
+                                            <i class="fas fa-camera"></i>
+                                            Change Photo
+                                        </label>
+                                        <input type="file" id="profile-image-upload" accept="image/*" style="display: none;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-form-section">
+                                <form id="profile-form">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="profile-name">Full Name *</label>
+                                            <input type="text" id="profile-name" name="name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="profile-email">Email Address *</label>
+                                            <input type="email" id="profile-email" name="email" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-phone">Phone Number</label>
+                                        <input type="tel" id="profile-phone" name="phone" placeholder="+254 700 000 000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-role">Role</label>
+                                        <input type="text" id="profile-role" name="role" readonly class="readonly-field">
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Settings -->
+                <div class="settings-card">
+                    <div class="settings-header">
+                        <h3><i class="fas fa-shield-alt"></i> Security Settings</h3>
+                    </div>
+                    <div class="settings-content">
+                        <form id="password-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="current-password">Current Password *</label>
+                                    <input type="password" id="current-password" name="currentPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">New Password *</label>
+                                    <input type="password" id="new-password" name="newPassword" required minlength="6">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password *</label>
+                                <input type="password" id="confirm-password" name="confirmPassword" required minlength="6">
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-label">Password Strength:</div>
+                                <div class="strength-meter">
+                                    <div class="strength-bar" id="strength-bar"></div>
+                                </div>
+                                <div class="strength-text" id="strength-text">Enter a password</div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- System Settings (Super Admin Only) -->
+                <div class="settings-card" id="system-settings-card" style="display: none;">
+                    <div class="settings-header">
+                        <h3><i class="fas fa-cogs"></i> System Settings</h3>
+                    </div>
+                    <div class="settings-content">
+                        <form id="system-settings-form">
+                            <div class="settings-section">
+                                <h4>General Settings</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="site-name">Site Name *</label>
+                                        <input type="text" id="site-name" name="siteName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="site-description">Site Description</label>
+                                        <textarea id="site-description" name="siteDescription" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h4>Contact Information</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="contact-email">Contact Email *</label>
+                                        <input type="email" id="contact-email" name="contactEmail" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact-phone">Contact Phone</label>
+                                        <input type="tel" id="contact-phone" name="contactPhone">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="support-email">Support Email</label>
+                                        <input type="email" id="support-email" name="supportEmail">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="whatsapp-number">WhatsApp Number</label>
+                                        <input type="tel" id="whatsapp-number" name="whatsappNumber">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h4>Social Media</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="facebook-url">Facebook URL</label>
+                                        <input type="url" id="facebook-url" name="facebook" placeholder="https://facebook.com/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="twitter-url">Twitter URL</label>
+                                        <input type="url" id="twitter-url" name="twitter" placeholder="https://twitter.com/...">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="instagram-url">Instagram URL</label>
+                                        <input type="url" id="instagram-url" name="instagram" placeholder="https://instagram.com/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="linkedin-url">LinkedIn URL</label>
+                                        <input type="url" id="linkedin-url" name="linkedin" placeholder="https://linkedin.com/...">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h4>Business Hours</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="weekdays-hours">Weekdays</label>
+                                        <input type="text" id="weekdays-hours" name="weekdays" placeholder="e.g., 8:00 AM - 6:00 PM">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="saturday-hours">Saturday</label>
+                                        <input type="text" id="saturday-hours" name="saturday" placeholder="e.g., 9:00 AM - 4:00 PM">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sunday-hours">Sunday</label>
+                                    <input type="text" id="sunday-hours" name="sunday" placeholder="e.g., Closed">
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h4>Notifications</h4>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="email-notifications" name="emailNotifications">
+                                        <span>Email Notifications</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="sms-notifications" name="smsNotifications">
+                                        <span>SMS Notifications</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="new-request-alert" name="newRequestAlert">
+                                        <span>New Request Alerts</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="monthly-reports" name="monthlyReports">
+                                        <span>Monthly Reports</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save System Settings</button>
+                                <button type="button" class="btn btn-outline" id="reset-settings">Reset to Defaults</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -396,34 +608,155 @@
     </div>
     
     <script src="../js/darkmode.js?v=1.3"></script>
-    <script src="../js/admin-dashboard.js?v=1.5"></script>
+    <script src="../js/admin-dashboard.js"></script>
+<script>
+    // Simple test function
+    function testClick() {
+        alert('Settings link clicked!');
+        
+        // Debug logging
+        console.log('testClick function called');
+        
+        const dashboardSection = document.getElementById('dashboard-section');
+        const settingsSection = document.getElementById('settings-section');
+        
+        console.log('Dashboard section found:', dashboardSection);
+        console.log('Settings section found:', settingsSection);
+        console.log('Dashboard section display:', dashboardSection ? dashboardSection.style.display : 'not found');
+        console.log('Settings section display:', settingsSection ? settingsSection.style.display : 'not found');
+        
+        if (dashboardSection) {
+            console.log('Hiding dashboard section');
+            dashboardSection.style.display = 'none';
+            console.log('Dashboard section display after hide:', dashboardSection.style.display);
+        }
+        
+        if (settingsSection) {
+            console.log('Showing settings section');
+            settingsSection.style.display = 'block';
+            
+            // Update header to show "Settings"
+            const h1 = document.querySelector('.admin-header h1');
+            if (h1) {
+                h1.textContent = 'Settings';
+                console.log('Header updated to Settings');
+            }
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
+            const settingsLink = document.querySelector('a[onclick*="testClick"]');
+            if (settingsLink) {
+                settingsLink.parentElement.classList.add('active');
+                console.log('Sidebar active state updated');
+            }
+            
+            // Hide all other content areas (packages, requests, etc.)
+            const allContent = document.querySelectorAll('.data-table-container, .stats-grid');
+            allContent.forEach(content => {
+                if (content && !content.closest('#settings-section')) {
+                    content.style.display = 'none';
+                }
+            });
+            
+            // Make sure settings section is visible with professional styling
+            settingsSection.style.background = 'rgba(30, 77, 140, 0.05)';
+            settingsSection.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+            settingsSection.style.borderRadius = '12px';
+            settingsSection.style.padding = '0';
+            settingsSection.style.margin = '0';
+            settingsSection.style.position = 'relative';
+            settingsSection.style.zIndex = '10';
+            
+            console.log('Settings section display after show:', settingsSection.style.display);
+        } else {
+            console.error('Settings section not found!');
+        }
+    }
     
-    <!-- Cache-busting script to force CSS reload -->
-    <script>
-        // Force CSS reload to prevent caching issues
-        (function() {
-            const links = document.querySelectorAll('link[rel="stylesheet"]');
-            const scripts = document.querySelectorAll('script[src]');
-            const timestamp = new Date().getTime();
+    // Function to go back to dashboard
+    function showDashboard() {
+        console.log('showDashboard called');
+        
+        // Hide settings section
+        const settingsSection = document.getElementById('settings-section');
+        if (settingsSection) {
+            settingsSection.style.display = 'none';
+        }
+        
+        // Show dashboard section
+        const dashboardSection = document.getElementById('dashboard-section');
+        if (dashboardSection) {
+            dashboardSection.style.display = 'block';
+        }
+        
+        // Show all other content areas
+        const allContent = document.querySelectorAll('.data-table-container, .stats-grid');
+        allContent.forEach(content => {
+            if (content) {
+                content.style.display = 'block';
+            }
+        });
+        
+        // Update header to show "Dashboard"
+        const h1 = document.querySelector('.admin-header h1');
+        if (h1) {
+            h1.textContent = 'Dashboard';
+        }
+        
+        // Update sidebar active state
+        document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
+        const dashboardLink = document.querySelector('li:first-child');
+        if (dashboardLink) {
+            dashboardLink.classList.add('active');
+        }
+    }
+    
+    // Override the settings function if it doesn't work
+    window.showSettingsPage = function() {
+        console.log('showSettingsPage called');
+        
+        // Hide dashboard section
+        const dashboardSection = document.getElementById('dashboard-section');
+        if (dashboardSection) {
+            dashboardSection.style.display = 'none';
+        }
+        
+        // Show settings section
+        const settingsSection = document.getElementById('settings-section');
+        if (settingsSection) {
+            settingsSection.style.display = 'block';
             
-            // Update CSS links
-            links.forEach(function(link) {
-                if (link.href.includes('css/style.css') || link.href.includes('css/admin.css')) {
-                    const url = new URL(link.href, window.location.origin);
-                    url.searchParams.set('v', timestamp);
-                    link.href = url.toString();
+            // Update header to show "Settings"
+            const h1 = document.querySelector('.admin-header h1');
+            if (h1) {
+                h1.textContent = 'Settings';
+            }
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
+            const settingsLink = document.querySelector('a[onclick*="showSettingsPage"]');
+            if (settingsLink) {
+                settingsLink.parentElement.classList.add('active');
+            }
+            
+            // Hide all other content areas (packages, requests, etc.)
+            const allContent = document.querySelectorAll('.data-table-container, .stats-grid');
+            allContent.forEach(content => {
+                if (content && !content.closest('#settings-section')) {
+                    content.style.display = 'none';
                 }
             });
             
-            // Update JS scripts
-            scripts.forEach(function(script) {
-                if (script.src.includes('js/admin-dashboard.js') || script.src.includes('js/darkmode.js')) {
-                    const url = new URL(script.src, window.location.origin);
-                    url.searchParams.set('v', timestamp);
-                    script.src = url.toString();
-                }
-            });
-        })();
-    </script>
+            // Professional styling
+            settingsSection.style.background = 'rgba(30, 77, 140, 0.05)';
+            settingsSection.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+            settingsSection.style.borderRadius = '12px';
+            settingsSection.style.padding = '0';
+            settingsSection.style.margin = '0';
+            settingsSection.style.position = 'relative';
+            settingsSection.style.zIndex = '10';
+        }
+    };
+</script>
 </body>
 </html>
