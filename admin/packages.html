@@ -325,14 +325,19 @@
         // Load packages from API
         async function loadPackages(category = '', status = '', search = '') {
             try {
+                console.log('Loading packages from admin packages page...');
                 const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/packages', {
                     headers: getAuthHeaders()
                 });
                 const data = await response.json();
                 
+                console.log('Packages page - Response data:', data);
+                
                 if (data.success && data.data) {
+                    console.log('Packages page - Displaying', data.data.length, 'packages');
                     displayPackages(data.data);
                 } else {
+                    console.log('Packages page - No packages found or error');
                     showEmptyState();
                 }
             } catch (error) {
@@ -345,12 +350,16 @@
         function displayPackages(packages) {
             const tbody = document.getElementById('packages-tbody');
             
+            console.log('displayPackages called with', packages ? packages.length : 0, 'packages');
+            
             if (!packages || packages.length === 0) {
                 showEmptyState();
                 return;
             }
             
-            tbody.innerHTML = packages.map(pkg => `
+            tbody.innerHTML = packages.map(pkg => {
+                console.log('Rendering package:', pkg.name, 'ID:', pkg._id, 'Active:', pkg.isActive);
+                return `
                 <tr>
                     <td>${pkg.name}</td>
                     <td>${pkg.speed} Mbps</td>
@@ -372,7 +381,8 @@
                         </div>
                     </td>
                 </tr>
-            `).join('');
+            `;
+            }).join('');
         }
         
         // Show empty state
