@@ -63,25 +63,123 @@
         }
     };
     
-    // Toast notification
+    // Toast notification - Professional and compact
     const showToast = (message, type = 'info') => {
+        // Remove any existing toasts to prevent stacking
+        const existingToasts = document.querySelectorAll('.toast-notification');
+        existingToasts.forEach(toast => toast.remove());
+        
         const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-        toast.textContent = message;
+        toast.className = `toast-notification toast-${type}`;
+        
+        // Create icon based on type
+        const icon = type === 'success' ? 'fa-check-circle' : 
+                    type === 'error' ? 'fa-exclamation-circle' : 
+                    'fa-info-circle';
+        
+        toast.innerHTML = `
+            <div class="toast-content">
+                <i class="fas ${icon} toast-icon"></i>
+                <span class="toast-message">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        // Add professional styling
         toast.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
-            color: white;
-            padding: 12px 20px;
+            background: white;
+            color: #374151;
+            padding: 0;
             border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             z-index: 10000;
-            animation: slideIn 0.3s ease;
+            min-width: 300px;
+            max-width: 400px;
+            border-left: 4px solid ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+            animation: slideInRight 0.3s ease-out;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
         `;
         
+        // Add internal styles for toast content
+        const style = document.createElement('style');
+        style.textContent = `
+            .toast-content {
+                display: flex;
+                align-items: center;
+                padding: 12px 16px;
+                gap: 12px;
+            }
+            .toast-icon {
+                color: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                font-size: 16px;
+                flex-shrink: 0;
+            }
+            .toast-message {
+                flex: 1;
+                font-weight: 500;
+                line-height: 1.4;
+            }
+            .toast-close {
+                background: none;
+                border: none;
+                color: #9ca3af;
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: all 0.2s ease;
+            }
+            .toast-close:hover {
+                background: #f3f4f6;
+                color: #6b7280;
+            }
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        
+        document.head.appendChild(style);
         document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
+        
+        // Auto-remove after 4 seconds with slide-out animation
+        setTimeout(() => {
+            toast.style.animation = 'slideOutRight 0.3s ease-out';
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.remove();
+                }
+                // Remove style element if no more toasts exist
+                if (document.querySelectorAll('.toast-notification').length === 0) {
+                    style.remove();
+                }
+            }, 300);
+        }, 4000);
     };
     
     // Load dashboard statistics
@@ -150,18 +248,13 @@
             
         } catch (error) {
             console.error('Stats load failed:', error);
-            showToast('Failed to load dashboard statistics', 'error');
-            loadMockStats();
+            showToast('Failed to load dashboard statistics. Please check your connection.', 'error');
+            // Show empty state instead of mock data
+            updateStatCard('Total Customers', 'Loading...', 'users');
+            updateStatCard('Pending Requests', 'Loading...', 'clipboard-list');
+            updateStatCard('Active Packages', 'Loading...', 'box');
+            updateStatCard('Monthly Revenue', 'Loading...', 'chart-line');
         }
-    };
-    
-    // Fallback mock stats function
-    const loadMockStats = () => {
-        console.log('Loading mock stats as fallback');
-        updateStatCard('Total Customers', 1247, 'users');
-        updateStatCard('Pending Requests', 23, 'clipboard-list');
-        updateStatCard('Active Packages', 6, 'box');
-        updateStatCard('Monthly Revenue', 'KES 2.4M', 'chart-line');
     };
     
     const updateStatCard = (label, value, iconClass) => {
@@ -497,13 +590,13 @@
             const tbody = document.getElementById('packages-table-body');
             if (!tbody) return;
             
-            if (data.packages && data.packages.length > 0) {
-                tbody.innerHTML = data.packages.map(pkg => `
+            if (data.success && data.data && data.data.length > 0) {
+                tbody.innerHTML = data.data.map(pkg => `
                     <tr>
                         <td>${pkg.name}</td>
                         <td>${pkg.speed} Mbps</td>
                         <td>KES ${pkg.price.toLocaleString()}</td>
-                        <td>${pkg.features.join(', ')}</td>
+                        <td>${pkg.features ? pkg.features.join(', ') : 'No features listed'}</td>
                         <td><span class="status-badge ${pkg.isActive ? 'approved' : 'cancelled'}">${pkg.isActive ? 'Active' : 'Inactive'}</span></td>
                         <td>
                             <div class="action-buttons">
@@ -517,9 +610,32 @@
                         </td>
                     </tr>
                 `).join('');
+            } else {
+                // Show empty state
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                            <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                            No packages found. Click "Add Package" to create your first package.
+                        </td>
+                    </tr>
+                `;
             }
         } catch (error) {
             console.error('Error loading packages:', error);
+            showToast('Failed to load packages. Please try again.', 'error');
+            // Show error state
+            const tbody = document.getElementById('packages-table-body');
+            if (tbody) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: rgba(239, 68, 68, 0.8);">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                            Failed to load packages. Please refresh to try again.
+                        </td>
+                    </tr>
+                `;
+            }
         }
     };
     
@@ -536,15 +652,15 @@
             const tbody = document.getElementById('requests-table-body');
             if (!tbody) return;
             
-            if (data.requests && data.requests.length > 0) {
-                tbody.innerHTML = data.requests.map(req => `
+            if (data.success && data.data && data.data.length > 0) {
+                tbody.innerHTML = data.data.map(req => `
                     <tr>
                         <td>#${req.requestId || req._id}</td>
-                        <td>${req.fullname}</td>
+                        <td>${req.fullname || 'N/A'}</td>
                         <td>${req.packageId?.name || 'N/A'}</td>
-                        <td>${req.county}</td>
+                        <td>${req.county || 'N/A'}</td>
                         <td>${new Date(req.createdAt).toLocaleDateString()}</td>
-                        <td><span class="status-badge ${req.status}">${req.status}</span></td>
+                        <td><span class="status-badge ${req.status || 'pending'}">${req.status || 'Pending'}</span></td>
                         <td>
                             <div class="action-buttons">
                                 <button class="action-btn" onclick="viewRequest('${req._id}')">
@@ -562,9 +678,32 @@
                         </td>
                     </tr>
                 `).join('');
+            } else {
+                // Show empty state
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                            <i class="fas fa-clipboard-list" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                            No installation requests found.
+                        </td>
+                    </tr>
+                `;
             }
         } catch (error) {
             console.error('Error loading requests:', error);
+            showToast('Failed to load requests. Please try again.', 'error');
+            // Show error state
+            const tbody = document.getElementById('requests-table-body');
+            if (tbody) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: rgba(239, 68, 68, 0.8);">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                            Failed to load requests. Please refresh to try again.
+                        </td>
+                    </tr>
+                `;
+            }
         }
     };
     
@@ -581,13 +720,13 @@
             const tbody = document.getElementById('coverage-table-body');
             if (!tbody) return;
             
-            if (data.areas && data.areas.length > 0) {
-                tbody.innerHTML = data.areas.map(area => `
+            if (data.success && data.data && data.data.length > 0) {
+                tbody.innerHTML = data.data.map(area => `
                     <tr>
-                        <td>${area.city}</td>
+                        <td>${area.city || 'N/A'}</td>
                         <td>${area.estate || 'N/A'}</td>
-                        <td>${area.county}</td>
-                        <td><span class="status-badge approved">Available</span></td>
+                        <td>${area.county || 'N/A'}</td>
+                        <td><span class="status-badge ${area.status === 'available' ? 'approved' : area.status === 'coming_soon' ? 'pending' : 'cancelled'}">${area.status === 'coming_soon' ? 'Coming Soon' : area.status === 'available' ? 'Available' : 'Unavailable'}</span></td>
                         <td>${new Date(area.createdAt).toLocaleDateString()}</td>
                         <td>
                             <div class="action-buttons">
@@ -601,9 +740,32 @@
                         </td>
                     </tr>
                 `).join('');
+            } else {
+                // Show empty state
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                            <i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                            No coverage areas found. Click "Add Area" to add your first coverage area.
+                        </td>
+                    </tr>
+                `;
             }
         } catch (error) {
             console.error('Error loading coverage areas:', error);
+            showToast('Failed to load coverage areas. Please try again.', 'error');
+            // Show error state
+            const tbody = document.getElementById('coverage-table-body');
+            if (tbody) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: rgba(239, 68, 68, 0.8);">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                            Failed to load coverage areas. Please refresh to try again.
+                        </td>
+                    </tr>
+                `;
+            }
         }
     };
     
