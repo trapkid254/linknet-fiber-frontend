@@ -25,505 +25,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css?v=1.3">
     <link rel="stylesheet" href="../css/admin.css?v=1.4">
-    <style>
-        /* Coverage Page Specific Styles - Modern Professional Design */
-        .admin-content {
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(248, 250, 252, 0.9));
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        }
-        
-        .section-header {
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 25%, #56ab2f 50%, #a8e063 75%, #11998e 100%);
-            border-radius: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(17, 153, 142, 0.3), 0 0 80px rgba(86, 171, 47, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-        
-        .section-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 3s infinite;
-        }
-        
-        .section-header h2 {
-            color: #ffffff;
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin: 0;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-            letter-spacing: -0.5px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .section-header p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-            margin: 0;
-            font-weight: 500;
-        }
-        
-        .coverage-controls {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            flex-wrap: wrap;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .search-box {
-            position: relative;
-            flex: 1;
-            min-width: 400px;
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3.5rem;
-            border: 2px solid rgba(225, 230, 235, 0.3);
-            border-radius: 12px;
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.95);
-            color: #2c3e50;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .search-box input:focus {
-            outline: none;
-            border-color: #1E4D8C;
-            box-shadow: 0 0 0 4px rgba(30, 77, 140, 0.25), 0 0 20px rgba(30, 77, 140, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
-        
-        .search-box input:focus + i {
-            color: #1E4D8C;
-        }
-        
-        .filter-dropdown {
-            padding: 1rem 1.25rem;
-            border: 2px solid rgba(225, 230, 235, 0.3);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #2c3e50;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .filter-dropdown:focus {
-            outline: none;
-            border-color: #1E4D8C;
-            box-shadow: 0 0 0 4px rgba(30, 77, 140, 0.25), 0 0 15px rgba(30, 77, 140, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .add-coverage-btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #1E4D8C 0%, #2A5F9F 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 6px 25px rgba(30, 77, 140, 0.3);
-        }
-        
-        .add-coverage-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s ease;
-        }
-        
-        .add-coverage-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 35px rgba(30, 77, 140, 0.4);
-        }
-        
-        .add-coverage-btn:hover::before {
-            left: 100%;
-        }
-        
-        .coverage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .coverage-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        
-        .coverage-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(30, 77, 140, 0.1), rgba(30, 77, 140, 0));
-            transition: opacity 0.4s ease;
-            opacity: 0;
-            z-index: 1;
-        }
-        
-        .coverage-card:hover::before {
-            opacity: 1;
-        }
-        
-        .coverage-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        .coverage-header {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 50%, #56ab2f 100%);
-            color: white;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .coverage-header::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            animation: rotate 15s linear infinite;
-        }
-        
-        .county-name {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .coverage-stats {
-            display: flex;
-            gap: 2rem;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .stat-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-        
-        .stat-item i {
-            font-size: 1.1rem;
-            color: #1E4D8C;
-        }
-        
-        .coverage-content {
-            padding: 2rem;
-        }
-        
-        .estates-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1rem;
-        }
-        
-        .estate-item {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(225, 230, 235, 0.15);
-            border-radius: 12px;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .estate-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(30, 77, 140, 0.05), rgba(30, 77, 140, 0));
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
-        
-        .estate-item:hover::before {
-            opacity: 1;
-        }
-        
-        .estate-item:hover {
-            background: rgba(30, 77, 140, 0.08);
-            border-color: #1E4D8C;
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 6px 20px rgba(30, 77, 140, 0.2);
-        }
-        
-        .estate-name {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 1rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .coverage-actions {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(225, 230, 235, 0.2);
-        }
-        
-        .action-btn {
-            padding: 0.75rem 1.25rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .edit-btn {
-            background: linear-gradient(135deg, #28a745, #1e7e34);
-            color: white;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-        
-        .edit-btn:hover {
-            background: linear-gradient(135deg, #218838, #1e7e34);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-        }
-        
-        .edit-btn:hover::before {
-            left: 100%;
-        }
-        
-        .delete-btn {
-            background: linear-gradient(135deg, #dc3545, #c82333);
-            color: white;
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-        }
-        
-        .delete-btn:hover {
-            background: linear-gradient(135deg, #c82333, #a71e2a);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
-        }
-        
-        .delete-btn:hover::before {
-            left: 100%;
-        }
-        
-        .add-estate-btn {
-            background: linear-gradient(135deg, #17a2b8, #138496);
-            color: white;
-            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
-        }
-        
-        .add-estate-btn:hover {
-            background: linear-gradient(135deg, #138496, #0f5132);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(23, 162, 184, 0.4);
-        }
-        
-        .add-estate-btn:hover::before {
-            left: 100%;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 4rem;
-            color: #6c757d;
-        }
-        
-        .empty-state i {
-            font-size: 5rem;
-            color: #e1e8ed;
-            margin-bottom: 1.5rem;
-            opacity: 0.6;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .empty-state h3 {
-            color: #495057;
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        .empty-state p {
-            color: #6c757d;
-            font-size: 1rem;
-            max-width: 400px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
-        /* Animations */
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .admin-content {
-                padding: 1rem;
-                border-radius: 12px;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-                padding: 1.5rem;
-            }
-            
-            .section-header h2 {
-                font-size: 1.8rem;
-            }
-            
-            .coverage-controls {
-                flex-direction: column;
-                width: 100%;
-                padding: 1rem;
-                gap: 1rem;
-            }
-            
-            .search-box {
-                min-width: 100%;
-            }
-            
-            .coverage-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .coverage-header {
-                padding: 1.5rem;
-            }
-            
-            .county-name {
-                font-size: 1.4rem;
-            }
-            
-            .coverage-content {
-                padding: 1.5rem;
-            }
-            
-            .estates-list {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-            
-            .coverage-actions {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .action-btn {
-                padding: 0.625rem 1rem;
-                font-size: 0.8rem;
-            }
-        }
-    </style>
 </head>
 <body class="admin-dashboard">
     <!-- Sidebar -->
@@ -615,34 +116,70 @@
         </header>
         
         <div class="admin-content">
-            <div class="section-header">
-                <div>
-                    <h2>Coverage Management</h2>
-                    <p>Manage service coverage areas and availability</p>
-                </div>
-                <div class="coverage-controls">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="coverage-search" placeholder="Search counties or estates...">
+            <!-- Coverage Management Hub -->
+            <div class="package-hub">
+                <div class="hub-header">
+                    <div class="hub-intro">
+                        <div class="intro-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="intro-text">
+                            <h1>Coverage Management Hub</h1>
+                            <p>Manage service coverage areas and availability</p>
+                        </div>
                     </div>
-                    <select class="filter-dropdown" id="county-filter">
-                        <option value="">All Counties</option>
-                        <option value="nairobi">Nairobi</option>
-                        <option value="mombasa">Mombasa</option>
-                        <option value="kisumu">Kisumu</option>
-                        <option value="nakuru">Nakuru</option>
-                        <option value="eldoret">Eldoret</option>
-                        <option value="kiambu">Kiambu</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <a href="#" class="add-coverage-btn" onclick="showAddCoverageModal()">
-                        <i class="fas fa-plus"></i> Add Coverage Area
-                    </a>
+                    <div class="hub-actions">
+                        <button class="create-package-btn" onclick="showAddCoverageModal()">
+                            <i class="fas fa-plus-circle"></i> Add Coverage Area
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <div class="coverage-grid" id="coverage-grid">
-                <!-- Coverage cards will be populated here -->
+            <!-- Coverage Inventory -->
+            <div class="package-inventory">
+                <div class="inventory-header">
+                    <div class="header-info">
+                        <h2>Coverage Areas</h2>
+                        <p>Manage and configure all your coverage areas</p>
+                    </div>
+                    <div class="header-controls">
+                        <div class="search-section">
+                            <div class="search-wrapper">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="coverage-search" placeholder="Search counties or estates...">
+                            </div>
+                        </div>
+                        <div class="filter-section">
+                            <select class="category-filter" id="county-filter">
+                                <option value="">All Counties</option>
+                                <option value="nairobi">Nairobi</option>
+                                <option value="mombasa">Mombasa</option>
+                                <option value="kisumu">Kisumu</option>
+                                <option value="nakuru">Nakuru</option>
+                                <option value="eldoret">Eldoret</option>
+                                <option value="kiambu">Kiambu</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="inventory-table-container">
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>County/Area</th>
+                                <th>Estates</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coverage-tbody">
+                            <!-- Coverage rows will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
             <div id="empty-state" class="empty-state" style="display: none;">
@@ -682,69 +219,61 @@
             }
         }
         
-        // Display coverage in grid
+        // Display coverage in table
         function displayCoverage(coverage) {
-            const grid = document.getElementById('coverage-grid');
+            const tbody = document.getElementById('coverage-tbody');
             const emptyState = document.getElementById('empty-state');
             
-            if (coverage.length === 0) {
-                grid.innerHTML = '';
-                emptyState.style.display = 'block';
+            if (!coverage || coverage.length === 0) {
+                showEmptyState();
                 return;
             }
             
             emptyState.style.display = 'none';
-            grid.innerHTML = coverage.map(area => `
-                <div class="coverage-card">
-                    <div class="coverage-header">
-                        <div class="county-name">${area.county}</div>
-                        <div class="coverage-stats">
-                            <div class="stat-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>${area.estates ? area.estates.length : 0} Estates</span>
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>${area.active ? 'Active' : 'Inactive'}</span>
-                            </div>
+            tbody.innerHTML = coverage.map(area => `
+                <tr>
+                    <td>
+                        <div class="coverage-details">
+                            <div class="county-name">${area.county}</div>
+                            <div class="coverage-id">ID: ${area._id}</div>
                         </div>
-                    </div>
-                    <div class="coverage-content">
-                        <div class="estates-list">
-                            ${area.estates && area.estates.length > 0 ? area.estates.map(estate => `
-                                <div class="estate-item">
-                                    <span class="estate-name">${estate}</span>
-                                    <button class="action-btn edit-btn" onclick="editEstate('${area._id}', '${estate}')">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn delete-btn" onclick="deleteEstate('${area._id}', '${estate}')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            `).join('') : '<div class="estate-item"><span class="estate-name">No estates listed</span></div>'}
+                    </td>
+                    <td>
+                        <div class="estates-info">
+                            <div class="estates-count">${area.estates ? area.estates.length : 0} Estates</div>
+                            <div class="estates-list-preview">${area.estates && area.estates.length > 0 ? area.estates.slice(0, 3).join(', ') + (area.estates.length > 3 ? '...' : '') : 'No estates'}</div>
                         </div>
-                    </div>
-                    <div class="coverage-actions">
-                        <button class="action-btn add-estate-btn" onclick="addEstate('${area._id}')">
-                            <i class="fas fa-plus"></i> Add Estate
-                        </button>
-                        <button class="action-btn edit-btn" onclick="editCoverage('${area._id}')">
-                            <i class="fas fa-edit"></i> Edit County
-                        </button>
-                        <button class="action-btn delete-btn" onclick="deleteCoverage('${area._id}')">
-                            <i class="fas fa-trash"></i> Delete County
-                        </button>
-                    </div>
-                </div>
+                    </td>
+                    <td>
+                        <span class="status-badge ${area.active ? 'status-active' : 'status-inactive'}">${area.active ? 'Active' : 'Inactive'}</span>
+                    </td>
+                    <td>
+                        <div class="action-group">
+                            <button class="action-btn btn-view" onclick="viewCoverage('${area._id}')" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn btn-edit" onclick="editCoverage('${area._id}')" title="Edit Coverage">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn btn-delete" onclick="deleteCoverage('${area._id}')" title="Delete Coverage">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             `).join('');
         }
         
         // Show empty state
         function showEmptyState() {
-            const grid = document.getElementById('coverage-grid');
+            const tbody = document.getElementById('coverage-tbody');
             const emptyState = document.getElementById('empty-state');
-            grid.innerHTML = '';
-            emptyState.style.display = 'block';
+            if (tbody) {
+                tbody.innerHTML = '';
+            }
+            if (emptyState) {
+                emptyState.style.display = 'block';
+            }
         }
         
         // Initialize coverage search
@@ -994,14 +523,78 @@
             }
         }
         
+        async function viewCoverage(coverageId) {
+            try {
+                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/coverage/${coverageId}`, {
+                    headers: getAuthHeaders()
+                });
+                const coverage = await response.json();
+                
+                if (coverage.success && coverage.data) {
+                    // Create view modal
+                    let modal = document.getElementById('viewCoverageModal');
+                    if (!modal) {
+                        modal = document.createElement('div');
+                        modal.id = 'viewCoverageModal';
+                        modal.className = 'modal-overlay';
+                        document.body.appendChild(modal);
+                    }
+                    
+                    modal.innerHTML = `
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Coverage Details</h3>
+                                <button class="modal-close" onclick="closeViewCoverageModal()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="coverage-details">
+                                    <div class="detail-item">
+                                        <label>County/Area:</label>
+                                        <span>${coverage.data.county}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <label>Estates:</label>
+                                        <span>${coverage.data.estates ? coverage.data.estates.join(', ') : 'None'}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <label>Status:</label>
+                                        <span>${coverage.data.active ? 'Active' : 'Inactive'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn-secondary" onclick="closeViewCoverageModal()">Close</button>
+                            </div>
+                        </div>
+                    `;
+                    modal.classList.add('active');
+                } else {
+                    showToast('Error loading coverage details', 'error');
+                }
+            } catch (error) {
+                console.error('Error viewing coverage:', error);
+                showToast('Error loading coverage details', 'error');
+            }
+        }
+        
+        function closeViewCoverageModal() {
+            const modal = document.getElementById('viewCoverageModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+        
         async function editCoverage(coverageId) {
             const newName = prompt('Edit county name:');
             if (newName && newName.trim()) {
                 try {
-                    const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/coverage/${coverageId}`, {
+                    const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/coverage/${coverageId}`, {
                         method: 'PUT',
                         headers: {
-                            'Content-Type': 'application/json',
+                            ...getAuthHeaders(),
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ county: newName.trim() })
                     });
