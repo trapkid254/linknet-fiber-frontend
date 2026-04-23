@@ -374,6 +374,7 @@
   } else {
     wireButtons();
   }
+})();
 
 
 // js/pwa-install.js - PWA Install functionality
