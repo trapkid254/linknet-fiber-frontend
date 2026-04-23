@@ -368,17 +368,7 @@
   // Register SW immediately (doesn't need DOM)
   registerSW();
 
-  // Wire buttons once DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', wireButtons);
-  } else {
-    wireButtons();
-  }
-
-
-// js/pwa-install.js - PWA Install functionality
-    'use strict';
-    
+      
     let deferredPrompt = null;
     let installButton = null;
     let isInstallable = false;

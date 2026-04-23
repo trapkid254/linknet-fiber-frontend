@@ -3,7 +3,7 @@
     'use strict';
     
     const AUTH_KEY = 'linknet_admin_auth';
-    const API_BASE = '/api';
+    const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
     
     // Check authentication
     const checkAuth = () => {
@@ -414,14 +414,22 @@
                 // Simple section switching
                 if (section === 'settings') {
                     // Hide dashboard, show settings
-                    document.getElementById('dashboard-section').style.display = 'none';
-                    document.getElementById('settings-section').style.display = 'block';
-                    // Load profile data
-                    setTimeout(loadAdminProfile, 100);
+                    const dashboardSection = document.getElementById('dashboard-section');
+                    const settingsSection = document.getElementById('settings-section');
+                    
+                    if (dashboardSection) dashboardSection.style.display = 'none';
+                    if (settingsSection) {
+                        settingsSection.style.display = 'block';
+                        // Load profile data
+                        setTimeout(loadAdminProfile, 100);
+                    }
                 } else {
                     // Hide settings, show dashboard
-                    document.getElementById('settings-section').style.display = 'none';
-                    document.getElementById('dashboard-section').style.display = 'block';
+                    const settingsSection = document.getElementById('settings-section');
+                    const dashboardSection = document.getElementById('dashboard-section');
+                    
+                    if (settingsSection) settingsSection.style.display = 'none';
+                    if (dashboardSection) dashboardSection.style.display = 'block';
                 }
             });
         });
@@ -1318,8 +1326,11 @@
             
             // Show system settings for super admin
             if (profile.role === 'super_admin') {
-                document.getElementById('system-settings-card').style.display = 'block';
-                loadSystemSettings();
+                const systemSettingsCard = document.getElementById('system-settings-card');
+                if (systemSettingsCard) {
+                    systemSettingsCard.style.display = 'block';
+                    loadSystemSettings();
+                }
             }
             
         } catch (error) {
@@ -1555,6 +1566,8 @@
         const strengthBar = document.getElementById('strength-bar');
         const strengthText = document.getElementById('strength-text');
         
+        if (!strengthBar || !strengthText) return;
+        
         if (!password) {
             strengthBar.style.width = '0%';
             strengthBar.className = 'strength-bar';
@@ -1631,8 +1644,11 @@
     // Simple settings navigation function
     const showSettingsPage = () => {
         // Hide dashboard, show settings
-        document.getElementById('dashboard-section').style.display = 'none';
-        document.getElementById('settings-section').style.display = 'block';
+        const dashboardSection = document.getElementById('dashboard-section');
+        const settingsSection = document.getElementById('settings-section');
+        
+        if (dashboardSection) dashboardSection.style.display = 'none';
+        if (settingsSection) settingsSection.style.display = 'block';
         
         // Update header
         const h1 = document.querySelector('.admin-header h1');
@@ -1649,8 +1665,11 @@
     // Simple dashboard navigation function
     const showDashboardPage = () => {
         // Hide settings, show dashboard
-        document.getElementById('settings-section').style.display = 'none';
-        document.getElementById('dashboard-section').style.display = 'block';
+        const settingsSection = document.getElementById('settings-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        
+        if (settingsSection) settingsSection.style.display = 'none';
+        if (dashboardSection) dashboardSection.style.display = 'block';
         
         // Update header
         const h1 = document.querySelector('.admin-header h1');
