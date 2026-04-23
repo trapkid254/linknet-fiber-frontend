@@ -181,13 +181,14 @@
     const loadDashboardStats = async () => {
         try {
             const headers = getAuthHeaders();
+            console.log('API_BASE being used:', API_BASE); // Debug log
             console.log('Auth headers:', headers); // Debug log
             
             // First try test endpoint without auth to verify API is working
-            const testResponse = await fetch(`${API_BASE}/admin/test`);
+            const testResponse = await fetch(`${API_BASE}/admin/test?v=${Date.now()}`);
             console.log('Test endpoint response:', testResponse.status);
             
-            const response = await fetch(`${API_BASE}/admin/dashboard/stats`, {
+            const response = await fetch(`${API_BASE}/admin/dashboard/stats?v=${Date.now()}`, {
                 headers: headers
             });
             

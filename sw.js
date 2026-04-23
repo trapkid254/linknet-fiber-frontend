@@ -51,12 +51,17 @@ self.addEventListener('install', (event) => {
     caches.open(STATIC_CACHE)
       .then((cache) => {
         console.log('[SW] Caching core assets');
-        // Use individual cache.add calls so one failure doesn't break the whole install
-        return Promise.allSettled(
-          CORE_ASSETS.map(url =>
-            cache.add(url).catch(err => console.warn(`[SW] Failed to cache ${url}:`, err.message))
-          )
+        // Cache assets individually to avoid complete failure
+        const cachePromises = CORE_ASSETS.map(url => 
+          cache.add(url).catch(err => {
+            if (err) {
+              console.warn(`[SW] Failed to cache ${url}:`, err.message);
+            } else {
+              console.log(`[SW] Cached ${url}`);
+            }
+          })
         );
+        return Promise.allSettled(cachePromises);
       })
       .then(() => {
         console.log('[SW] Install complete — activating immediately');
