@@ -116,38 +116,91 @@
         </header>
         
         <div class="admin-content">
-            <div class="page-header">
-                <div class="page-header-content">
-                    <h2>Installation Requests</h2>
-                    <p>Manage customer installation requests and scheduling</p>
-                </div>
-                <div class="page-controls">
-                    <div class="search-container">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="request-search" placeholder="Search by name, email, ID...">
+            <!-- Installation Requests Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-list"></i>
                     </div>
-                    <select class="filter-select" id="status-filter">
-                        <option value="">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="scheduled">Scheduled</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                    <select class="filter-select" id="priority-filter">
-                        <option value="">All Priorities</option>
-                        <option value="low">Low</option>
-                        <option value="normal">Normal</option>
-                        <option value="high">High</option>
-                        <option value="urgent">Urgent</option>
-                    </select>
+                    <div class="stat-content">
+                        <div class="stat-value" id="total-requests-count">0</div>
+                        <div class="stat-label">Total Requests</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> All installation requests
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="pending-requests-count">0</div>
+                        <div class="stat-label">Pending Requests</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Awaiting processing
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="scheduled-requests-count">0</div>
+                        <div class="stat-label">Scheduled</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Installation dates set
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="completed-requests-count">0</div>
+                        <div class="stat-label">Completed</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Successfully installed
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="data-table-wrapper">
-                <table class="enhanced-table">
+            <!-- Installation Requests Table -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h3>Installation Requests</h3>
+                    <div class="table-actions">
+                        <div class="admin-search">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="request-search" placeholder="Search requests...">
+                        </div>
+                        <select class="btn btn-outline btn-sm" id="status-filter">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <select class="btn btn-outline btn-sm" id="priority-filter">
+                            <option value="">All Priorities</option>
+                            <option value="low">Low</option>
+                            <option value="normal">Normal</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <table class="data-table">
                     <thead>
                         <tr>
                             <th>Request ID</th>
@@ -164,16 +217,6 @@
                         <!-- Request rows will be populated here -->
                     </tbody>
                 </table>
-                
-                <div id="empty-state" class="empty-state" style="display: none;">
-                    <i class="fas fa-clipboard-list"></i>
-                    <h3>No Requests Found</h3>
-                    <p>There are no installation requests matching your criteria.</p>
-                </div>
-            </div>
-            
-            <div class="pagination-wrapper" id="pagination">
-                <!-- Pagination will be populated here -->
             </div>
         </div>
     </main>

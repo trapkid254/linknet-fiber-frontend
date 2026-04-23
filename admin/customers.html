@@ -116,24 +116,77 @@
         </header>
         
         <div class="admin-content">
-            <div class="page-header">
-                <div class="page-header-content">
-                    <h2>Customer Management</h2>
-                    <p>Manage all customer accounts and service information</p>
-                </div>
-                <div class="page-controls">
-                    <div class="search-container">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="customer-search" placeholder="Search by name, email, phone...">
+            <!-- Customer Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <button class="btn-add">
-                        <i class="fas fa-plus"></i> Add Customer
-                    </button>
+                    <div class="stat-content">
+                        <div class="stat-value" id="total-customers-count">0</div>
+                        <div class="stat-label">Total Customers</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> All registered customers
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="active-customers-count">0</div>
+                        <div class="stat-label">Active Customers</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Currently subscribed
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="unique-packages-count">0</div>
+                        <div class="stat-label">Unique Packages</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Different service plans
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="monthly-revenue-count">KES 0</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> From all customers
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="data-table-wrapper">
-                <table class="enhanced-table">
+            <!-- Customers Table -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h3>Customer Management</h3>
+                    <div class="table-actions">
+                        <div class="admin-search">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="customer-search" placeholder="Search customers...">
+                        </div>
+                        <button class="btn btn-primary btn-sm" id="add-customer-btn">
+                            <i class="fas fa-plus"></i> Add Customer
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
                     <thead>
                         <tr>
                             <th>Customer Name</th>
@@ -148,16 +201,6 @@
                         <!-- Customer rows will be populated here -->
                     </tbody>
                 </table>
-                
-                <div id="empty-state" class="empty-state" style="display: none;">
-                    <i class="fas fa-users"></i>
-                    <h3>No Customers Found</h3>
-                    <p>Start by adding your first customer or check your search criteria.</p>
-                </div>
-            </div>
-            
-            <div class="pagination-wrapper" id="pagination">
-                <!-- Pagination will be populated here -->
             </div>
         </div>
     </main>

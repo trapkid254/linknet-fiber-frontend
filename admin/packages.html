@@ -116,41 +116,98 @@
         </header>
         
         <div class="admin-content">
-            <div class="page-header">
-                <div class="page-header-content">
-                    <h2>Package Management</h2>
-                    <p>Manage internet packages and pricing plans</p>
-                </div>
-                <div class="page-controls">
-                    <div class="search-container">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="package-search" placeholder="Search packages...">
+            <!-- Package Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
                     </div>
-                    <select class="filter-select" id="category-filter">
-                        <option value="">All Categories</option>
-                        <option value="home">Home</option>
-                        <option value="business">Business</option>
-                        <option value="enterprise">Enterprise</option>
-                    </select>
-                    <select class="filter-select" id="status-filter">
-                        <option value="">All Status</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                    <a href="#" class="btn-add" onclick="showAddPackageModal()">
-                        <i class="fas fa-plus"></i> Add Package
-                    </a>
+                    <div class="stat-content">
+                        <div class="stat-value" id="total-packages-count">0</div>
+                        <div class="stat-label">Total Packages</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> All service plans
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="active-packages-count">0</div>
+                        <div class="stat-label">Active Packages</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Currently available
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="home-packages-count">0</div>
+                        <div class="stat-label">Home Packages</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Residential plans
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="business-packages-count">0</div>
+                        <div class="stat-label">Business Packages</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Commercial plans
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="card-grid" id="packages-grid">
-                <!-- Package cards will be populated here -->
-            </div>
-            
-            <div id="empty-state" class="empty-state" style="display: none;">
-                <i class="fas fa-box"></i>
-                <h3>No Packages Found</h3>
-                <p>Start by adding your first package or check your search criteria.</p>
+            <!-- Packages Table -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h3>Package Management</h3>
+                    <div class="table-actions">
+                        <div class="admin-search">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="package-search" placeholder="Search packages...">
+                        </div>
+                        <select class="btn btn-outline btn-sm" id="category-filter">
+                            <option value="">All Categories</option>
+                            <option value="home">Home</option>
+                            <option value="business">Business</option>
+                            <option value="enterprise">Enterprise</option>
+                        </select>
+                        <button class="btn btn-primary btn-sm" onclick="showAddPackageModal()">
+                            <i class="fas fa-plus"></i> Add Package
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Package Name</th>
+                            <th>Speed</th>
+                            <th>Price (KES)</th>
+                            <th>Features</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="packages-tbody">
+                        <!-- Package rows will be populated here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>

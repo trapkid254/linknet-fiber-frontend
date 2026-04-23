@@ -116,141 +116,77 @@
         </header>
         
         <div class="admin-content">
-            <div class="page-header">
-                <div class="page-header-content">
-                    <h2>Analytics Dashboard</h2>
-                    <p>View detailed analytics and business insights</p>
-                </div>
-                <div class="page-controls">
-                    <input type="date" id="start-date" class="filter-select" value="">
-                    <input type="date" id="end-date" class="filter-select" value="">
-                    <button class="btn-add" onclick="exportAnalytics()">
-                        <i class="fas fa-download"></i> Export Report
-                    </button>
-                </div>
-            </div>
-            
-            <div class="card-grid">
-                <!-- Revenue Analytics -->
-                <div class="content-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-dollar-sign"></i> Revenue Analytics
-                        </div>
-                        <div class="card-subtitle">Last 30 days</div>
+            <!-- Analytics Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
                     </div>
-                    <div class="card-content">
-                        <div class="metric-grid">
-                            <div class="metric-item">
-                                <div class="metric-value" id="total-revenue">KES 0</div>
-                                <div class="metric-label">Total Revenue</div>
-                                <div class="metric-change change-positive">+0%</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value" id="monthly-revenue">KES 0</div>
-                                <div class="metric-label">Monthly Revenue</div>
-                                <div class="metric-change change-positive">+0%</div>
-                            </div>
-                        </div>
-                        <div class="chart-container">
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-line fa-3x"></i>
-                                <div>Revenue Chart</div>
-                            </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="total-revenue">KES 0</div>
+                        <div class="stat-label">Total Revenue</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> All time revenue
                         </div>
                     </div>
                 </div>
                 
-                <!-- Customer Analytics -->
-                <div class="content-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-users"></i> Customer Analytics
-                        </div>
-                        <div class="card-subtitle">Customer growth & retention</div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div class="card-content">
-                        <div class="metric-grid">
-                            <div class="metric-item">
-                                <div class="metric-value" id="total-customers">0</div>
-                                <div class="metric-label">Total Customers</div>
-                                <div class="metric-change change-positive">+0</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value" id="new-customers">0</div>
-                                <div class="metric-label">New Customers</div>
-                                <div class="metric-change change-positive">+0</div>
-                            </div>
-                        </div>
-                        <div class="chart-container">
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-area fa-3x"></i>
-                                <div>Customer Growth Chart</div>
-                            </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="total-customers">0</div>
+                        <div class="stat-label">Total Customers</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Registered users
                         </div>
                     </div>
                 </div>
                 
-                <!-- Package Analytics -->
-                <div class="content-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-box"></i> Package Analytics
-                        </div>
-                        <div class="card-subtitle">Most popular packages</div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
                     </div>
-                    <div class="card-content">
-                        <div class="metric-grid">
-                            <div class="metric-item">
-                                <div class="metric-value" id="active-packages">0</div>
-                                <div class="metric-label">Active Packages</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value" id="popular-package">N/A</div>
-                                <div class="metric-label">Most Popular</div>
-                            </div>
-                        </div>
-                        <div class="chart-container">
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-pie fa-3x"></i>
-                                <div>Package Distribution</div>
-                            </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="active-packages">0</div>
+                        <div class="stat-label">Active Packages</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Available plans
                         </div>
                     </div>
                 </div>
                 
-                <!-- Installation Analytics -->
-                <div class="content-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-clipboard-list"></i> Installation Analytics
-                        </div>
-                        <div class="card-subtitle">Installation performance</div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-list"></i>
                     </div>
-                    <div class="card-content">
-                        <div class="metric-grid">
-                            <div class="metric-item">
-                                <div class="metric-value" id="pending-installations">0</div>
-                                <div class="metric-label">Pending</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value" id="completed-installations">0</div>
-                                <div class="metric-label">Completed</div>
-                            </div>
-                        </div>
-                        <div class="chart-container">
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-bar fa-3x"></i>
-                                <div>Installation Status</div>
-                            </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="completed-installations">0</div>
+                        <div class="stat-label">Completed Installations</div>
+                        <div class="stat-change">
+                            <i class="fas fa-info-circle"></i> Successfully installed
                         </div>
                     </div>
                 </div>
             </div>
             
             <!-- Top Packages Table -->
-            <div class="data-table-wrapper">
-                <table class="enhanced-table">
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h3>Package Performance Analytics</h3>
+                    <div class="table-actions">
+                        <div class="admin-search">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search packages...">
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="exportAnalytics()">
+                            <i class="fas fa-download"></i> Export Report
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
                     <thead>
                         <tr>
                             <th>Package Name</th>
@@ -264,12 +200,44 @@
                         <!-- Package rows will be populated here -->
                     </tbody>
                 </table>
-                
-                <div id="empty-state" class="empty-state" style="display: none;">
-                    <i class="fas fa-chart-bar"></i>
-                    <h3>No Analytics Data Available</h3>
-                    <p>Start collecting data to see analytics insights.</p>
+            </div>
+            
+            <!-- Customer Analytics Table -->
+            <div class="data-table-container" style="margin-top: var(--spacing-xl);">
+                <div class="table-header">
+                    <h3>Customer Growth Analytics</h3>
+                    <div class="table-actions">
+                        <select class="btn btn-outline btn-sm">
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                            <option>Last year</option>
+                        </select>
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
                 </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Period</th>
+                            <th>New Customers</th>
+                            <th>Active Customers</th>
+                            <th>Revenue</th>
+                            <th>Growth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-chart-line" style="font-size: 24px; margin-bottom: 16px; display: block;"></i>
+                                <div style="font-size: 16px; margin-bottom: 8px;">No analytics data available</div>
+                                <div style="font-size: 14px;">Analytics will appear as customers use your services</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
