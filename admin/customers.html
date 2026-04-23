@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css?v=1.3">
-    <link rel="stylesheet" href="../css/admin.css?v=1.3">
+    <link rel="stylesheet" href="../css/admin.css?v=1.4">
 </head>
 <body class="admin-dashboard">
     <!-- Sidebar -->
@@ -288,93 +288,19 @@
             }
         }
         
-        // Mock customers data for when API is not available
+        // Load customers from local storage or API
         function displayMockCustomers(search = '') {
-            const mockCustomers = [
-                {
-                    _id: '1',
-                    fullname: 'John Doe',
-                    email: 'john@example.com',
-                    phone: '+254 712 345 678',
-                    county: 'nairobi',
-                    estate: 'Westlands',
-                    street: 'Waiyaki Way',
-                    building: 'Safari Tower',
-                    houseNumber: 'A12',
-                    packageId: {
-                        name: 'Premium Plan',
-                        speed: 100
-                    },
-                    status: 'active',
-                    createdAt: '2024-04-20T10:30:00Z'
-                },
-                {
-                    _id: '2',
-                    fullname: 'Jane Smith',
-                    email: 'jane@example.com',
-                    phone: '+254 723 456 789',
-                    county: 'nairobi',
-                    estate: 'Karen',
-                    street: 'Karen Road',
-                    building: 'Karen Plaza',
-                    houseNumber: 'B05',
-                    packageId: {
-                        name: 'Business Plan',
-                        speed: 200
-                    },
-                    status: 'active',
-                    createdAt: '2024-04-18T14:20:00Z'
-                },
-                {
-                    _id: '3',
-                    fullname: 'Mike Johnson',
-                    email: 'mike@example.com',
-                    phone: '+254 734 567 890',
-                    county: 'mombasa',
-                    estate: 'Nyali',
-                    street: 'Beach Road',
-                    building: 'Ocean View',
-                    houseNumber: 'C23',
-                    packageId: {
-                        name: 'Standard Plan',
-                        speed: 50
-                    },
-                    status: 'active',
-                    createdAt: '2024-04-15T09:15:00Z'
-                },
-                {
-                    _id: '4',
-                    fullname: 'Sarah Wilson',
-                    email: 'sarah@example.com',
-                    phone: '+254 745 678 901',
-                    county: 'kisumu',
-                    estate: 'Milimani',
-                    street: 'Oginga Street',
-                    building: 'City Center',
-                    houseNumber: 'D10',
-                    packageId: {
-                        name: 'Basic Plan',
-                        speed: 25
-                    },
-                    status: 'inactive',
-                    createdAt: '2024-04-10T16:45:00Z'
-                }
-            ];
-            
-            // Filter based on search
-            let filteredCustomers = mockCustomers;
+            let customers = JSON.parse(localStorage.getItem('customers') || '[]');
             
             if (search) {
-                filteredCustomers = filteredCustomers.filter(c => 
-                    c.fullname.toLowerCase().includes(search.toLowerCase()) ||
-                    c.email.toLowerCase().includes(search.toLowerCase()) ||
-                    c.phone.includes(search) ||
-                    c.county.toLowerCase().includes(search.toLowerCase()) ||
-                    c.estate.toLowerCase().includes(search.toLowerCase())
+                customers = customers.filter(c => 
+                    c.fullname?.toLowerCase().includes(search.toLowerCase()) ||
+                    c.email?.toLowerCase().includes(search.toLowerCase()) ||
+                    c.phone?.includes(search)
                 );
             }
             
-            displayCustomers(filteredCustomers);
+            displayCustomers(customers);
         }
         
         // Display customers in table
@@ -522,19 +448,109 @@
         
         // Customer actions
         function viewCustomer(customerId) {
-            console.log('View customer:', customerId);
-            // TODO: Implement customer view modal or page
+            let customers = JSON.parse(localStorage.getItem('customers') || '[]');
+            const customer = customers.find(c => c._id === customerId || c.id === customerId);
+            
+            if (customer) {
+                // Create view modal
+                let modal = document.getElementById('viewCustomerModal');
+                if (!modal) {
+                    modal = document.createElement('div');
+                    modal.id = 'viewCustomerModal';
+                    modal.className = 'modal-overlay';
+                    document.body.appendChild(modal);
+                }
+                
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Customer Details</h3>
+                            <button class="modal-close" onclick="closeViewCustomerModal()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="customer-details">
+                                <div class="detail-item">
+                                    <label>Full Name:</label>
+                                    <span>${customer.fullname}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Email:</label>
+                                    <span>${customer.email}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Phone:</label>
+                                    <span>${customer.phone}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>County:</label>
+                                    <span>${customer.county}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Estate:</label>
+                                    <span>${customer.estate}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Street:</label>
+                                    <span>${customer.street}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Building:</label>
+                                    <span>${customer.building}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>House Number:</label>
+                                    <span>${customer.houseNumber}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Package:</label>
+                                    <span>${customer.packageId?.name || 'N/A'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Status:</label>
+                                    <span>${customer.status}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-secondary" onclick="closeViewCustomerModal()">Close</button>
+                        </div>
+                    </div>
+                `;
+                modal.classList.add('active');
+            }
+        }
+        
+        function closeViewCustomerModal() {
+            const modal = document.getElementById('viewCustomerModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
         }
         
         function editCustomer(customerId) {
-            console.log('Edit customer:', customerId);
-            // TODO: Implement customer edit modal or page
+            let customers = JSON.parse(localStorage.getItem('customers') || '[]');
+            const customer = customers.find(c => c._id === customerId || c.id === customerId);
+            
+            if (customer) {
+                const newName = prompt('Edit customer name:', customer.fullname);
+                if (newName && newName.trim() && newName !== customer.fullname) {
+                    customer.fullname = newName.trim();
+                    localStorage.setItem('customers', JSON.stringify(customers));
+                    loadCustomers();
+                    showToast('Customer updated successfully', 'success');
+                }
+            }
         }
         
         function deleteCustomer(customerId) {
             if (confirm('Are you sure you want to delete this customer? This action cannot be undone.')) {
-                console.log('Delete customer:', customerId);
-                // TODO: Implement customer deletion
+                let customers = JSON.parse(localStorage.getItem('customers') || '[]');
+                customers = customers.filter(c => c._id !== customerId && c.id !== customerId);
+                localStorage.setItem('customers', JSON.stringify(customers));
+                loadCustomers();
+                showToast('Customer deleted successfully', 'success');
             }
         }
     </script>
