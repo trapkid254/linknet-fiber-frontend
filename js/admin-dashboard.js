@@ -893,6 +893,9 @@ window.hideModal = hideModal;
         }
     };
     
+    // Expose showPackageModal to window for use in other pages
+    window.showPackageModal = showPackageModal;
+    
     const showCustomerModal = () => {
         const modal = document.getElementById('customer-modal');
         if (modal) {
@@ -963,6 +966,7 @@ window.hideModal = hideModal;
             document.getElementById('package-name').value = packageData.name || '';
             document.getElementById('package-speed').value = packageData.speed || '';
             document.getElementById('package-price').value = packageData.price || '';
+            document.getElementById('package-category').value = packageData.category || 'home';
             document.getElementById('package-features').value = packageData.features ? packageData.features.join(', ') : '';
             
             showPackageModal();
@@ -990,6 +994,10 @@ window.hideModal = hideModal;
             showToast('Failed to delete package', 'error');
         }
     };
+    
+    // Expose package operations to window for use in other pages
+    window.editPackage = editPackage;
+    window.deletePackage = deletePackage;
     
     // Request operations
     const updateRequestStatus = async (id, status) => {
