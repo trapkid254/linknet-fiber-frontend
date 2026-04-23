@@ -13,8 +13,7 @@
             const response = await fetch(`${API_BASE}/packages`);
             if (!response.ok) throw new Error('Failed to load packages');
             
-            const result = await response.json();
-            const packages = result.success && result.data ? result.data : [];
+            const packages = await response.json();
             
             packages.forEach(pkg => {
                 const option = document.createElement('option');
@@ -33,49 +32,7 @@
             
         } catch (error) {
             console.error('Error loading packages:', error);
-            // Load mock packages as fallback
-            loadMockPackages();
         }
-    };
-    
-    // Mock packages for fallback
-    const loadMockPackages = () => {
-        const packageSelect = document.getElementById('package-select');
-        if (!packageSelect) return;
-        
-        const mockPackages = [
-            {
-                id: 1,
-                name: 'Basic',
-                speed: 20,
-                price: 2999
-            },
-            {
-                id: 2,
-                name: 'Pro',
-                speed: 50,
-                price: 4999
-            },
-            {
-                id: 3,
-                name: 'Business',
-                speed: 100,
-                price: 9999
-            },
-            {
-                id: 4,
-                name: 'Enterprise',
-                speed: 500,
-                price: 24999
-            }
-        ];
-        
-        mockPackages.forEach(pkg => {
-            const option = document.createElement('option');
-            option.value = pkg.id;
-            option.textContent = `${pkg.name} - ${pkg.speed} Mbps - KES ${pkg.price}/month`;
-            packageSelect.appendChild(option);
-        });
     };
     
     // Handle contact form submission

@@ -17,7 +17,6 @@ const CORE_ASSETS = [
   './manifest.json',
   './css/style.css',
   './css/admin.css',
-  './css/mobile.css',
   './js/main.js',
   './js/darkmode.js',
   './js/packages.js',
@@ -28,16 +27,8 @@ const CORE_ASSETS = [
   './js/pwa-install.js',
   './js/admin-login.js',
   './js/admin-dashboard.js',
-  './js/auth-manager.js',
-  './js/validation.js',
-  './js/offline-manager.js',
-  './js/analytics-charts.js',
   './admin/login.html',
   './admin/dashboard.html',
-  './admin/customers.html',
-  './client/login.html',
-  './client/register.html',
-  './client/dashboard.html',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-512-maskable.png',
@@ -48,30 +39,18 @@ const CORE_ASSETS = [
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing...');
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
-        console.log('[SW] Caching core assets');
-        // Cache assets individually to avoid complete failure
-        const cachePromises = CORE_ASSETS.map(url => 
-          cache.add(url).catch(err => {
-            if (err) {
-              console.warn(`[SW] Failed to cache ${url}:`, err.message);
-            } else {
-              console.log(`[SW] Cached ${url}`);
-            }
-          })
-        );
-        return Promise.allSettled(cachePromises);
-      })
-      .then(() => {
-        console.log('[SW] Install complete — activating immediately');
-        return self.skipWaiting();
-      })
-      .catch((error) => {
-        console.error('[SW] Failed to cache static assets', error);
-        // Continue with installation even if caching fails
-        return self.skipWaiting();
-      })
+    caches.open(STATIC_CACHE).then((cache) => {
+      console.log('[SW] Caching core assets');
+      // Use individual adds so one failure doesn't break the whole install
+      return Promise.allSettled(
+        CORE_ASSETS.map(url =>
+          cache.add(url).catch(err => console.warn(`[SW] Failed to cache ${url}:`, err.message))
+        )
+      );
+    }).then(() => {
+      console.log('[SW] Install complete — activating immediately');
+      return self.skipWaiting();
+    })
   );
 });
 

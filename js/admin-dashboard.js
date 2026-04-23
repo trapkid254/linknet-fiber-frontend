@@ -5,9 +5,6 @@
     const AUTH_KEY = 'linknet_admin_auth';
     const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
     
-    // Force API_BASE to be used - debug logging
-    console.log('🔧 ADMIN DASHBOARD API_BASE SET TO:', API_BASE);
-    
     // Check authentication
     const checkAuth = () => {
         const authData = localStorage.getItem(AUTH_KEY);
@@ -33,16 +30,20 @@
     
     const getAuthHeaders = () => {
         const authData = localStorage.getItem(AUTH_KEY);
+        console.log('Raw auth data from localStorage:', authData); // Debug
         
         if (!authData) {
+            console.log('No auth data found, redirecting to login');
             window.location.href = 'login.html';
             return {};
         }
         
         try {
             const parsed = JSON.parse(authData);
+            console.log('Parsed auth data:', parsed); // Debug
             
             if (parsed.expires && parsed.expires < Date.now()) {
+                console.log('Token expired, removing and redirecting');
                 localStorage.removeItem(AUTH_KEY);
                 window.location.href = 'login.html';
                 return {};
@@ -52,6 +53,7 @@
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${parsed.token}`
             };
+            console.log('Generated headers:', headers); // Debug
             return headers;
         } catch (e) {
             console.error('Error parsing auth data:', e);
@@ -184,14 +186,13 @@
     const loadDashboardStats = async () => {
         try {
             const headers = getAuthHeaders();
-            console.log('API_BASE being used:', API_BASE); // Debug log
             console.log('Auth headers:', headers); // Debug log
             
             // First try test endpoint without auth to verify API is working
-            const testResponse = await fetch(`${API_BASE}/admin/test?v=${Date.now()}`);
+            const testResponse = await fetch(`${API_BASE}/admin/test`);
             console.log('Test endpoint response:', testResponse.status);
             
-            const response = await fetch(`${API_BASE}/admin/dashboard/stats?v=${Date.now()}`, {
+            const response = await fetch(`${API_BASE}/admin/dashboard/stats`, {
                 headers: headers
             });
             
@@ -220,8 +221,8 @@
                         console.error('Verify error:', verifyError);
                     }
                     
-                    // Show empty state when API fails
-                    showEmptyStats();
+                    // For now, load mock data as fallback
+                    loadMockStats();
                     return;
                 }
                 
@@ -258,20 +259,11 @@
             updateStatCard('Total Customers', 0, 'users');
             updateStatCard('Pending Requests', 0, 'clipboard-list');
             updateStatCard('Active Packages', 0, 'box');
-            updateStatCard('Monthly Revenue', 0, 'chart-line');
+            updateStatCard('Monthly Revenue', 'KES 0', 'chart-line');
             updateStatChangeMessages(0, 0, 0, 0);
             // Show empty state for requests
             loadRecentRequests([]);
         }
-    };
-    
-    const showEmptyStats = () => {
-        updateStatCard('Total Customers', 0, 'users');
-        updateStatCard('Pending Requests', 0, 'clipboard-list');
-        updateStatCard('Active Packages', 0, 'box');
-        updateStatCard('Monthly Revenue', 0, 'chart-line');
-        updateStatChangeMessages(0, 0, 0, 0);
-        loadRecentRequests([]);
     };
     
     const updateStatCard = (label, value, iconClass) => {
@@ -427,37 +419,14 @@
                 // Simple section switching
                 if (section === 'settings') {
                     // Hide dashboard, show settings
-                    const dashboardSection = document.getElementById('dashboard-section');
-                    const settingsSection = document.getElementById('settings-section');
-                    
-                    if (dashboardSection) dashboardSection.style.display = 'none';
-                    if (settingsSection) {
-                        settingsSection.style.display = 'block';
-                        // Load profile data
-                        setTimeout(loadAdminProfile, 100);
-                    }
-                } else if (section === 'customers') {
-                    // Load customers section
-                    loadCustomersSection();
-                } else if (section === 'packages') {
-                    // Load packages section
-                    loadPackagesSection();
-                } else if (section === 'install-requests') {
-                    // Load install requests section
-                    loadInstallRequestsSection();
-                } else if (section === 'coverage') {
-                    // Load coverage areas section
-                    loadCoverageAreasSection();
-                } else if (section === 'analytics') {
-                    // Load analytics section
-                    loadAnalyticsSection();
+                    document.getElementById('dashboard-section').style.display = 'none';
+                    document.getElementById('settings-section').style.display = 'block';
+                    // Load profile data
+                    setTimeout(loadAdminProfile, 100);
                 } else {
                     // Hide settings, show dashboard
-                    const settingsSection = document.getElementById('settings-section');
-                    const dashboardSection = document.getElementById('dashboard-section');
-                    
-                    if (settingsSection) settingsSection.style.display = 'none';
-                    if (dashboardSection) dashboardSection.style.display = 'block';
+                    document.getElementById('settings-section').style.display = 'none';
+                    document.getElementById('dashboard-section').style.display = 'block';
                 }
             });
         });
@@ -671,76 +640,6 @@
         });
     };
     
-    // Load install requests section
-    const loadInstallRequestsSection = () => {
-        const content = document.querySelector('.admin-content');
-        content.innerHTML = `
-            <div class="data-table-container">
-                <div class="table-header">
-                    <h2>Installation Requests</h2>
-                    <button class="btn btn-primary" onclick="addInstallRequest()">
-                        <i class="fas fa-plus"></i> Add Request
-                    </button>
-                </div>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Customer Name</th>
-                            <th>Package</th>
-                            <th>Location</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="install-requests-table-body">
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 40px;">
-                                <div class="loading-spinner">Loading installation requests...</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        `;
-        loadInstallRequests();
-    };
-    
-    // Load coverage areas section
-    const loadCoverageAreasSection = () => {
-        const content = document.querySelector('.admin-content');
-        content.innerHTML = `
-            <div class="data-table-container">
-                <div class="table-header">
-                    <h2>Coverage Areas</h2>
-                    <button class="btn btn-primary" onclick="addCoverageArea()">
-                        <i class="fas fa-plus"></i> Add Area
-                    </button>
-                </div>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>City</th>
-                            <th>Estate</th>
-                            <th>County</th>
-                            <th>Status</th>
-                            <th>Date Added</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="coverage-table-body">
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 40px;">
-                                <div class="loading-spinner">Loading coverage areas...</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        `;
-        loadCoverageAreas();
-    };
-    
     // Logout functionality
     const initLogout = () => {
         const logoutBtn = document.getElementById('logout-btn');
@@ -752,55 +651,6 @@
                     window.location.href = 'login.html';
                 }, 1000);
             });
-        }
-    };
-    
-    // Load installation requests from API
-    const loadInstallRequests = async () => {
-        try {
-            const response = await fetch(`${API_BASE}/admin/install-requests`, {
-                headers: getAuthHeaders()
-            });
-            
-            if (!response.ok) throw new Error('Failed to load installation requests');
-            
-            const data = await response.json();
-            const tbody = document.getElementById('install-requests-table-body');
-            if (!tbody) return;
-            
-            if (data.success && data.data && data.data.length > 0) {
-                tbody.innerHTML = data.data.map(request => `
-                    <tr>
-                        <td>${request.customerName || 'N/A'}</td>
-                        <td>${request.packageName || 'N/A'}</td>
-                        <td>${request.location || 'N/A'}</td>
-                        <td><span class="status-badge ${request.status === 'approved' ? 'approved' : request.status === 'pending' ? 'pending' : 'cancelled'}">${request.status}</span></td>
-                        <td>${new Date(request.createdAt).toLocaleDateString()}</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn" onclick="approveRequest('${request._id}')">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                                <button class="action-btn" onclick="deleteRequest('${request._id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
-                            <i class="fas fa-tools" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
-                            No installation requests found.
-                        </td>
-                    </tr>
-                `;
-            }
-        } catch (error) {
-            console.error('Error loading installation requests:', error);
-            showToast('Failed to load installation requests. Please try again.', 'error');
         }
     };
     
@@ -1473,11 +1323,8 @@
             
             // Show system settings for super admin
             if (profile.role === 'super_admin') {
-                const systemSettingsCard = document.getElementById('system-settings-card');
-                if (systemSettingsCard) {
-                    systemSettingsCard.style.display = 'block';
-                    loadSystemSettings();
-                }
+                document.getElementById('system-settings-card').style.display = 'block';
+                loadSystemSettings();
             }
             
         } catch (error) {
@@ -1713,8 +1560,6 @@
         const strengthBar = document.getElementById('strength-bar');
         const strengthText = document.getElementById('strength-text');
         
-        if (!strengthBar || !strengthText) return;
-        
         if (!password) {
             strengthBar.style.width = '0%';
             strengthBar.className = 'strength-bar';
@@ -1791,11 +1636,8 @@
     // Simple settings navigation function
     const showSettingsPage = () => {
         // Hide dashboard, show settings
-        const dashboardSection = document.getElementById('dashboard-section');
-        const settingsSection = document.getElementById('settings-section');
-        
-        if (dashboardSection) dashboardSection.style.display = 'none';
-        if (settingsSection) settingsSection.style.display = 'block';
+        document.getElementById('dashboard-section').style.display = 'none';
+        document.getElementById('settings-section').style.display = 'block';
         
         // Update header
         const h1 = document.querySelector('.admin-header h1');
@@ -1812,11 +1654,8 @@
     // Simple dashboard navigation function
     const showDashboardPage = () => {
         // Hide settings, show dashboard
-        const settingsSection = document.getElementById('settings-section');
-        const dashboardSection = document.getElementById('dashboard-section');
-        
-        if (settingsSection) settingsSection.style.display = 'none';
-        if (dashboardSection) dashboardSection.style.display = 'block';
+        document.getElementById('settings-section').style.display = 'none';
+        document.getElementById('dashboard-section').style.display = 'block';
         
         // Update header
         const h1 = document.querySelector('.admin-header h1');
@@ -1833,15 +1672,6 @@
     window.handleSystemSettingsSubmit = handleSystemSettingsSubmit;
     window.showSettingsPage = showSettingsPage;
     window.showDashboardPage = showDashboardPage;
-    
-    // Expose functions globally for other pages
-    window.loadAdminProfile = loadAdminProfile;
-    window.loadSystemSettings = loadSystemSettings;
-    window.loadCustomers = loadCustomers;
-    window.loadPackages = loadPackages;
-    window.loadInstallRequests = loadInstallRequests;
-    window.loadCoverageAreas = loadCoverageAreas;
-    window.loadAnalytics = loadAnalytics;
     
     // Start when DOM is ready
     if (document.readyState === 'loading') {

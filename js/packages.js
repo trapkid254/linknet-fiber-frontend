@@ -11,11 +11,6 @@
         const container = document.getElementById('packages-container');
         if (!container) return;
         
-        // For now, load mock data directly to ensure packages display
-        console.log('Loading mock packages...');
-        loadMockPackages();
-        return;
-        
         try {
             const response = await fetch(`${API_BASE}/packages`);
             
@@ -192,5 +187,4 @@
     } else {
         init();
     }
-    
 })();
