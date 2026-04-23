@@ -1093,14 +1093,28 @@
         const form = document.getElementById('package-form');
         const editId = form ? form.dataset.editId : null;
         
+        // Validate required fields
+        const name = document.getElementById('package-name').value;
+        const speed = document.getElementById('package-speed').value;
+        const price = document.getElementById('package-price').value;
+        const category = document.getElementById('package-category')?.value || 'home';
+        const features = document.getElementById('package-features').value;
+        
+        if (!name || !speed || !price || !features) {
+            showToast('Please fill in all required fields', 'error');
+            return;
+        }
+        
         const formData = {
-            name: document.getElementById('package-name').value,
-            speed: parseInt(document.getElementById('package-speed').value),
-            price: parseInt(document.getElementById('package-price').value),
-            category: document.getElementById('package-category')?.value || 'home',
-            features: document.getElementById('package-features').value.split(',').map(f => f.trim()),
+            name: name.trim(),
+            speed: parseInt(speed),
+            price: parseInt(price),
+            category: category,
+            features: features.split(',').map(f => f.trim()).filter(f => f),
             isActive: true
         };
+        
+        console.log('Submitting package data:', formData);
         
         try {
             let response;
@@ -1130,9 +1144,17 @@
                 message = 'Package added successfully';
             }
             
-            if (!response.ok) throw new Error(`Failed to ${editId ? 'update' : 'add'} package`);
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                throw new Error(`Failed to ${editId ? 'update' : 'add'} package: ${response.status}`);
+            }
             
             const result = await response.json();
+            console.log('Response data:', result);
+            
             if (!result.success) {
                 throw new Error(result.error || `Failed to ${editId ? 'update' : 'add'} package`);
             }
