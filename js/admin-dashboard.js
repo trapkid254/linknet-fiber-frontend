@@ -1,9 +1,179 @@
 // js/admin-dashboard.js - Clean Admin Dashboard
+const AUTH_KEY = 'linknet_admin_auth';
+const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
+
+// Utility functions - defined outside IIFE for global access
+const getAuthHeaders = () => {
+    const authData = localStorage.getItem(AUTH_KEY);
+    console.log('Raw auth data from localStorage:', authData); // Debug
+    
+    if (!authData) {
+        console.log('No auth data found, redirecting to login');
+        window.location.href = 'login.html';
+        return {};
+    }
+    
+    try {
+        const parsed = JSON.parse(authData);
+        console.log('Parsed auth data:', parsed); // Debug
+        
+        if (parsed.expires && parsed.expires < Date.now()) {
+            console.log('Token expired, removing and redirecting');
+            localStorage.removeItem(AUTH_KEY);
+            window.location.href = 'login.html';
+            return {};
+        }
+        
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${parsed.token}`
+        };
+        console.log('Generated headers:', headers); // Debug
+        return headers;
+    } catch (error) {
+        console.error('Error parsing auth data:', error);
+        localStorage.removeItem(AUTH_KEY);
+        window.location.href = 'login.html';
+        return {};
+    }
+};
+
+// Expose to window immediately
+window.getAuthHeaders = getAuthHeaders;
+
+const showToast = (message, type = 'info') => {
+    // Remove any existing toasts to prevent stacking
+    const existingToasts = document.querySelectorAll('.toast-notification');
+    existingToasts.forEach(toast => toast.remove());
+    
+    const toast = document.createElement('div');
+    toast.className = `toast-notification toast-${type}`;
+    
+    // Create icon based on type
+    const icon = type === 'success' ? 'fa-check-circle' : 
+                type === 'error' ? 'fa-exclamation-circle' : 
+                'fa-info-circle';
+    
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas ${icon} toast-icon"></i>
+            <span class="toast-message">${message}</span>
+            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    // Add professional styling
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        color: #374151;
+        padding: 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        z-index: 10000;
+        min-width: 300px;
+        max-width: 400px;
+        border-left: 4px solid ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+        animation: slideInRight 0.3s ease-out;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+    `;
+    
+    // Add internal styles for toast content
+    const style = document.createElement('style');
+    style.textContent = `
+        .toast-content {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            gap: 12px;
+        }
+        .toast-icon {
+            color: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .toast-message {
+            flex: 1;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .toast-close:hover {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(toast);
+    
+    // Auto-remove after 4 seconds with slide-out animation
+    setTimeout(() => {
+        toast.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+            // Remove style element if no more toasts exist
+            if (document.querySelectorAll('.toast-notification').length === 0) {
+                style.remove();
+            }
+        }, 300);
+    }, 4000);
+};
+
+// Expose to window immediately
+window.showToast = showToast;
+
+const hideModal = (modalId) => {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+    }
+};
+
+// Expose to window immediately
+window.hideModal = hideModal;
+
 (function() {
     'use strict';
-    
-    const AUTH_KEY = 'linknet_admin_auth';
-    const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
     
     // Check authentication
     const checkAuth = () => {
@@ -27,166 +197,6 @@
             return false;
         }
     };
-    
-    const getAuthHeaders = () => {
-        const authData = localStorage.getItem(AUTH_KEY);
-        console.log('Raw auth data from localStorage:', authData); // Debug
-        
-        if (!authData) {
-            console.log('No auth data found, redirecting to login');
-            window.location.href = 'login.html';
-            return {};
-        }
-        
-        try {
-            const parsed = JSON.parse(authData);
-            console.log('Parsed auth data:', parsed); // Debug
-            
-            if (parsed.expires && parsed.expires < Date.now()) {
-                console.log('Token expired, removing and redirecting');
-                localStorage.removeItem(AUTH_KEY);
-                window.location.href = 'login.html';
-                return {};
-            }
-            
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${parsed.token}`
-            };
-            console.log('Generated headers:', headers); // Debug
-            return headers;
-        } catch (error) {
-            console.error('Error parsing auth data:', error);
-            localStorage.removeItem(AUTH_KEY);
-            window.location.href = 'login.html';
-            return {};
-        }
-    };
-    
-    // Expose getAuthHeaders to window for use in other pages
-    window.getAuthHeaders = getAuthHeaders;
-    
-    // Toast notification - Professional and compact
-    const showToast = (message, type = 'info') => {
-        // Remove any existing toasts to prevent stacking
-        const existingToasts = document.querySelectorAll('.toast-notification');
-        existingToasts.forEach(toast => toast.remove());
-        
-        const toast = document.createElement('div');
-        toast.className = `toast-notification toast-${type}`;
-        
-        // Create icon based on type
-        const icon = type === 'success' ? 'fa-check-circle' : 
-                    type === 'error' ? 'fa-exclamation-circle' : 
-                    'fa-info-circle';
-        
-        toast.innerHTML = `
-            <div class="toast-content">
-                <i class="fas ${icon} toast-icon"></i>
-                <span class="toast-message">${message}</span>
-                <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        `;
-        
-        // Add professional styling
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            color: #374151;
-            padding: 0;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            z-index: 10000;
-            min-width: 300px;
-            max-width: 400px;
-            border-left: 4px solid ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
-            animation: slideInRight 0.3s ease-out;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-        `;
-        
-        // Add internal styles for toast content
-        const style = document.createElement('style');
-        style.textContent = `
-            .toast-content {
-                display: flex;
-                align-items: center;
-                padding: 12px 16px;
-                gap: 12px;
-            }
-            .toast-icon {
-                color: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
-                font-size: 16px;
-                flex-shrink: 0;
-            }
-            .toast-message {
-                flex: 1;
-                font-weight: 500;
-                line-height: 1.4;
-            }
-            .toast-close {
-                background: none;
-                border: none;
-                color: #9ca3af;
-                cursor: pointer;
-                padding: 4px;
-                border-radius: 4px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
-                transition: all 0.2s ease;
-            }
-            .toast-close:hover {
-                background: #f3f4f6;
-                color: #6b7280;
-            }
-            @keyframes slideInRight {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            @keyframes slideOutRight {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-            }
-        `;
-        
-        document.head.appendChild(style);
-        document.body.appendChild(toast);
-        
-        // Auto-remove after 4 seconds with slide-out animation
-        setTimeout(() => {
-            toast.style.animation = 'slideOutRight 0.3s ease-out';
-            setTimeout(() => {
-                if (toast.parentElement) {
-                    toast.remove();
-                }
-                // Remove style element if no more toasts exist
-                if (document.querySelectorAll('.toast-notification').length === 0) {
-                    style.remove();
-                }
-            }, 300);
-        }, 4000);
-    };
-    
-    // Expose showToast to window for use in other pages
-    window.showToast = showToast;
     
     // Load dashboard statistics
     const loadDashboardStats = async () => {
@@ -898,16 +908,6 @@
             document.getElementById('coverage-form').reset();
         }
     };
-    
-    const hideModal = (modalId) => {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.classList.remove('active');
-        }
-    };
-    
-    // Expose hideModal to window for use in other pages
-    window.hideModal = hideModal;
     
     // Package operations
     const addPackage = async (formData) => {
