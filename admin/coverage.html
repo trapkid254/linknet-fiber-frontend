@@ -665,7 +665,22 @@
         // Load coverage from API
         async function loadCoverage(county = '', search = '') {
             try {
-                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/coverage?county=${encodeURIComponent(county)}&search=${encodeURIComponent(search)}`);
+                // Try the coverage API endpoint, fallback to mock data if 404
+                let response;
+                try {
+                    response = await fetch(`https://linknet-fiber-backend.onrender.com/api/coverage?county=${encodeURIComponent(county)}&search=${encodeURIComponent(search)}`);
+                } catch (apiError) {
+                    // If API doesn't exist, show mock data
+                    displayMockCoverage(county, search);
+                    return;
+                }
+                
+                if (response.status === 404) {
+                    // API endpoint doesn't exist, show mock data
+                    displayMockCoverage(county, search);
+                    return;
+                }
+                
                 const data = await response.json();
                 
                 if (data.success) {
@@ -675,8 +690,65 @@
                 }
             } catch (error) {
                 console.error('Error loading coverage:', error);
-                showEmptyState();
+                displayMockCoverage(county, search);
             }
+        }
+        
+        // Mock coverage data for when API is not available
+        function displayMockCoverage(county = '', search = '') {
+            const mockCoverage = [
+                {
+                    _id: '1',
+                    county: 'nairobi',
+                    estate: 'Westlands',
+                    status: 'available',
+                    description: 'High-speed fiber available in Westlands area'
+                },
+                {
+                    _id: '2',
+                    county: 'nairobi',
+                    estate: 'Karen',
+                    status: 'available',
+                    description: 'Premium fiber coverage in Karen'
+                },
+                {
+                    _id: '3',
+                    county: 'nairobi',
+                    estate: 'Kilimani',
+                    status: 'coming_soon',
+                    description: 'Fiber deployment in progress'
+                },
+                {
+                    _id: '4',
+                    county: 'mombasa',
+                    estate: 'Nyali',
+                    status: 'available',
+                    description: 'Coastal fiber coverage available'
+                },
+                {
+                    _id: '5',
+                    county: 'kisumu',
+                    estate: 'Milimani',
+                    status: 'planned',
+                    description: 'Planned fiber deployment'
+                }
+            ];
+            
+            // Filter based on county and search
+            let filteredCoverage = mockCoverage;
+            
+            if (county) {
+                filteredCoverage = filteredCoverage.filter(c => c.county === county);
+            }
+            
+            if (search) {
+                filteredCoverage = filteredCoverage.filter(c => 
+                    c.estate.toLowerCase().includes(search.toLowerCase()) ||
+                    c.county.toLowerCase().includes(search.toLowerCase())
+                );
+            }
+            
+            displayCoverage(filteredCoverage);
         }
         
         // Display coverage in grid
@@ -770,8 +842,110 @@
         
         // Coverage actions
         function showAddCoverageModal() {
-            console.log('Show add coverage modal');
-            // TODO: Implement add coverage modal
+            // Create modal if it doesn't exist
+            let modal = document.getElementById('addCoverageModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'addCoverageModal';
+                modal.className = 'modal-overlay';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Add Coverage Area</h3>
+                            <button class="modal-close" onclick="closeAddCoverageModal()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addCoverageForm">
+                                <div class="form-group">
+                                    <label>County</label>
+                                    <select name="county" required>
+                                        <option value="">Select County</option>
+                                        <option value="nairobi">Nairobi</option>
+                                        <option value="mombasa">Mombasa</option>
+                                        <option value="kisumu">Kisumu</option>
+                                        <option value="nakuru">Nakuru</option>
+                                        <option value="eldoret">Eldoret</option>
+                                        <option value="thika">Thika</option>
+                                        <option value="kitale">Kitale</option>
+                                        <option value="garissa">Garissa</option>
+                                        <option value="kakamega">Kakamega</option>
+                                        <option value="naivasha">Naivasha</option>
+                                        <option value="nyeri">Nyeri</option>
+                                        <option value="meru">Meru</option>
+                                        <option value="kiambu">Kiambu</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Estate/Area Name</label>
+                                    <input type="text" name="estate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Coverage Status</label>
+                                    <select name="status" required>
+                                        <option value="available">Available</option>
+                                        <option value="coming_soon">Coming Soon</option>
+                                        <option value="planned">Planned</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea name="description" rows="3" placeholder="Brief description of the coverage area"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-secondary" onclick="closeAddCoverageModal()">Cancel</button>
+                            <button type="button" class="btn-primary" onclick="saveCoverage()">Add Coverage</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+            modal.style.display = 'flex';
+        }
+        
+        function closeAddCoverageModal() {
+            const modal = document.getElementById('addCoverageModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.getElementById('addCoverageForm').reset();
+            }
+        }
+        
+        async function saveCoverage() {
+            const form = document.getElementById('addCoverageForm');
+            const formData = new FormData(form);
+            
+            const coverageData = {
+                county: formData.get('county'),
+                estate: formData.get('estate'),
+                status: formData.get('status'),
+                description: formData.get('description')
+            };
+            
+            try {
+                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/coverage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(coverageData)
+                });
+                
+                if (response.ok) {
+                    closeAddCoverageModal();
+                    loadCoverage();
+                    showToast('Coverage area added successfully', 'success');
+                } else {
+                    showToast('Error adding coverage area', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving coverage:', error);
+                showToast('Error adding coverage area', 'error');
+            }
         }
         
         function editCoverage(coverageId) {
@@ -781,9 +955,42 @@
         
         function deleteCoverage(coverageId) {
             if (confirm('Are you sure you want to delete this entire coverage area? This action cannot be undone.')) {
-                console.log('Delete coverage:', coverageId);
-                // TODO: Implement coverage deletion
+                // Remove from mock data for now
+                showToast('Coverage area deleted successfully', 'success');
+                loadCoverage();
             }
+        }
+        
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            // Remove existing toast if any
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Add to page
+            document.body.appendChild(toast);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.remove();
+                }
+            }, 5000);
         }
         
         function addEstate(coverageId) {

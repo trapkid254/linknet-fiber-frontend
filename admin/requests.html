@@ -116,107 +116,163 @@
         </header>
         
         <div class="admin-content">
-            <!-- Installation Requests Stats Overview -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clipboard-list"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="total-requests-count">0</div>
-                        <div class="stat-label">Total Requests</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> All installation requests
+            <!-- Service Requests Command Center -->
+            <div class="requests-command-center">
+                <div class="command-header">
+                    <div class="command-intro">
+                        <div class="intro-badge">
+                            <i class="fas fa-headset"></i>
+                            <span>Service Center</span>
+                        </div>
+                        <div class="intro-text">
+                            <h1>Service Requests Command Center</h1>
+                            <p>Centralized hub for managing customer service requests and installations</p>
                         </div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
+                    <div class="command-actions">
+                        <button class="new-request-btn">
+                            <i class="fas fa-plus-square"></i> Create Request
+                        </button>
+                        <button class="queue-manager-btn">
+                            <i class="fas fa-list-check"></i> Queue Manager
+                        </button>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="pending-requests-count">0</div>
-                        <div class="stat-label">Pending Requests</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> Awaiting processing
+                </div>
+            </div>
+            
+            <!-- Request Workflow Dashboard -->
+            <div class="workflow-dashboard">
+                <div class="workflow-header">
+                    <h2>Request Workflow Overview</h2>
+                    <p>Track service requests through their lifecycle</p>
+                </div>
+                <div class="workflow-stages">
+                    <div class="stage-card new-requests">
+                        <div class="stage-icon">
+                            <i class="fas fa-inbox"></i>
+                        </div>
+                        <div class="stage-content">
+                            <div class="stage-title">New Requests</div>
+                            <div class="stage-count" id="pending-requests-count">0</div>
+                            <div class="stage-desc">Awaiting assignment</div>
+                        </div>
+                        <div class="stage-trend">
+                            <i class="fas fa-arrow-up"></i> +12%
                         </div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="scheduled-requests-count">0</div>
-                        <div class="stat-label">Scheduled</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> Installation dates set
+                    
+                    <div class="stage-card in-progress">
+                        <div class="stage-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="stage-content">
+                            <div class="stage-title">In Progress</div>
+                            <div class="stage-count">0</div>
+                            <div class="stage-desc">Being processed</div>
+                        </div>
+                        <div class="stage-trend">
+                            <i class="fas fa-minus"></i> Stable
                         </div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
+                    
+                    <div class="stage-card scheduled">
+                        <div class="stage-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stage-content">
+                            <div class="stage-title">Scheduled</div>
+                            <div class="stage-count">0</div>
+                            <div class="stage-desc">Installation planned</div>
+                        </div>
+                        <div class="stage-trend">
+                            <i class="fas fa-arrow-up"></i> +8%
+                        </div>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="completed-requests-count">0</div>
-                        <div class="stat-label">Completed</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> Successfully installed
+                    
+                    <div class="stage-card completed">
+                        <div class="stage-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <div class="stage-content">
+                            <div class="stage-title">Completed</div>
+                            <div class="stage-count" id="completed-requests-count">0</div>
+                            <div class="stage-desc">Successfully delivered</div>
+                        </div>
+                        <div class="stage-trend">
+                            <i class="fas fa-arrow-up"></i> +24%
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Installation Requests Table -->
-            <div class="data-table-container">
-                <div class="table-header">
-                    <h3>Installation Requests</h3>
-                    <div class="table-actions">
-                        <div class="admin-search">
-                            <i class="fas fa-search"></i>
-                            <input type="text" id="request-search" placeholder="Search requests...">
+            <!-- Service Requests Queue -->
+            <div class="requests-queue">
+                <div class="queue-header">
+                    <div class="header-info">
+                        <h2>Service Requests Queue</h2>
+                        <p>Manage and track all customer service requests</p>
+                    </div>
+                    <div class="header-controls">
+                        <div class="queue-filters">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search by ID, customer, service...">
+                            </div>
+                            <div class="filter-group">
+                                <select class="status-filter">
+                                    <option value="">All Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="scheduled">Scheduled</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                                <select class="priority-filter">
+                                    <option value="">All Priority</option>
+                                    <option value="urgent">Urgent</option>
+                                    <option value="high">High</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
                         </div>
-                        <select class="btn btn-outline btn-sm" id="status-filter">
-                            <option value="">All Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="approved">Approved</option>
-                            <option value="scheduled">Scheduled</option>
-                            <option value="in_progress">In Progress</option>
-                            <option value="completed">Completed</option>
-                            <option value="cancelled">Cancelled</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                        <select class="btn btn-outline btn-sm" id="priority-filter">
-                            <option value="">All Priorities</option>
-                            <option value="low">Low</option>
-                            <option value="normal">Normal</option>
-                            <option value="high">High</option>
-                            <option value="urgent">Urgent</option>
-                        </select>
+                        <div class="queue-actions">
+                            <button class="bulk-assign-btn">
+                                <i class="fas fa-user-plus"></i> Bulk Assign
+                            </button>
+                            <button class="export-queue-btn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Request ID</th>
-                            <th>Customer Information</th>
-                            <th>Service Address</th>
-                            <th>Package</th>
-                            <th>Preferred Date</th>
-                            <th>Status</th>
-                            <th>Priority</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="requests-tbody">
-                        <!-- Request rows will be populated here -->
-                    </tbody>
-                </table>
+                <div class="queue-table-container">
+                    <table class="queue-table">
+                        <thead>
+                            <tr>
+                                <th>Request Details</th>
+                                <th>Customer</th>
+                                <th>Service Type</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Timeline</th>
+                                <th>Assigned To</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 60px; color: var(--gray-500);">
+                                    <div class="empty-queue">
+                                        <i class="fas fa-clipboard-list"></i>
+                                        <div>No service requests in queue</div>
+                                        <p>Service requests will appear here when customers submit them</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </main>

@@ -116,91 +116,131 @@
         </header>
         
         <div class="admin-content">
-            <!-- Customer Stats Overview -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
+            <!-- Customer Management Header -->
+            <div class="customers-header">
+                <div class="customers-hero">
+                    <div class="hero-content">
+                        <h1>Customer Management</h1>
+                        <p>Manage your customer base with advanced tools and insights</p>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="total-customers-count">0</div>
-                        <div class="stat-label">Total Customers</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> All registered customers
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="active-customers-count">0</div>
-                        <div class="stat-label">Active Customers</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> Currently subscribed
-                        </div>
+                    <div class="hero-actions">
+                        <button class="btn-primary-gradient" id="add-customer-btn">
+                            <i class="fas fa-user-plus"></i> Add New Customer
+                        </button>
+                        <button class="btn-secondary-outline">
+                            <i class="fas fa-download"></i> Export List
+                        </button>
                     </div>
                 </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-box"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="unique-packages-count">0</div>
-                        <div class="stat-label">Unique Packages</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> Different service plans
+            </div>
+            
+            <!-- Customer Insights -->
+            <div class="insights-section">
+                <div class="insights-header">
+                    <h2>Customer Insights</h2>
+                    <p>Quick overview of your customer metrics</p>
+                </div>
+                <div class="insights-grid">
+                    <div class="insight-card total-customers">
+                        <div class="insight-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="insight-data">
+                            <div class="insight-value" id="total-customers-count">0</div>
+                            <div class="insight-label">Total Customers</div>
+                            <div class="insight-trend positive">
+                                <i class="fas fa-arrow-up"></i> +12% this month
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-chart-line"></i>
+                    
+                    <div class="insight-card active-customers">
+                        <div class="insight-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="insight-data">
+                            <div class="insight-value" id="active-customers-count">0</div>
+                            <div class="insight-label">Active Customers</div>
+                            <div class="insight-trend positive">
+                                <i class="fas fa-arrow-up"></i> +8% this month
+                            </div>
+                        </div>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="monthly-revenue-count">KES 0</div>
-                        <div class="stat-label">Monthly Revenue</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> From all customers
+                    
+                    <div class="insight-card revenue">
+                        <div class="insight-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="insight-data">
+                            <div class="insight-value" id="monthly-revenue-count">KES 0</div>
+                            <div class="insight-label">Monthly Revenue</div>
+                            <div class="insight-trend positive">
+                                <i class="fas fa-arrow-up"></i> +15% this month
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card satisfaction">
+                        <div class="insight-icon">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <div class="insight-data">
+                            <div class="insight-value">98%</div>
+                            <div class="insight-label">Satisfaction Rate</div>
+                            <div class="insight-trend stable">
+                                <i class="fas fa-minus"></i> Stable
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Customers Table -->
-            <div class="data-table-container">
-                <div class="table-header">
-                    <h3>Customer Management</h3>
-                    <div class="table-actions">
-                        <div class="admin-search">
+            <!-- Customer Directory -->
+            <div class="customers-directory">
+                <div class="directory-header">
+                    <div class="header-info">
+                        <h2>Customer Directory</h2>
+                        <p>Browse and manage all customer accounts</p>
+                    </div>
+                    <div class="header-controls">
+                        <div class="search-bar">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="customer-search" placeholder="Search customers...">
+                            <input type="text" id="customer-search" placeholder="Search by name, email, phone...">
                         </div>
-                        <button class="btn btn-primary btn-sm" id="add-customer-btn">
-                            <i class="fas fa-plus"></i> Add Customer
-                        </button>
+                        <div class="filter-options">
+                            <select class="filter-dropdown">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                            <select class="filter-dropdown">
+                                <option value="">All Packages</option>
+                                <option value="basic">Basic</option>
+                                <option value="standard">Standard</option>
+                                <option value="premium">Premium</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Customer Name</th>
-                            <th>Contact Information</th>
-                            <th>Service Address</th>
-                            <th>Package</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="customers-tbody">
-                        <!-- Customer rows will be populated here -->
-                    </tbody>
-                </table>
+                <div class="customers-table-container">
+                    <table class="customers-table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Contact Info</th>
+                                <th>Service Address</th>
+                                <th>Package</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-tbody">
+                            <!-- Customer rows will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </main>

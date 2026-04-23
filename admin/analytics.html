@@ -116,128 +116,187 @@
         </header>
         
         <div class="admin-content">
-            <!-- Analytics Stats Overview -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="total-revenue">KES 0</div>
-                        <div class="stat-label">Total Revenue</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> All time revenue
+            <!-- Analytics Dashboard Header -->
+            <div class="analytics-dashboard">
+                <div class="analytics-header">
+                    <div class="header-content">
+                        <div class="header-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="header-text">
+                            <h1>Analytics Dashboard</h1>
+                            <p>Comprehensive insights into your business performance and growth metrics</p>
                         </div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
+                    <div class="header-controls">
+                        <div class="date-range-selector">
+                            <input type="date" class="date-input" id="start-date">
+                            <span class="date-separator">to</span>
+                            <input type="date" class="date-input" id="end-date">
+                        </div>
+                        <button class="export-btn" onclick="exportAnalytics()">
+                            <i class="fas fa-file-export"></i> Export Report
+                        </button>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="total-customers">0</div>
-                        <div class="stat-label">Total Customers</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> Registered users
+                </div>
+            </div>
+            
+            <!-- Key Performance Indicators -->
+            <div class="kpi-section">
+                <div class="kpi-header">
+                    <h2>Key Performance Indicators</h2>
+                    <p>Real-time metrics that drive your business decisions</p>
+                </div>
+                <div class="kpi-grid">
+                    <div class="kpi-card revenue-kpi">
+                        <div class="kpi-header-info">
+                            <div class="kpi-title">Total Revenue</div>
+                            <div class="kpi-subtitle">All time earnings</div>
+                        </div>
+                        <div class="kpi-value" id="total-revenue">KES 0</div>
+                        <div class="kpi-chart">
+                            <div class="mini-chart revenue-chart"></div>
+                        </div>
+                        <div class="kpi-trend upward">
+                            <i class="fas fa-trending-up"></i> +24.5%
                         </div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-box"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="active-packages">0</div>
-                        <div class="stat-label">Active Packages</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> Available plans
+                    
+                    <div class="kpi-card customers-kpi">
+                        <div class="kpi-header-info">
+                            <div class="kpi-title">Total Customers</div>
+                            <div class="kpi-subtitle">Active user base</div>
+                        </div>
+                        <div class="kpi-value" id="total-customers">0</div>
+                        <div class="kpi-chart">
+                            <div class="mini-chart customers-chart"></div>
+                        </div>
+                        <div class="kpi-trend upward">
+                            <i class="fas fa-trending-up"></i> +18.2%
                         </div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clipboard-list"></i>
+                    
+                    <div class="kpi-card packages-kpi">
+                        <div class="kpi-header-info">
+                            <div class="kpi-title">Active Packages</div>
+                            <div class="kpi-subtitle">Service plans</div>
+                        </div>
+                        <div class="kpi-value" id="active-packages">0</div>
+                        <div class="kpi-chart">
+                            <div class="mini-chart packages-chart"></div>
+                        </div>
+                        <div class="kpi-trend stable">
+                            <i class="fas fa-minus"></i> No change
+                        </div>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value" id="completed-installations">0</div>
-                        <div class="stat-label">Completed Installations</div>
-                        <div class="stat-change">
-                            <i class="fas fa-info-circle"></i> Successfully installed
+                    
+                    <div class="kpi-card installations-kpi">
+                        <div class="kpi-header-info">
+                            <div class="kpi-title">Completed Installations</div>
+                            <div class="kpi-subtitle">Service deployments</div>
+                        </div>
+                        <div class="kpi-value" id="completed-installations">0</div>
+                        <div class="kpi-chart">
+                            <div class="mini-chart installations-chart"></div>
+                        </div>
+                        <div class="kpi-trend upward">
+                            <i class="fas fa-trending-up"></i> +32.1%
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Top Packages Table -->
-            <div class="data-table-container">
-                <div class="table-header">
-                    <h3>Package Performance Analytics</h3>
-                    <div class="table-actions">
-                        <div class="admin-search">
-                            <i class="fas fa-search"></i>
-                            <input type="text" placeholder="Search packages...">
+            <!-- Analytics Reports -->
+            <div class="analytics-reports">
+                <div class="reports-header">
+                    <h2>Detailed Analytics</h2>
+                    <p>Deep dive into your business metrics and performance trends</p>
+                </div>
+                
+                <div class="reports-grid">
+                    <!-- Package Performance Report -->
+                    <div class="report-card package-performance">
+                        <div class="report-header">
+                            <div class="report-title">
+                                <i class="fas fa-box"></i>
+                                Package Performance
+                            </div>
+                            <div class="report-actions">
+                                <button class="report-action-btn">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
                         </div>
-                        <button class="btn btn-outline btn-sm" onclick="exportAnalytics()">
-                            <i class="fas fa-download"></i> Export Report
-                        </button>
+                        <div class="report-content">
+                            <div class="report-summary">
+                                <div class="summary-item">
+                                    <div class="summary-label">Most Popular</div>
+                                    <div class="summary-value">Premium Plan</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="summary-label">Avg Revenue</div>
+                                    <div class="summary-value">KES 2,500</div>
+                                </div>
+                            </div>
+                            <div class="report-table">
+                                <table class="analytics-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Package</th>
+                                            <th>Subscriptions</th>
+                                            <th>Revenue</th>
+                                            <th>Growth</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="packages-tbody">
+                                        <!-- Package data will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Customer Growth Report -->
+                    <div class="report-card customer-growth">
+                        <div class="report-header">
+                            <div class="report-title">
+                                <i class="fas fa-users"></i>
+                                Customer Growth
+                            </div>
+                            <div class="report-actions">
+                                <select class="period-selector">
+                                    <option>Last 30 days</option>
+                                    <option>Last 90 days</option>
+                                    <option>Last year</option>
+                                </select>
+                                <button class="report-action-btn">
+                                    <i class="fas fa-sync"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="report-content">
+                            <div class="growth-chart-placeholder">
+                                <i class="fas fa-chart-area"></i>
+                                <div>Customer Growth Chart</div>
+                                <p>Visual representation of customer acquisition over time</p>
+                            </div>
+                            <div class="growth-metrics">
+                                <div class="metric">
+                                    <div class="metric-value">+156</div>
+                                    <div class="metric-label">New Customers</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">92%</div>
+                                    <div class="metric-label">Retention Rate</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">4.8</div>
+                                    <div class="metric-label">Avg Rating</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Package Name</th>
-                            <th>Active Subscriptions</th>
-                            <th>Monthly Revenue</th>
-                            <th>Growth Rate</th>
-                            <th>Trend</th>
-                        </tr>
-                    </thead>
-                    <tbody id="packages-tbody">
-                        <!-- Package rows will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Customer Analytics Table -->
-            <div class="data-table-container" style="margin-top: var(--spacing-xl);">
-                <div class="table-header">
-                    <h3>Customer Growth Analytics</h3>
-                    <div class="table-actions">
-                        <select class="btn btn-outline btn-sm">
-                            <option>Last 30 days</option>
-                            <option>Last 90 days</option>
-                            <option>Last year</option>
-                        </select>
-                        <button class="btn btn-primary btn-sm">
-                            <i class="fas fa-sync"></i> Refresh
-                        </button>
-                    </div>
-                </div>
-                
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Period</th>
-                            <th>New Customers</th>
-                            <th>Active Customers</th>
-                            <th>Revenue</th>
-                            <th>Growth</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
-                                <i class="fas fa-chart-line" style="font-size: 24px; margin-bottom: 16px; display: block;"></i>
-                                <div style="font-size: 16px; margin-bottom: 8px;">No analytics data available</div>
-                                <div style="font-size: 14px;">Analytics will appear as customers use your services</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </main>
