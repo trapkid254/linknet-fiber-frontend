@@ -371,20 +371,32 @@
         // Update analytics display
         function updateAnalyticsDisplay(analytics) {
             // Update revenue metrics
-            document.getElementById('total-revenue').textContent = `KES ${analytics.totalRevenue?.toLocaleString() || '0'}`;
-            document.getElementById('monthly-revenue').textContent = `KES ${analytics.monthlyRevenue?.toLocaleString() || '0'}`;
+            const totalRevenueEl = document.getElementById('total-revenue');
+            if (totalRevenueEl) totalRevenueEl.textContent = `KES ${analytics.totalRevenue?.toLocaleString() || '0'}`;
+            
+            const monthlyRevenueEl = document.getElementById('monthly-revenue');
+            if (monthlyRevenueEl) monthlyRevenueEl.textContent = `KES ${analytics.monthlyRevenue?.toLocaleString() || '0'}`;
             
             // Update customer metrics
-            document.getElementById('total-customers').textContent = analytics.totalCustomers?.toLocaleString() || '0';
-            document.getElementById('new-customers').textContent = analytics.newCustomers?.toLocaleString() || '0';
+            const totalCustomersEl = document.getElementById('total-customers');
+            if (totalCustomersEl) totalCustomersEl.textContent = analytics.totalCustomers?.toLocaleString() || '0';
+            
+            const newCustomersEl = document.getElementById('new-customers');
+            if (newCustomersEl) newCustomersEl.textContent = analytics.newCustomers?.toLocaleString() || '0';
             
             // Update package metrics
-            document.getElementById('active-packages').textContent = analytics.activePackages?.toLocaleString() || '0';
-            document.getElementById('popular-package').textContent = analytics.mostPopularPackage || 'N/A';
+            const activePackagesEl = document.getElementById('active-packages');
+            if (activePackagesEl) activePackagesEl.textContent = analytics.activePackages?.toLocaleString() || '0';
+            
+            const popularPackageEl = document.getElementById('popular-package');
+            if (popularPackageEl) popularPackageEl.textContent = analytics.mostPopularPackage || 'N/A';
             
             // Update installation metrics
-            document.getElementById('pending-installations').textContent = analytics.pendingInstallations?.toLocaleString() || '0';
-            document.getElementById('completed-installations').textContent = analytics.completedInstallations?.toLocaleString() || '0';
+            const pendingInstallationsEl = document.getElementById('pending-installations');
+            if (pendingInstallationsEl) pendingInstallationsEl.textContent = analytics.pendingInstallations?.toLocaleString() || '0';
+            
+            const completedInstallationsEl = document.getElementById('completed-installations');
+            if (completedInstallationsEl) completedInstallationsEl.textContent = analytics.completedInstallations?.toLocaleString() || '0';
         }
         
         // Update packages table
