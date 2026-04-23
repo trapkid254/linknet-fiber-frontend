@@ -784,7 +784,17 @@
         const modal = document.getElementById('package-modal');
         if (modal) {
             modal.classList.add('active');
-            document.getElementById('package-form').reset();
+            
+            // Reset form and clear edit mode
+            const form = document.getElementById('package-form');
+            form.reset();
+            delete form.dataset.editId;
+            
+            // Reset modal title
+            const modalTitle = document.querySelector('#package-modal h3');
+            if (modalTitle) {
+                modalTitle.textContent = 'Add New Package';
+            }
         }
     };
     
@@ -842,12 +852,30 @@
             
             if (!response.ok) throw new Error('Failed to fetch package');
             
-            const packageData = await response.json();
+            const result = await response.json();
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to fetch package');
+            }
+            
+            const packageData = result.data;
+            
+            // Set form to edit mode
+            const form = document.getElementById('package-form');
+            if (form) {
+                form.dataset.editId = id;
+            }
+            
+            // Update modal title
+            const modalTitle = document.querySelector('#package-modal h3');
+            if (modalTitle) {
+                modalTitle.textContent = 'Edit Package';
+            }
+            
             // Populate form with package data
-            document.getElementById('package-name').value = packageData.name;
-            document.getElementById('package-speed').value = packageData.speed;
-            document.getElementById('package-price').value = packageData.price;
-            document.getElementById('package-features').value = packageData.features.join(', ');
+            document.getElementById('package-name').value = packageData.name || '';
+            document.getElementById('package-speed').value = packageData.speed || '';
+            document.getElementById('package-price').value = packageData.price || '';
+            document.getElementById('package-features').value = packageData.features ? packageData.features.join(', ') : '';
             
             showPackageModal();
         } catch (error) {
@@ -983,6 +1011,9 @@
     const handlePackageSubmit = async (event) => {
         event.preventDefault();
         
+        const form = document.getElementById('package-form');
+        const editId = form ? form.dataset.editId : null;
+        
         const formData = {
             name: document.getElementById('package-name').value,
             speed: parseInt(document.getElementById('package-speed').value),
@@ -991,7 +1022,61 @@
             isActive: true
         };
         
-        await addPackage(formData);
+        try {
+            let response;
+            let message;
+            
+            if (editId) {
+                // Edit existing package
+                response = await fetch(`${API_BASE}/admin/packages/${editId}`, {
+                    method: 'PUT',
+                    headers: {
+                        ...getAuthHeaders(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                message = 'Package updated successfully';
+            } else {
+                // Create new package
+                response = await fetch(`${API_BASE}/admin/packages`, {
+                    method: 'POST',
+                    headers: {
+                        ...getAuthHeaders(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                message = 'Package added successfully';
+            }
+            
+            if (!response.ok) throw new Error(`Failed to ${editId ? 'update' : 'add'} package`);
+            
+            const result = await response.json();
+            if (!result.success) {
+                throw new Error(result.error || `Failed to ${editId ? 'update' : 'add'} package`);
+            }
+            
+            showToast(message, 'success');
+            hideModal('package-modal');
+            loadPackages();
+            
+            // Reset form and edit mode
+            if (form) {
+                form.reset();
+                delete form.dataset.editId;
+            }
+            
+            // Reset modal title
+            const modalTitle = document.querySelector('#package-modal h3');
+            if (modalTitle) {
+                modalTitle.textContent = 'Add New Package';
+            }
+            
+        } catch (error) {
+            console.error(`Error ${editId ? 'updating' : 'adding'} package:`, error);
+            showToast(`Failed to ${editId ? 'update' : 'add'} package`, 'error');
+        }
     };
     
     const handleCustomerSubmit = async (event) => {
