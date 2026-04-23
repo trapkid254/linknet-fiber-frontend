@@ -936,6 +936,17 @@
 /* ---------- ADMIN PAGE SPECIFIC STYLES ---------- */
 /* Unified Professional Styling for All Admin Pages */
 
+/* Admin Content Area - Professional Background */
+.admin-content {
+    padding: var(--spacing-xl);
+    max-width: 1400px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(248, 250, 252, 0.9));
+    border-radius: var(--radius-xl);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    min-height: calc(100vh - 200px);
+}
+
 /* Page Headers */
 .page-header {
     margin-bottom: var(--spacing-xl);
@@ -1404,6 +1415,330 @@
 @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+/* Missing Styles for Unified Admin Pages */
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.metric-item {
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+}
+
+.metric-item:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: rgba(255, 255, 255, 0.98);
+    border-color: var(--blue-primary);
+    box-shadow: 0 6px 20px rgba(30, 77, 140, 0.2);
+}
+
+.metric-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--blue-primary);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--blue-primary), var(--blue-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+.metric-change {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+.change-positive {
+    color: var(--success);
+    background: linear-gradient(135deg, var(--success), #059669);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.change-negative {
+    color: var(--error);
+    background: linear-gradient(135deg, var(--error), #c82333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.chart-container {
+    margin-top: var(--spacing-xl);
+    height: 350px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.chart-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(30, 77, 140, 0.05), rgba(30, 77, 140, 0));
+    border-radius: var(--radius-sm);
+    color: var(--gray-600);
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-placeholder::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(30, 77, 140, 0.1), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.package-features {
+    margin-bottom: var(--spacing-xl);
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(30, 77, 140, 0.05);
+    border-radius: var(--radius-sm);
+    color: var(--gray-700);
+    transition: all 0.3s ease;
+}
+
+.feature-item i {
+    color: var(--blue-primary);
+    font-size: 1rem;
+    min-width: 20px;
+}
+
+.package-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-200);
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+}
+
+.detail-label {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 1rem;
+    color: var(--gray-700);
+    font-weight: 600;
+}
+
+.customer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.customer-name {
+    font-weight: 700;
+    color: var(--blue-primary);
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.customer-email {
+    color: var(--gray-600);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.customer-contact-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-600);
+    font-size: 0.85rem;
+}
+
+.package-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.package-name {
+    font-weight: 700;
+    color: var(--blue-primary);
+    font-size: 1rem;
+}
+
+.package-speed {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.request-id {
+    font-weight: 700;
+    color: var(--blue-primary);
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.priority-badge {
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.priority-low {
+    background: linear-gradient(135deg, var(--gray-600), var(--gray-700));
+    color: var(--white);
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2);
+}
+
+.priority-normal {
+    background: linear-gradient(135deg, var(--info), var(--info-dark));
+    color: var(--white);
+    box-shadow: 0 2px 8px rgba(23, 162, 184, 0.2);
+}
+
+.priority-high {
+    background: linear-gradient(135deg, var(--warning), #d97706);
+    color: var(--white);
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
+}
+
+.priority-urgent {
+    background: linear-gradient(135deg, var(--error), #c82333);
+    color: var(--white);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
+    animation: pulse 2s infinite;
+}
+
+/* Additional Status Classes */
+.status-pending {
+    background: linear-gradient(135deg, var(--warning), #d97706);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.status-approved {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.status-scheduled {
+    background: linear-gradient(135deg, var(--info), var(--info-dark));
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+}
+
+.status-in_progress {
+    background: linear-gradient(135deg, var(--warning), #d97706);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.status-completed {
+    background: linear-gradient(135deg, var(--info), var(--info-dark));
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.status-cancelled {
+    background: linear-gradient(135deg, var(--gray-600), var(--gray-700));
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.status-rejected {
+    background: linear-gradient(135deg, var(--error), #c82333);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.revenue-amount {
+    font-weight: 700;
+    color: var(--success);
+    font-size: 1.1rem;
+}
+
+.growth-rate {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.growth-positive {
+    color: var(--success);
+    background: linear-gradient(135deg, var(--success), #059669);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.growth-negative {
+    color: var(--error);
+    background: linear-gradient(135deg, var(--error), #c82333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
 }
 
 /* ---------- SETTINGS PAGE STYLES ---------- */
