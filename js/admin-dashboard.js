@@ -220,8 +220,8 @@
                         console.error('Verify error:', verifyError);
                     }
                     
-                    // For now, load mock data as fallback
-                    loadMockStats();
+                    // Show empty state when API fails
+                    showEmptyStats();
                     return;
                 }
                 
@@ -258,11 +258,20 @@
             updateStatCard('Total Customers', 0, 'users');
             updateStatCard('Pending Requests', 0, 'clipboard-list');
             updateStatCard('Active Packages', 0, 'box');
-            updateStatCard('Monthly Revenue', 'KES 0', 'chart-line');
+            updateStatCard('Monthly Revenue', 0, 'chart-line');
             updateStatChangeMessages(0, 0, 0, 0);
             // Show empty state for requests
             loadRecentRequests([]);
         }
+    };
+    
+    const showEmptyStats = () => {
+        updateStatCard('Total Customers', 0, 'users');
+        updateStatCard('Pending Requests', 0, 'clipboard-list');
+        updateStatCard('Active Packages', 0, 'box');
+        updateStatCard('Monthly Revenue', 0, 'chart-line');
+        updateStatChangeMessages(0, 0, 0, 0);
+        loadRecentRequests([]);
     };
     
     const updateStatCard = (label, value, iconClass) => {

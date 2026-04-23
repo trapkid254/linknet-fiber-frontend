@@ -337,17 +337,42 @@
             document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
         }
 
-        function loadAnalytics() {
-            // Load analytics data
-            updateMetrics();
+        async function loadAnalytics() {
+            try {
+                // Load analytics data from API
+                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/analytics/metrics', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('linknet_admin_auth') ? JSON.parse(localStorage.getItem('linknet_admin_auth')).token : ''}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateMetrics(data);
+                } else {
+                    console.error('Failed to load analytics data');
+                    showEmptyMetrics();
+                }
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+                showEmptyMetrics();
+            }
         }
 
-        function updateMetrics() {
-            // Mock data for demonstration
-            document.getElementById('total-revenue').textContent = 'KES 2,456,789';
-            document.getElementById('active-customers').textContent = '1,234';
-            document.getElementById('new-customers').textContent = '89';
-            document.getElementById('installation-requests').textContent = '156';
+        function updateMetrics(data) {
+            // Real data from API
+            document.getElementById('total-revenue').textContent = data.totalRevenue ? `KES ${data.totalRevenue.toLocaleString()}` : 'KES 0';
+            document.getElementById('active-customers').textContent = data.activeCustomers || '0';
+            document.getElementById('new-customers').textContent = data.newCustomers || '0';
+            document.getElementById('installation-requests').textContent = data.installationRequests || '0';
+        }
+
+        function showEmptyMetrics() {
+            document.getElementById('total-revenue').textContent = 'KES 0';
+            document.getElementById('active-customers').textContent = '0';
+            document.getElementById('new-customers').textContent = '0';
+            document.getElementById('installation-requests').textContent = '0';
         }
 
         function initializeCharts() {
