@@ -450,7 +450,92 @@ window.hideModal = hideModal;
     
         
     const loadDashboardSection = () => {
-        location.reload(); // Simple reload for dashboard
+        // Show dashboard section
+        const content = document.querySelector('.admin-content');
+        if (!content) return;
+        
+        content.innerHTML = `
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Total Customers</div>
+                        <div class="stat-value" id="stat-customers">0</div>
+                        <div class="stat-change" id="change-customers"><i class="fas fa-info-circle"></i> No customers yet</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Pending Requests</div>
+                        <div class="stat-value" id="stat-requests">0</div>
+                        <div class="stat-change" id="change-requests"><i class="fas fa-info-circle"></i> No requests yet</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Active Packages</div>
+                        <div class="stat-value" id="stat-packages">0</div>
+                        <div class="stat-change" id="change-packages"><i class="fas fa-info-circle"></i> No packages added</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Monthly Revenue</div>
+                        <div class="stat-value" id="stat-revenue">KES 0</div>
+                        <div class="stat-change" id="change-revenue"><i class="fas fa-info-circle"></i> No revenue yet</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-table-container">
+                <div class="table-header">
+                    <h3>Recent Installation Requests</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-outline btn-sm" onclick="loadRequests()">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Package</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-table-body">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">
+                                <i class="fas fa-clipboard-list" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+                                No installation requests found.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+        
+        // Load stats and requests
+        loadDashboardStats();
     };
     
     const loadPackagesSection = () => {
@@ -1712,9 +1797,37 @@ window.hideModal = hideModal;
     // Make functions globally accessible
     window.handleProfileSubmit = handleProfileSubmit;
     window.handlePasswordSubmit = handlePasswordSubmit;
+    window.showPackageModal = showPackageModal;
+    window.hideModal = hideModal;
+    window.editPackage = editPackage;
+    window.deletePackage = deletePackage;
+    window.deleteRequest = deleteRequest;
+    window.editCoverage = editCoverage;
+    window.deleteCoverage = deleteCoverage;
+    window.loadRequests = loadRequests;
+    window.loadPackages = loadPackages;
+    window.loadCoverageAreas = loadCoverageAreas;
+    window.loadCustomers = loadCustomers;
+    window.updateRequestStatus = updateRequestStatus;
     window.handleSystemSettingsSubmit = handleSystemSettingsSubmit;
     window.showSettingsPage = showSettingsPage;
     window.showDashboardPage = showDashboardPage;
+    
+    // Add missing functions for admin pages
+    window.viewRequest = viewRequest;
+    window.editRequest = editRequest;
+    window.viewPackage = viewPackage;
+    window.viewCustomer = viewCustomer;
+    window.editCustomer = editCustomer;
+    window.deleteCustomer = deleteCustomer;
+    window.viewCoverage = viewCoverage;
+    window.showAddCoverageModal = showAddCoverageModal;
+    window.closeAddCoverageModal = closeAddCoverageModal;
+    window.saveCoverage = saveCoverage;
+    window.closeEditCoverageModal = closeEditCoverageModal;
+    window.saveEditCoverage = saveEditCoverage;
+    window.closeViewCoverageModal = closeViewCoverageModal;
+    window.exportAnalytics = exportAnalytics;
     
     // Start when DOM is ready
     if (document.readyState === 'loading') {

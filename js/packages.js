@@ -34,7 +34,7 @@
                 <div class="error-message">
                     <i class="fas fa-exclamation-circle"></i>
                     <p>Unable to load packages. Please try again later.</p>
-                    <button onclick="location.reload()" class="btn btn-primary">Retry</button>
+                    <button onclick="loadPackages()" class="btn btn-primary">Retry</button>
                 </div>
             `;
             

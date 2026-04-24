@@ -324,30 +324,41 @@
     </script>
     <script>
         // Analytics page specific functionality
+        // Define functions globally for onclick handlers
+        let loadAnalytics, exportAnalytics;
+        
         document.addEventListener('DOMContentLoaded', function() {
+            loadAnalytics = async function() {
+                try {
+                    const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/analytics', {
+                        headers: getAuthHeaders()
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        updateAnalyticsDisplay(data.analytics);
+                        updatePackagesTable(data.topPackages);
+                    } else {
+                        showEmptyState();
+                    }
+                } catch (error) {
+                    console.error('Error loading analytics:', error);
+                    showEmptyState();
+                }
+            };
+            
+            exportAnalytics = function() {
+                console.log('Export analytics');
+                // TODO: Implement export functionality
+            };
+            
+            // Expose to window
+            window.loadAnalytics = loadAnalytics;
+            window.exportAnalytics = exportAnalytics;
+            
             loadAnalytics();
             initDateRange();
         });
-        
-        // Load analytics data from API
-        async function loadAnalytics() {
-            try {
-                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/analytics', {
-                    headers: getAuthHeaders()
-                });
-                const data = await response.json();
-                
-                if (data.success) {
-                    updateAnalyticsDisplay(data.analytics);
-                    updatePackagesTable(data.topPackages);
-                } else {
-                    showEmptyState();
-                }
-            } catch (error) {
-                console.error('Error loading analytics:', error);
-                showEmptyState();
-            }
-        }
         
         // Update analytics display
         function updateAnalyticsDisplay(analytics) {

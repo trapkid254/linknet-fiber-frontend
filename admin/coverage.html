@@ -213,32 +213,103 @@
     </script>
     <script>
         // Coverage page specific functionality
+        // Define functions globally for onclick handlers
+        let loadCoverage, viewCoverage, editCoverage, deleteCoverage, showAddCoverageModal, closeAddCoverageModal, saveCoverage, closeEditCoverageModal, saveEditCoverage, closeViewCoverageModal;
+        
         document.addEventListener('DOMContentLoaded', function() {
+            loadCoverage = async function(county = '', search = '') {
+                try {
+                    const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/coverage`, {
+                        headers: getAuthHeaders()
+                    });
+                    const data = await response.json();
+                    
+                    console.log('Coverage data:', data);
+                    
+                    if (data.success && data.data) {
+                        displayCoverage(data.data);
+                    } else {
+                        showEmptyState();
+                    }
+                } catch (error) {
+                    console.error('Error loading coverage:', error);
+                    showEmptyState();
+                }
+            };
+            
+            viewCoverage = function(id) {
+                console.log('View coverage:', id);
+                // TODO: Implement view coverage modal
+            };
+            
+            editCoverage = function(id) {
+                console.log('Edit coverage:', id);
+                // TODO: Implement edit coverage modal
+            };
+            
+            deleteCoverage = async function(id) {
+                if (confirm('Are you sure you want to delete this coverage area?')) {
+                    try {
+                        const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/coverage/${id}`, {
+                            method: 'DELETE',
+                            headers: getAuthHeaders()
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            loadCoverage();
+                        }
+                    } catch (error) {
+                        console.error('Error deleting coverage:', error);
+                    }
+                }
+            };
+            
+            showAddCoverageModal = function() {
+                const modal = document.getElementById('add-coverage-modal');
+                if (modal) modal.classList.add('active');
+            };
+            
+            closeAddCoverageModal = function() {
+                const modal = document.getElementById('add-coverage-modal');
+                if (modal) modal.classList.remove('active');
+            };
+            
+            saveCoverage = async function() {
+                // TODO: Implement save coverage
+                console.log('Save coverage');
+            };
+            
+            closeEditCoverageModal = function() {
+                const modal = document.getElementById('edit-coverage-modal');
+                if (modal) modal.classList.remove('active');
+            };
+            
+            saveEditCoverage = async function(id) {
+                // TODO: Implement save edit coverage
+                console.log('Save edit coverage:', id);
+            };
+            
+            closeViewCoverageModal = function() {
+                const modal = document.getElementById('view-coverage-modal');
+                if (modal) modal.classList.remove('active');
+            };
+            
+            // Expose to window
+            window.loadCoverage = loadCoverage;
+            window.viewCoverage = viewCoverage;
+            window.editCoverage = editCoverage;
+            window.deleteCoverage = deleteCoverage;
+            window.showAddCoverageModal = showAddCoverageModal;
+            window.closeAddCoverageModal = closeAddCoverageModal;
+            window.saveCoverage = saveCoverage;
+            window.closeEditCoverageModal = closeEditCoverageModal;
+            window.saveEditCoverage = saveEditCoverage;
+            window.closeViewCoverageModal = closeViewCoverageModal;
+            
             loadCoverage();
             initCoverageSearch();
             initFilters();
         });
-        
-        // Load coverage from API
-        async function loadCoverage(county = '', search = '') {
-            try {
-                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/coverage`, {
-                    headers: getAuthHeaders()
-                });
-                const data = await response.json();
-                
-                console.log('Coverage data:', data);
-                
-                if (data.success && data.data) {
-                    displayCoverage(data.data);
-                } else {
-                    showEmptyState();
-                }
-            } catch (error) {
-                console.error('Error loading coverage:', error);
-                showEmptyState();
-            }
-        }
         
         // Display coverage in table
         function displayCoverage(coverage) {

@@ -268,31 +268,66 @@
     </script>
     <script>
         // Customers page specific functionality
+        // Define functions globally for onclick handlers
+        let loadCustomers, viewCustomer, editCustomer, deleteCustomer;
+        
         document.addEventListener('DOMContentLoaded', function() {
+            loadCustomers = async function(page = 1, search = '') {
+                try {
+                    const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/requests', {
+                        headers: getAuthHeaders()
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success && data.data) {
+                        displayCustomers(data.data);
+                        updateCustomerCounts(data.data);
+                    } else {
+                        showEmptyState();
+                    }
+                } catch (error) {
+                    console.error('Error loading customers:', error);
+                    showEmptyState();
+                }
+            };
+            
+            viewCustomer = function(id) {
+                console.log('View customer:', id);
+                // TODO: Implement view customer modal
+            };
+            
+            editCustomer = function(id) {
+                console.log('Edit customer:', id);
+                // TODO: Implement edit customer modal
+            };
+            
+            deleteCustomer = async function(id) {
+                if (confirm('Are you sure you want to delete this customer?')) {
+                    try {
+                        const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests/${id}`, {
+                            method: 'DELETE',
+                            headers: getAuthHeaders()
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            loadCustomers();
+                        }
+                    } catch (error) {
+                        console.error('Error deleting customer:', error);
+                    }
+                }
+            };
+            
+            // Expose to window
+            window.loadCustomers = loadCustomers;
+            window.viewCustomer = viewCustomer;
+            window.editCustomer = editCustomer;
+            window.deleteCustomer = deleteCustomer;
+            
             loadCustomers();
             initCustomerSearch();
             initPagination();
         });
-        
-        // Load customers from API (using requests endpoint since customers are stored as requests)
-        async function loadCustomers(page = 1, search = '') {
-            try {
-                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/requests', {
-                    headers: getAuthHeaders()
-                });
-                const data = await response.json();
-                
-                if (data.success && data.data) {
-                    displayCustomers(data.data);
-                    updateCustomerCounts(data.data);
-                } else {
-                    showEmptyState();
-                }
-            } catch (error) {
-                console.error('Error loading customers:', error);
-                showEmptyState();
-            }
-        }
         
         // Display customers in table
         function displayCustomers(customers) {

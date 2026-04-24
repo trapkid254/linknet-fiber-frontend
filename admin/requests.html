@@ -300,31 +300,83 @@
     </script>
     <script>
         // Requests page specific functionality
+        // Define functions globally for onclick handlers
+        let loadRequests, viewRequest, editRequest, deleteRequest, updateRequestStatus;
+        
         document.addEventListener('DOMContentLoaded', function() {
+            loadRequests = async function(page = 1, status = '', priority = '', search = '') {
+                try {
+                    const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests`, {
+                        headers: getAuthHeaders()
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success && data.data) {
+                        displayRequests(data.data);
+                        updatePagination({ page: 1, pages: 1, total: data.total });
+                    } else {
+                        showEmptyState();
+                    }
+                } catch (error) {
+                    console.error('Error loading requests:', error);
+                    showEmptyState();
+                }
+            };
+            
+            viewRequest = function(id) {
+                console.log('View request:', id);
+                // TODO: Implement view request modal
+            };
+            
+            editRequest = function(id) {
+                console.log('Edit request:', id);
+                // TODO: Implement edit request modal
+            };
+            
+            deleteRequest = async function(id) {
+                if (confirm('Are you sure you want to delete this request?')) {
+                    try {
+                        const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests/${id}`, {
+                            method: 'DELETE',
+                            headers: getAuthHeaders()
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            loadRequests();
+                        }
+                    } catch (error) {
+                        console.error('Error deleting request:', error);
+                    }
+                }
+            };
+            
+            updateRequestStatus = async function(id, status) {
+                try {
+                    const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests/${id}/status`, {
+                        method: 'PUT',
+                        headers: getAuthHeaders(),
+                        body: JSON.stringify({ status })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        loadRequests();
+                    }
+                } catch (error) {
+                    console.error('Error updating request status:', error);
+                }
+            };
+            
+            // Expose to window
+            window.loadRequests = loadRequests;
+            window.viewRequest = viewRequest;
+            window.editRequest = editRequest;
+            window.deleteRequest = deleteRequest;
+            window.updateRequestStatus = updateRequestStatus;
+            
             loadRequests();
             initRequestSearch();
             initFilters();
         });
-        
-        // Load requests from API
-        async function loadRequests(page = 1, status = '', priority = '', search = '') {
-            try {
-                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests`, {
-                    headers: getAuthHeaders()
-                });
-                const data = await response.json();
-                
-                if (data.success && data.data) {
-                    displayRequests(data.data);
-                    updatePagination({ page: 1, pages: 1, total: data.total });
-                } else {
-                    showEmptyState();
-                }
-            } catch (error) {
-                console.error('Error loading requests:', error);
-                showEmptyState();
-            }
-        }
         
         // Display requests in table
         function displayRequests(requests) {

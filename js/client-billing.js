@@ -17,14 +17,14 @@ function setupPaymentModal() {
 
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
+            modal.classList.remove('active');
         });
     }
 
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
-            modal.style.display = 'none';
+            modal.classList.remove('active');
         }
     });
 
@@ -56,7 +56,7 @@ async function openPaymentModal() {
         }
     }
     
-    modal.style.display = 'block';
+    modal.classList.add('active');
 }
 
 async function handlePaymentSubmit(e) {
@@ -154,7 +154,7 @@ async function handlePaymentSubmit(e) {
 
 function closePaymentModal() {
     const modal = document.getElementById('mpesa-payment-modal');
-    modal.style.display = 'none';
+    modal.classList.remove('active');
     resetPaymentForm();
 }
 
