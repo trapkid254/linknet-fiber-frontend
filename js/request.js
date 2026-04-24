@@ -244,12 +244,25 @@
                 
                 const result = await response.json();
                 
-                showResult(`
-                    <i class="fas fa-check-circle"></i>
-                    <strong>Request Submitted Successfully!</strong><br>
-                    Your reference number: <strong>${result.id || 'LN-' + Date.now()}</strong><br>
-                    Our team will contact you within 1 hour to confirm your installation.
-                `, 'success');
+                // Store data in sessionStorage and redirect to success page
+                const successData = {
+                    requestId: result.data?.requestId || 'LN-' + Date.now(),
+                    fullname: data.fullname,
+                    email: data.email,
+                    phone: data.phone,
+                    county: data.county,
+                    estate: data.estate,
+                    street: data.street,
+                    building: data.building || '-',
+                    houseNumber: data.houseNumber || '-',
+                    packageName: result.data?.package?.name || 'Selected Package',
+                    billingCycle: data.billingCycle,
+                    preferredDate: data.preferredDate,
+                    preferredTime: data.preferredTime
+                };
+                
+                sessionStorage.setItem('requestSuccessData', JSON.stringify(successData));
+                window.location.href = 'request-success.html';
                 
                 form.reset();
                 
