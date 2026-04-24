@@ -220,12 +220,12 @@
                             <div class="form-section">
                                 <h3>Package Selection</h3>
                                 
-                                <div class="form-group">
-                                    <label for="package">Select Package *</label>
-                                    <select id="package" name="packageId" required>
-                                        <option value="">Choose a package</option>
-                                    </select>
+                                <button type="button" id="select-package-btn" class="btn btn-gold">Select Package</button>
+                                
+                                <div id="packages-container" class="packages-selection-container" style="display: none;">
+                                    <div class="loading-spinner">Loading packages...</div>
                                 </div>
+                                <input type="hidden" id="package" name="packageId" required>
                                 
                                 <div class="form-group">
                                     <label for="billing-cycle">Billing Cycle *</label>

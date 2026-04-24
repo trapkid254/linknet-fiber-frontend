@@ -27,10 +27,14 @@
         dateInput.max = `${maxYear}-${maxMonth}-${maxDay}`;
     };
     
-    // Load packages for dropdown
+    // Load packages for card selection
     const loadPackages = async () => {
-        const packageSelect = document.getElementById('package');
-        if (!packageSelect) return;
+        const container = document.getElementById('packages-container');
+        const packageInput = document.getElementById('package');
+        if (!container || !packageInput) return;
+        
+        // Show container
+        container.style.display = 'grid';
         
         try {
             const response = await fetch(`${API_BASE}/packages`);
@@ -53,48 +57,107 @@
             
             if (!Array.isArray(packages) || packages.length === 0) {
                 console.log('No packages found, loading mock data');
-                loadMockPackages(packageSelect);
+                loadMockPackages(container, packageInput);
                 return;
             }
             
-            packages.forEach(pkg => {
-                const option = document.createElement('option');
-                option.value = pkg.id || pkg._id;
-                option.textContent = `${pkg.name} - ${pkg.speed} Mbps - KES ${pkg.price}/month`;
-                option.dataset.price = pkg.price;
-                packageSelect.appendChild(option);
-            });
+            displayPackageCards(packages, container, packageInput);
             
             // Check for pre-selected package from URL
             const urlParams = new URLSearchParams(window.location.search);
             const packageId = urlParams.get('package');
             if (packageId) {
-                packageSelect.value = packageId;
+                selectPackage(packageId);
             }
             
         } catch (error) {
             console.error('Error loading packages:', error);
             // Load mock packages as fallback
-            loadMockPackages(packageSelect);
+            loadMockPackages(container, packageInput);
         }
     };
     
+    // Display packages as cards
+    const displayPackageCards = (packages, container, packageInput) => {
+        container.innerHTML = packages.map(pkg => `
+            <div class="package-selection-card" data-package-id="${pkg.id || pkg._id}" data-price="${pkg.price}">
+                <div class="package-card-header">
+                    <h4 class="package-name">${pkg.name}</h4>
+                    <div class="package-speed">${pkg.speed} <small>Mbps</small></div>
+                </div>
+                <div class="package-card-price">
+                    <span class="price">KES ${pkg.price.toLocaleString()}</span>
+                    <span class="period">/month</span>
+                </div>
+                <ul class="package-features">
+                    ${pkg.features ? pkg.features.slice(0, 3).map(feature => `
+                        <li><i class="fas fa-check-circle"></i> ${feature}</li>
+                    `).join('') : '<li><i class="fas fa-check-circle"></i> Unlimited Data</li><li><i class="fas fa-check-circle"></i> Free Installation</li><li><i class="fas fa-check-circle"></i> WiFi Router Included</li>'}
+                </ul>
+            </div>
+        `).join('');
+        
+        // Add click handlers
+        container.querySelectorAll('.package-selection-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const packageId = card.dataset.packageId;
+                selectPackage(packageId);
+            });
+        });
+    };
+    
+    // Select a package
+    const selectPackage = (packageId) => {
+        const packageInput = document.getElementById('package');
+        const cards = document.querySelectorAll('.package-selection-card');
+        
+        // Update hidden input
+        packageInput.value = packageId;
+        
+        // Update card selection
+        cards.forEach(card => {
+            if (card.dataset.packageId === packageId) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+        });
+    };
+    
     // Mock packages as fallback
-    const loadMockPackages = (packageSelect) => {
+    const loadMockPackages = (container, packageInput) => {
         const mockPackages = [
-            { id: 1, name: 'Basic', speed: 20, price: 2999 },
-            { id: 2, name: 'Pro', speed: 50, price: 4999 },
-            { id: 3, name: 'Business', speed: 100, price: 9999 },
-            { id: 4, name: 'Enterprise', speed: 500, price: 24999 }
+            { 
+                id: 1, 
+                name: 'Basic', 
+                speed: 20, 
+                price: 2999,
+                features: ['Unlimited Data', 'Free Installation', 'WiFi Router Included']
+            },
+            { 
+                id: 2, 
+                name: 'Pro', 
+                speed: 50, 
+                price: 4999,
+                features: ['Unlimited Data', 'Free Installation', 'WiFi 6 Router', '24/7 Priority Support']
+            },
+            { 
+                id: 3, 
+                name: 'Business', 
+                speed: 100, 
+                price: 9999,
+                features: ['Unlimited Data', 'Free Installation', 'WiFi 6 Router', 'Static IP Included', 'SLA Guarantee']
+            },
+            { 
+                id: 4, 
+                name: 'Enterprise', 
+                speed: 500, 
+                price: 24999,
+                features: ['Unlimited Data', 'Free Installation', 'Enterprise Router', '99.9% SLA', 'Dedicated Support']
+            }
         ];
         
-        mockPackages.forEach(pkg => {
-            const option = document.createElement('option');
-            option.value = pkg.id;
-            option.textContent = `${pkg.name} - ${pkg.speed} Mbps - KES ${pkg.price}/month`;
-            option.dataset.price = pkg.price;
-            packageSelect.appendChild(option);
-        });
+        displayPackageCards(mockPackages, container, packageInput);
     };
     
     // Handle form submission
@@ -182,7 +245,13 @@
     // Initialize
     const init = () => {
         setMinDate();
-        loadPackages();
+        
+        // Add click handler for Select Package button
+        const selectPackageBtn = document.getElementById('select-package-btn');
+        if (selectPackageBtn) {
+            selectPackageBtn.addEventListener('click', loadPackages);
+        }
+        
         initRequestForm();
     };
     
