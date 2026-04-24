@@ -32,7 +32,7 @@
             showAboutResult('<i class="fas fa-spinner fa-spin"></i> Checking coverage...', 'loading');
             
             try {
-                const response = await fetch(`${API_BASE}/admin/public/coverage/search?county=${encodeURIComponent(county)}&estate=${encodeURIComponent(estate)}`);
+                const response = await fetch(`${API_BASE}/coverage/search?county=${encodeURIComponent(county)}&estate=${encodeURIComponent(estate)}`);
                 
                 if (!response.ok) {
                     throw new Error('Failed to check coverage');
