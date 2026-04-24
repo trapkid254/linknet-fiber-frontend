@@ -37,15 +37,23 @@
             if (!response.ok) throw new Error('Failed to load packages');
             
             const result = await response.json();
+            console.log('API Response:', result);
             
             // Handle both response formats: direct array or {success, data}
-            const packages = Array.isArray(result) ? result : (result.data || []);
+            let packages = [];
+            if (Array.isArray(result)) {
+                packages = result;
+            } else if (result && result.data && Array.isArray(result.data)) {
+                packages = result.data;
+            } else if (result && result.packages && Array.isArray(result.packages)) {
+                packages = result.packages;
+            }
             
-            if (packages.length === 0) {
-                const option = document.createElement('option');
-                option.value = '';
-                option.textContent = 'No packages available';
-                packageSelect.appendChild(option);
+            console.log('Packages array:', packages);
+            
+            if (!Array.isArray(packages) || packages.length === 0) {
+                console.log('No packages found, loading mock data');
+                loadMockPackages(packageSelect);
                 return;
             }
             
