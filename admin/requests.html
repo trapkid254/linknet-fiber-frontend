@@ -447,6 +447,8 @@
         function updatePagination(pagination) {
             const paginationDiv = document.getElementById('pagination');
             
+            if (!paginationDiv) return;
+            
             if (!pagination || pagination.pages <= 1) {
                 paginationDiv.innerHTML = '';
                 return;
