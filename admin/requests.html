@@ -345,14 +345,14 @@
                     </td>
                     <td>
                         <div class="customer-info">
-                            <div class="customer-name">${request.customerName}</div>
-                            <div class="customer-contact">${request.customerEmail}</div>
-                            <div class="customer-phone">${request.customerPhone}</div>
+                            <div class="customer-name">${request.fullname}</div>
+                            <div class="customer-contact">${request.email}</div>
+                            <div class="customer-phone">${request.phone}</div>
                         </div>
                     </td>
                     <td>
                         <div class="service-info">
-                            <div class="service-type">${request.serviceType}</div>
+                            <div class="service-type">${request.packageId?.name || 'N/A'}</div>
                         </div>
                     </td>
                     <td>
@@ -373,7 +373,7 @@
                     </td>
                     <td>
                         <div class="assigned-info">
-                            <div class="assigned-to">${request.assignedTo}</div>
+                            <div class="assigned-to">${request.assignedTechnician || 'Unassigned'}</div>
                         </div>
                     </td>
                     <td>
@@ -509,19 +509,35 @@
                                     </div>
                                     <div class="detail-item">
                                         <label>Customer Name:</label>
-                                        <span>${request.data.customerName}</span>
+                                        <span>${request.data.fullname}</span>
                                     </div>
                                     <div class="detail-item">
                                         <label>Email:</label>
-                                        <span>${request.data.customerEmail}</span>
+                                        <span>${request.data.email}</span>
                                     </div>
                                     <div class="detail-item">
                                         <label>Phone:</label>
-                                        <span>${request.data.customerPhone}</span>
+                                        <span>${request.data.phone}</span>
                                     </div>
                                     <div class="detail-item">
-                                        <label>Service Type:</label>
-                                        <span>${request.data.serviceType}</span>
+                                        <label>County:</label>
+                                        <span>${request.data.county}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <label>Estate:</label>
+                                        <span>${request.data.estate}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <label>Street:</label>
+                                        <span>${request.data.street}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <label>Package:</label>
+                                        <span>${request.data.packageId?.name || 'N/A'}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <label>Billing Cycle:</label>
+                                        <span>${request.data.billingCycle}</span>
                                     </div>
                                     <div class="detail-item">
                                         <label>Status:</label>
@@ -533,7 +549,7 @@
                                     </div>
                                     <div class="detail-item">
                                         <label>Preferred Date:</label>
-                                        <span>${request.data.preferredDate}</span>
+                                        <span>${new Date(request.data.preferredDate).toLocaleDateString()}</span>
                                     </div>
                                     <div class="detail-item">
                                         <label>Preferred Time:</label>
@@ -541,7 +557,7 @@
                                     </div>
                                     <div class="detail-item">
                                         <label>Assigned To:</label>
-                                        <span>${request.data.assignedTo}</span>
+                                        <span>${request.data.assignedTechnician || 'Unassigned'}</span>
                                     </div>
                                 </div>
                             </div>
