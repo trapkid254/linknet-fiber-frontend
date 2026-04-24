@@ -1,5 +1,7 @@
 // client-register.js - Client Registration Implementation
 
+const API_BASE_URL = 'http://localhost:5000/api/clients';
+
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('client-register-form');
     
@@ -7,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const firstname = document.getElementById('firstname').value;
-            const lastname = document.getElementById('lastname').value;
+            const firstName = document.getElementById('firstname').value;
+            const lastName = document.getElementById('lastname').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
@@ -16,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const terms = document.getElementById('terms').checked;
             
             // Validate names
-            if (firstname.length < 2 || lastname.length < 2) {
+            if (firstName.length < 2 || lastName.length < 2) {
                 showNotification('Names must be at least 2 characters', 'error');
                 return;
             }
@@ -60,37 +62,42 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             
             try {
-                // TODO: Replace with actual API endpoint when backend is ready
-                // const response = await fetch('https://linknet-fiber-backend.onrender.com/api/client/register', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify({
-                //         firstname,
-                //         lastname,
-                //         email,
-                //         phone,
-                //         password
-                //     })
-                // });
+                const response = await fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        firstName,
+                        lastName,
+                        email,
+                        phone,
+                        password,
+                        mpesaNumber: phone
+                    })
+                });
                 
-                // Simulate API call for now
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                const data = await response.json();
                 
-                showNotification('Account created successfully! Redirecting to login...', 'success');
-                
-                // Store email for login page
-                sessionStorage.setItem('clientEmail', email);
-                
-                // Redirect to login page
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 2000);
+                if (data.success) {
+                    // Store token and user info
+                    localStorage.setItem('clientToken', data.token);
+                    localStorage.setItem('clientEmail', data.client.email);
+                    localStorage.setItem('clientData', JSON.stringify(data.client));
+                    
+                    showNotification('Account created successfully! Redirecting...', 'success');
+                    
+                    // Redirect to client dashboard
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    showNotification(data.error || 'Registration failed', 'error');
+                }
                 
             } catch (error) {
                 console.error('Registration error:', error);
-                showNotification('Registration failed. Please try again.', 'error');
+                showNotification('Registration failed. Please check your connection.', 'error');
             } finally {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;

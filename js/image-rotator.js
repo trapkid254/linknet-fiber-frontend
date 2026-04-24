@@ -4,27 +4,27 @@
     
     // All available images from the images folder
     const allImages = [
-        'images/bru-no-fiber-optic-4393369_1920.jpg',
-        'images/bru-no-fiber-optic-4393373_1920.jpg',
-        'images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg',
-        'images/download.jpg',
-        'images/draconianimages-ai-generated-8242222_1920.jpg',
-        'images/ildefonso-polo-DX9X0g0Cg88-unsplash.jpg',
-        'images/images (1).jpg',
-        'images/images (2).jpg',
-        'images/images.jpg',
-        'images/images.png',
-        'images/pexels-ensihato-4060365.jpg',
-        'images/ronaldcandonga-job-5382501_1920.jpg',
-        'images/roszie-glass-fiber-7430901_1920.jpg',
-        'images/router.jpg',
-        'images/vilkasss-ai-generated-9143277_1920.jpg',
-        'images/vilkasss-ai-generated-9143281_1920.jpg'
+        'images/1000311337.jpg',
+        'images/1000311339.jpg',
+        'images/1000311343.jpg',
+        'images/1000311401.jpg',
+        'images/1000311402.jpg',
+        'images/1000311404.jpg',
+        'images/1000311407.jpg',
+        'images/1000311409.jpg',
+        'images/1000311410.jpg',
+        'images/1000311426.jpg',
+        'images/1000311428.jpg',
+        'images/1000311430.jpg',
+        'images/1000311431.jpg',
+        'images/1000311432.jpg',
+        'images/1000311433.jpg',
+        'images/roszie-glass-fiber-7430901_1920.jpg'
     ];
     
     // Exclude logo image from rotation (keep it static)
     const logoImage = 'images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg';
-    const rotatableImages = allImages.filter(img => img !== logoImage);
+    const rotatableImages = allImages;
     
     // Image rotation class
     class ImageRotator {
@@ -163,42 +163,42 @@
         createSlides() {
             const slideData = [
                 {
-                    image: 'images/bru-no-fiber-optic-4393369_1920.jpg',
+                    image: 'images/roszie-glass-fiber-7430901_1920.jpg',
                     title: 'Experience <span class="highlight">Lightning Fast</span> Fiber Internet',
                     description: 'Stream, work, and game with speeds up to 1 Gbps. Kenya\'s most reliable fiber network.',
                     cta1: { text: 'View Packages', href: 'packages.html' },
                     cta2: { text: 'Check Coverage', href: '#coverage-check' }
                 },
                 {
-                    image: 'images/ronaldcandonga-job-5382501_1920.jpg',
+                    image: 'images/1000311407.jpg',
                     title: 'Connect Your <span class="highlight">Home & Business</span>',
                     description: 'Unlimited data, 24/7 support, and free installation. Join thousands of satisfied customers.',
                     cta1: { text: 'Get Started', href: 'packages.html' },
                     cta2: { text: 'Contact Sales', href: 'contact.html' }
                 },
                 {
-                    image: 'images/ildefonso-polo-DX9X0g0Cg88-unsplash.jpg',
+                    image: 'images/1000311428.jpg',
                     title: 'Enterprise <span class="highlight">Solutions</span>',
                     description: 'Dedicated bandwidth, SLA-backed reliability, and 99.9% uptime guarantee.',
                     cta1: { text: 'Business Plans', href: 'packages.html' },
                     cta2: { text: 'Request Quote', href: 'request.html' }
                 },
                 {
-                    image: 'images/draconianimages-ai-generated-8242222_1920.jpg',
+                    image: 'images/1000311401.jpg',
                     title: 'Next-Generation <span class="highlight">Technology</span>',
                     description: 'Cutting-edge fiber infrastructure delivering unprecedented speeds and reliability.',
                     cta1: { text: 'Learn More', href: 'about.html' },
                     cta2: { text: 'Get Started', href: 'packages.html' }
                 },
                 {
-                    image: 'images/vilkasss-ai-generated-9143277_1920.jpg',
+                    image: 'images/1000311430.jpg',
                     title: 'Nationwide <span class="highlight">Coverage</span>',
                     description: 'Expanding rapidly to bring high-speed internet to every corner of Kenya.',
                     cta1: { text: 'Check Coverage', href: '#coverage-check' },
                     cta2: { text: 'View Plans', href: 'packages.html' }
                 },
                 {
-                    image: 'images/vilkasss-ai-generated-9143281_1920.jpg',
+                    image: 'images/1000311431.jpg',
                     title: 'Professional <span class="highlight">Support</span>',
                     description: 'Expert technical support available 24/7 to keep you connected.',
                     cta1: { text: 'Contact Us', href: 'contact.html' },

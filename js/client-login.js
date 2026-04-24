@@ -1,5 +1,7 @@
 // client-login.js - Client Login Implementation
 
+const API_BASE_URL = 'http://localhost:5000/api/clients';
+
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('client-login-form');
     
@@ -31,38 +33,41 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             
             try {
-                // TODO: Replace with actual API endpoint when backend is ready
-                // const response = await fetch('https://linknet-fiber-backend.onrender.com/api/client/login', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify({ email, password, remember })
-                // });
+                const response = await fetch(`${API_BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
                 
-                // Simulate API call for now
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                const data = await response.json();
                 
-                // Store user info if remember is checked
-                if (remember) {
-                    localStorage.setItem('clientEmail', email);
+                if (data.success) {
+                    // Store token and user info
+                    if (remember) {
+                        localStorage.setItem('clientToken', data.token);
+                        localStorage.setItem('clientEmail', data.client.email);
+                        localStorage.setItem('clientData', JSON.stringify(data.client));
+                    } else {
+                        sessionStorage.setItem('clientToken', data.token);
+                        sessionStorage.setItem('clientEmail', data.client.email);
+                        sessionStorage.setItem('clientData', JSON.stringify(data.client));
+                    }
+                    
+                    showNotification('Login successful! Redirecting...', 'success');
+                    
+                    // Redirect to client dashboard
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
                 } else {
-                    sessionStorage.setItem('clientEmail', email);
+                    showNotification(data.error || 'Login failed', 'error');
                 }
-                
-                showNotification('Login successful! Redirecting...', 'success');
-                
-                // TODO: Redirect to client dashboard when ready
-                // window.location.href = 'client/dashboard.html';
-                
-                // For now, redirect to home
-                setTimeout(() => {
-                    window.location.href = '../index.html';
-                }, 1500);
                 
             } catch (error) {
                 console.error('Login error:', error);
-                showNotification('Login failed. Please try again.', 'error');
+                showNotification('Login failed. Please check your connection.', 'error');
             } finally {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;

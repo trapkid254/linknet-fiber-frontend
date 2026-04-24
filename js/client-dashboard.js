@@ -1,6 +1,13 @@
 // client-dashboard.js - Client Portal Dashboard Implementation
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Check authentication
+    const token = localStorage.getItem('clientToken') || sessionStorage.getItem('clientToken');
+    if (!token) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
     // Theme toggle functionality
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
@@ -88,21 +95,26 @@ function updateThemeIcon(theme) {
 
 // Load client user information
 function loadClientData() {
-    const clientEmail = localStorage.getItem('clientEmail') || sessionStorage.getItem('clientEmail');
+    const clientData = localStorage.getItem('clientData') || sessionStorage.getItem('clientData');
     
-    if (clientEmail) {
-        // Update user info in sidebar
-        const userName = document.getElementById('user-name');
-        const headerUsername = document.getElementById('header-username');
-        const userAvatarInitial = document.getElementById('user-avatar-initial');
-        
-        // Extract name from email (for demo purposes)
-        const name = clientEmail.split('@')[0];
-        const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
-        
-        if (userName) userName.textContent = formattedName;
-        if (headerUsername) headerUsername.textContent = formattedName.split(' ')[0];
-        if (userAvatarInitial) userAvatarInitial.textContent = formattedName.charAt(0).toUpperCase();
+    if (clientData) {
+        try {
+            const client = JSON.parse(clientData);
+            
+            // Update user info in sidebar
+            const userName = document.getElementById('user-name');
+            const headerUsername = document.getElementById('header-username');
+            const userAvatarInitial = document.getElementById('user-avatar-initial');
+            
+            const fullName = `${client.firstName} ${client.lastName}`;
+            const firstName = client.firstName;
+            
+            if (userName) userName.textContent = fullName;
+            if (headerUsername) headerUsername.textContent = firstName;
+            if (userAvatarInitial) userAvatarInitial.textContent = firstName.charAt(0).toUpperCase();
+        } catch (error) {
+            console.error('Error parsing client data:', error);
+        }
     }
 }
 
