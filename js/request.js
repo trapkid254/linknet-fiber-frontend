@@ -36,11 +36,22 @@
             const response = await fetch(`${API_BASE}/packages`);
             if (!response.ok) throw new Error('Failed to load packages');
             
-            const packages = await response.json();
+            const result = await response.json();
+            
+            // Handle both response formats: direct array or {success, data}
+            const packages = Array.isArray(result) ? result : (result.data || []);
+            
+            if (packages.length === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'No packages available';
+                packageSelect.appendChild(option);
+                return;
+            }
             
             packages.forEach(pkg => {
                 const option = document.createElement('option');
-                option.value = pkg.id;
+                option.value = pkg.id || pkg._id;
                 option.textContent = `${pkg.name} - ${pkg.speed} Mbps - KES ${pkg.price}/month`;
                 option.dataset.price = pkg.price;
                 packageSelect.appendChild(option);
@@ -55,8 +66,27 @@
             
         } catch (error) {
             console.error('Error loading packages:', error);
-            showResult('Unable to load packages. Please refresh the page.', 'error');
+            // Load mock packages as fallback
+            loadMockPackages(packageSelect);
         }
+    };
+    
+    // Mock packages as fallback
+    const loadMockPackages = (packageSelect) => {
+        const mockPackages = [
+            { id: 1, name: 'Basic', speed: 20, price: 2999 },
+            { id: 2, name: 'Pro', speed: 50, price: 4999 },
+            { id: 3, name: 'Business', speed: 100, price: 9999 },
+            { id: 4, name: 'Enterprise', speed: 500, price: 24999 }
+        ];
+        
+        mockPackages.forEach(pkg => {
+            const option = document.createElement('option');
+            option.value = pkg.id;
+            option.textContent = `${pkg.name} - ${pkg.speed} Mbps - KES ${pkg.price}/month`;
+            option.dataset.price = pkg.price;
+            packageSelect.appendChild(option);
+        });
     };
     
     // Handle form submission
