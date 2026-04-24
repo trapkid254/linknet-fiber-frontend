@@ -56,10 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     showNotification('Login successful! Redirecting...', 'success');
-                    
+
                     // Redirect to client dashboard
                     setTimeout(() => {
-                        window.location.href = 'dashboard.html';
+                        window.location.href = 'client/dashboard.html';
                     }, 1500);
                 } else {
                     showNotification(data.error || 'Login failed', 'error');
