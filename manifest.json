@@ -2,8 +2,8 @@
   "name": "Linknet Fiber - Kenya's Fastest Internet",
   "short_name": "Linknet Fiber",
   "description": "Kenya's premier fiber internet service provider. Experience lightning-fast, reliable internet for your home and business.",
-  "start_url": "/linknet-fiber-frontend/index.html",
-  "id": "/linknet-fiber-frontend/index.html",
+  "start_url": "./index.html",
+  "id": "./index.html",
   "display": "standalone",
   "display_override": [
     "window-controls-overlay",
@@ -14,7 +14,7 @@
   "background_color": "#1E4D8C",
   "theme_color": "#1E4D8C",
   "orientation": "portrait-primary",
-  "scope": "/linknet-fiber-frontend/",
+  "scope": "./",
   "lang": "en",
   "dir": "ltr",
   "categories": [
@@ -24,25 +24,25 @@
   ],
   "icons": [
     {
-      "src": "/linknet-fiber-frontend/icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/linknet-fiber-frontend/icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/linknet-fiber-frontend/icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/linknet-fiber-frontend/icons/icon-512-maskable.png",
+      "src": "./icons/icon-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -50,14 +50,14 @@
   ],
   "screenshots": [
     {
-      "src": "/linknet-fiber-frontend/icons/screenshot-wide.png",
+      "src": "./icons/screenshot-wide.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Linknet Fiber Dashboard - View internet packages and manage your account"
     },
     {
-      "src": "/linknet-fiber-frontend/icons/screenshot-narrow.png",
+      "src": "./icons/screenshot-narrow.png",
       "sizes": "640x1136",
       "type": "image/png",
       "form_factor": "narrow",
@@ -69,10 +69,10 @@
       "name": "View Packages",
       "short_name": "Packages",
       "description": "Browse available internet packages",
-      "url": "/linknet-fiber-frontend/packages.html",
+      "url": "./packages.html",
       "icons": [
         {
-          "src": "/linknet-fiber-frontend/icons/icon-96.png",
+          "src": "./icons/icon-96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -82,10 +82,10 @@
       "name": "Request Installation",
       "short_name": "Request",
       "description": "Request fiber installation at your location",
-      "url": "/linknet-fiber-frontend/request.html",
+      "url": "./request.html",
       "icons": [
         {
-          "src": "/linknet-fiber-frontend/icons/icon-96.png",
+          "src": "./icons/icon-96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -95,10 +95,10 @@
       "name": "Contact Support",
       "short_name": "Support",
       "description": "Get help and support",
-      "url": "/linknet-fiber-frontend/contact.html",
+      "url": "./contact.html",
       "icons": [
         {
-          "src": "/linknet-fiber-frontend/icons/icon-96.png",
+          "src": "./icons/icon-96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
