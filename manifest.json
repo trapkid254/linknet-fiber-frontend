@@ -2,8 +2,8 @@
   "name": "Linknet Fiber - Kenya's Fastest Internet",
   "short_name": "Linknet Fiber",
   "description": "Kenya's premier fiber internet service provider. Experience lightning-fast, reliable internet for your home and business.",
-  "start_url": "./index.html",
-  "id": "./index.html",
+  "start_url": "/linknet-fiber-frontend/index.html",
+  "id": "/linknet-fiber-frontend/index.html",
   "display": "standalone",
   "display_override": [
     "window-controls-overlay",
@@ -57,7 +57,7 @@
       "name": "View Packages",
       "short_name": "Packages",
       "description": "Browse available internet packages",
-      "url": "./packages.html",
+      "url": "/linknet-fiber-frontend/packages.html",
       "icons": [
         {
           "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDgiIGZpbGw9IiMxRTREOEMiLz4KPHRleHQgeD0iNDgiIHk9IjU4IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QYWNrPC90ZXh0Pgo8L3N2Zz4K",
@@ -70,7 +70,7 @@
       "name": "Request Installation",
       "short_name": "Request",
       "description": "Request fiber installation at your location",
-      "url": "./request.html",
+      "url": "/linknet-fiber-frontend/request.html",
       "icons": [
         {
           "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDgiIGZpbGw9IiMyOGE3NDUiLz4KPHRleHQgeD0iNDgiIHk9IjU4IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5SRVM8L3RleHQ+Cjwvc3ZnPgo=",
@@ -83,7 +83,7 @@
       "name": "Contact Support",
       "short_name": "Support",
       "description": "Get help and support",
-      "url": "./contact.html",
+      "url": "/linknet-fiber-frontend/contact.html",
       "icons": [
         {
           "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDgiIGZpbGw9IiNmZmMwMDciLz4KPHRleHQgeD0iNDgiIHk9IjU4IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9ImJsYWNrIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TVDwvdGV4dD4KPC9zdmc+Cjw=",
