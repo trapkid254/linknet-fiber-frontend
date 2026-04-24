@@ -123,15 +123,12 @@
     }
   ],
   "prefer_related_applications": false,
-  "related_applications": [],
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
   "edge_side_panel": {
     "preferred_width": 400
   },
-  "scope_extensions": [],
-  "file_handlers": [],
   "content_rating": {
     "rating_id": "everyone"
   },
@@ -177,5 +174,6 @@
   ],
   "note_taking": {
     "new_note_url": "./contact.html?note=true"
-  }
+  },
+  "iarc_rating_id": "everyone"
 }
