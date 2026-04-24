@@ -1392,6 +1392,91 @@ textarea.form-input {
     background-color: #334155;
 }
 
+/* ====== DYNAMIC CONTENT STYLES ====== */
+.no-service-message {
+    text-align: center;
+    padding: 60px 20px;
+    color: #64748B;
+}
+
+.no-service-message i {
+    font-size: 64px;
+    margin-bottom: 16px;
+    color: #94A3B8;
+}
+
+.no-service-message h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1E293B;
+    margin-bottom: 8px;
+}
+
+.no-service-message p {
+    font-size: 16px;
+    color: #64748B;
+}
+
+.no-installation-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    color: #94A3B8;
+}
+
+.installation-completed-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    color: #10B981;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: #64748B;
+}
+
+.error-message {
+    text-align: center;
+    padding: 40px;
+    color: #EF4444;
+}
+
+.error-message i {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: #64748B;
+}
+
+/* ====== DARK MODE DYNAMIC CONTENT ====== */
+[data-theme="dark"] .no-service-message h3 {
+    color: #F1F5F9;
+}
+
+[data-theme="dark"] .no-service-message p {
+    color: #94A3B8;
+}
+
+[data-theme="dark"] .no-service-message i {
+    color: #64748B;
+}
+
+[data-theme="dark"] .no-installation-icon {
+    color: #64748B;
+}
+
+[data-theme="dark"] .loading-spinner {
+    color: #94A3B8;
+}
+
+[data-theme="dark"] .no-data {
+    color: #94A3B8;
+}
+
 /* ====== RESPONSIVE DESIGN ====== */
 @media (max-width: 1024px) {
     .dashboard-grid {
