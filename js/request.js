@@ -33,8 +33,12 @@
         const packageInput = document.getElementById('package');
         if (!container || !packageInput) return;
         
-        // Show container
+        // Show container with loading state
         container.style.display = 'grid';
+        container.innerHTML = '<div class="loading-spinner">Loading packages...</div>';
+        
+        // Force reflow to ensure display change takes effect
+        void container.offsetHeight;
         
         try {
             const response = await fetch(`${API_BASE}/packages`);
@@ -262,7 +266,11 @@
                 };
                 
                 localStorage.setItem('requestSuccessData', JSON.stringify(successData));
-                window.location.href = 'request-success.html';
+                
+                // Small delay to ensure localStorage is set before redirect
+                setTimeout(() => {
+                    window.location.href = 'request-success.html';
+                }, 100);
                 
                 form.reset();
                 

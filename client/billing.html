@@ -140,7 +140,7 @@
                                 <div class="payment-method-name">M-Pesa</div>
                                 <div class="payment-method-expiry">0712 345 678</div>
                             </div>
-                            <button class="btn btn-primary btn-sm">
+                            <button class="btn btn-primary btn-sm" id="pay-btn">
                                 <i class="fas fa-credit-card"></i> Pay
                             </button>
                         </div>
@@ -205,9 +205,59 @@
                 </div>
             </div>
         </div>
+
+        <!-- M-Pesa Payment Modal -->
+        <div id="mpesa-payment-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-mobile-alt"></i> M-Pesa Payment</h2>
+                    <button class="modal-close" id="close-mpesa-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="mpesa-payment-form">
+                        <div class="form-group">
+                            <label class="form-label">Amount (KES)</label>
+                            <input type="number" class="form-input" id="mpesa-amount" placeholder="Enter amount" min="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" id="mpesa-phone" placeholder="07XX XXX XXX" pattern="^07[0-9]{8}$" required>
+                            <small style="color: #64748B; font-size: 12px;">Enter your M-Pesa registered number</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Account Reference</label>
+                            <input type="text" class="form-input" id="mpesa-reference" value="Linknet Fiber" readonly>
+                        </div>
+                        
+                        <div class="payment-info" style="background: #F8FAFC; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                            <p style="margin: 0; font-size: 14px; color: #64748B;">
+                                <i class="fas fa-info-circle"></i> You will receive an M-Pesa prompt on your phone to enter your PIN to complete the payment.
+                            </p>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block" id="initiate-payment-btn">
+                            <i class="fas fa-paper-plane"></i> Initiate Payment
+                        </button>
+                    </form>
+                    
+                    <div id="payment-status" style="margin-top: 16px; display: none;">
+                        <div class="payment-loading" style="text-align: center; padding: 20px;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #C6A43F;"></i>
+                            <p style="margin: 8px 0 0; color: #64748B;">Processing payment...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="../js/client-auth.js"></script>
+    <script src="../js/client-api.js"></script>
     <script src="../js/client-dashboard.js"></script>
+    <script src="../js/client-billing.js"></script>
 </body>
 </html>

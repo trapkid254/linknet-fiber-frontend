@@ -5,7 +5,110 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadPackages();
     // Load client profile to check current service
     await loadCurrentService();
+    // Setup modal
+    setupModal();
+    await loadPackagesForForm();
 });
+
+function setupModal() {
+    const modal = document.getElementById('installation-modal');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const form = document.getElementById('installation-request-form');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    if (form) {
+        form.addEventListener('submit', handleInstallationSubmit);
+    }
+}
+
+async function loadPackagesForForm() {
+    const packageSelect = document.getElementById('install-package');
+    if (!packageSelect) return;
+
+    try {
+        const packages = await fetchPackages();
+        packages.forEach(pkg => {
+            const option = document.createElement('option');
+            option.value = pkg._id;
+            option.textContent = `${pkg.name} - ${pkg.speed} (KES ${pkg.price}/month)`;
+            packageSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading packages:', error);
+    }
+}
+
+async function openInstallationModal() {
+    const modal = document.getElementById('installation-modal');
+    const clientProfile = await fetchClientProfile();
+    
+    if (clientProfile) {
+        // Auto-fill form with client details
+        document.getElementById('install-fullname').value = `${clientProfile.firstName} ${clientProfile.lastName}`;
+        document.getElementById('install-email').value = clientProfile.email;
+        document.getElementById('install-phone').value = clientProfile.phone || clientProfile.mpesaNumber || '';
+    }
+    
+    modal.style.display = 'block';
+}
+
+async function handleInstallationSubmit(e) {
+    e.preventDefault();
+    
+    const token = getClientToken();
+    if (!token) {
+        alert('Please login to submit installation request');
+        return;
+    }
+
+    const formData = {
+        fullName: document.getElementById('install-fullname').value,
+        email: document.getElementById('install-email').value,
+        phone: document.getElementById('install-phone').value,
+        county: document.getElementById('install-county').value,
+        estate: document.getElementById('install-estate').value,
+        address: document.getElementById('install-address').value,
+        packageId: document.getElementById('install-package').value,
+        preferredDate: document.getElementById('install-date').value
+    };
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/requests`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Installation request submitted successfully!');
+            document.getElementById('installation-modal').style.display = 'none';
+            document.getElementById('installation-request-form').reset();
+            await loadCurrentService();
+        } else {
+            alert('Failed to submit request: ' + (data.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error submitting installation request:', error);
+        alert('Failed to submit request. Please try again.');
+    }
+}
 
 async function loadPackages() {
     const plansGrid = document.getElementById('available-plans-grid');
@@ -85,7 +188,7 @@ async function loadCurrentService() {
                             </div>
                         `).join('')}
                     </div>
-                    <button class="btn btn-primary" onclick="window.location.href='../request.html'">
+                    <button class="btn btn-primary" onclick="openInstallationModal()">
                         <i class="fas fa-arrow-up"></i> Upgrade Plan
                     </button>
                 </div>
@@ -103,8 +206,12 @@ async function loadCurrentService() {
 }
 
 function selectPlan(packageId, packageName) {
-    // Store selected plan and redirect to request page
-    localStorage.setItem('selectedPackageId', packageId);
-    localStorage.setItem('selectedPackageName', packageName);
-    window.location.href = '../request.html';
+    // Open modal and pre-select the package
+    openInstallationModal();
+    setTimeout(() => {
+        const packageSelect = document.getElementById('install-package');
+        if (packageSelect) {
+            packageSelect.value = packageId;
+        }
+    }, 100);
 }
