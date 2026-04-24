@@ -314,9 +314,9 @@
                 });
                 const data = await response.json();
                 
-                if (data.success && data.requests) {
-                    displayRequests(data.requests);
-                    updatePagination(data.pagination);
+                if (data.success && data.data) {
+                    displayRequests(data.data);
+                    updatePagination({ page: 1, pages: 1, total: data.total });
                 } else {
                     showEmptyState();
                 }
