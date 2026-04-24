@@ -171,6 +171,19 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
+            // Handle checkbox values - ensure they're booleans, not strings
+            const termsCheckbox = form.querySelector('input[name="terms"]');
+            const marketingCheckbox = form.querySelector('input[name="marketing"]');
+            data.terms = termsCheckbox ? termsCheckbox.checked : false;
+            data.marketing = marketingCheckbox ? marketingCheckbox.checked : false;
+            
+            // Remove checkbox string values if they exist
+            delete data.terms;
+            delete data.marketing;
+            // Re-add as booleans
+            data.terms = termsCheckbox ? termsCheckbox.checked : false;
+            data.marketing = marketingCheckbox ? marketingCheckbox.checked : false;
+            
             // Validate phone number
             const phoneRegex = /^(?:\+254|0)[17]\d{8}$/;
             if (!phoneRegex.test(data.phone.replace(/\s/g, ''))) {
@@ -192,6 +205,14 @@
             submitBtn.disabled = true;
             
             try {
+                // Validate package is selected
+                if (!data.packageId) {
+                    showResult('Please select a package', 'error');
+                    return;
+                }
+                
+                console.log('Submitting request with data:', data);
+                
                 const response = await fetch(`${API_BASE}/requests`, {
                     method: 'POST',
                     headers: {
@@ -205,8 +226,20 @@
                 });
                 
                 if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.message || 'Failed to submit request');
+                    const errorText = await response.text();
+                    console.error('Server error response:', errorText);
+                    let error;
+                    try {
+                        error = JSON.parse(errorText);
+                    } catch {
+                        error = { message: errorText || 'Failed to submit request' };
+                    }
+                    // Show detailed error from server
+                    const errorMessage = error.error || error.message || 'Failed to submit request';
+                    if (error.details && Array.isArray(error.details)) {
+                        throw new Error(`${errorMessage}: ${error.details.join(', ')}`);
+                    }
+                    throw new Error(errorMessage);
                 }
                 
                 const result = await response.json();
