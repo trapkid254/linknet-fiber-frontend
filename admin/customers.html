@@ -274,17 +274,17 @@
             initPagination();
         });
         
-        // Load customers from API
+        // Load customers from API (using requests endpoint since customers are stored as requests)
         async function loadCustomers(page = 1, search = '') {
             try {
-                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/customers', {
+                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/requests', {
                     headers: getAuthHeaders()
                 });
                 const data = await response.json();
                 
-                if (data.success) {
-                    displayCustomers(data.customers);
-                    updatePagination(data.pagination);
+                if (data.success && data.data) {
+                    displayCustomers(data.data);
+                    updateCustomerCounts(data.data);
                 } else {
                     showEmptyState();
                 }
@@ -301,7 +301,7 @@
             if (!customers || customers.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="5" style="text-align: center; padding: 60px; color: var(--gray-500);">
+                        <td colspan="6" style="text-align: center; padding: 60px; color: var(--gray-500);">
                             <div class="empty-customers">
                                 <i class="fas fa-users"></i>
                                 <div>No customers found</div>
@@ -333,7 +333,7 @@
                     </td>
                     <td>
                         <span class="status-badge status-${customer.status}">
-                            ${customer.status.charAt(0).toUpperCase() + customer.status.slice(1)}
+                            ${customer.status.charAt(0).toUpperCase() + customer.status.slice(1).replace('-', ' ')}
                         </span>
                     </td>
                     <td>
@@ -351,6 +351,19 @@
                     </td>
                 </tr>
             `).join('');
+        }
+        
+        // Update customer counts
+        function updateCustomerCounts(customers) {
+            const totalCount = customers.length;
+            const activeCount = customers.filter(c => c.status === 'completed' || c.status === 'in_progress').length;
+            const monthlyRevenue = customers
+                .filter(c => c.status === 'completed' && c.billingCycle === 'monthly')
+                .reduce((sum, c) => sum + (c.packageId?.price || 0), 0);
+            
+            document.getElementById('total-customers-count').textContent = totalCount;
+            document.getElementById('active-customers-count').textContent = activeCount;
+            document.getElementById('monthly-revenue-count').textContent = `KES ${monthlyRevenue.toLocaleString()}`;
         }
         
         function showEmptyState() {
@@ -425,77 +438,100 @@
         // Customer actions
         async function viewCustomer(customerId) {
             try {
-                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/customers/${customerId}`);
-                const customer = await response.json();
+                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests`, {
+                    headers: getAuthHeaders()
+                });
+                const data = await response.json();
                 
-                if (customer.success && customer.data) {
-                    // Create view modal
-                    let modal = document.getElementById('viewCustomerModal');
-                    if (!modal) {
-                        modal = document.createElement('div');
-                        modal.id = 'viewCustomerModal';
-                        modal.className = 'modal-overlay';
-                        document.body.appendChild(modal);
-                    }
-                    
-                    modal.innerHTML = `
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3>Customer Details</h3>
-                                <button class="modal-close" onclick="closeViewCustomerModal()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="customer-details">
-                                    <div class="detail-item">
-                                        <label>Full Name:</label>
-                                        <span>${customer.data.fullname}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>Email:</label>
-                                        <span>${customer.data.email}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>Phone:</label>
-                                        <span>${customer.data.phone}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>County:</label>
-                                        <span>${customer.data.county}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>Estate:</label>
-                                        <span>${customer.data.estate}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>Street:</label>
-                                        <span>${customer.data.street}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>Building:</label>
-                                        <span>${customer.data.building}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>House Number:</label>
-                                        <span>${customer.data.houseNumber}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>Package:</label>
-                                        <span>${customer.data.packageId?.name || 'N/A'}</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <label>Status:</label>
-                                        <span>${customer.data.status}</span>
+                if (data.success && data.data) {
+                    const customer = data.data.find(c => c._id === customerId);
+                    if (customer) {
+                        // Create view modal
+                        let modal = document.getElementById('viewCustomerModal');
+                        if (!modal) {
+                            modal = document.createElement('div');
+                            modal.id = 'viewCustomerModal';
+                            modal.className = 'modal-overlay';
+                            document.body.appendChild(modal);
+                        }
+                        
+                        modal.innerHTML = `
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Customer Details</h3>
+                                    <button class="modal-close" onclick="closeViewCustomerModal()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="customer-details">
+                                        <div class="detail-item">
+                                            <label>Request ID:</label>
+                                            <span>${customer.requestId}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Full Name:</label>
+                                            <span>${customer.fullname}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Email:</label>
+                                            <span>${customer.email}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Phone:</label>
+                                            <span>${customer.phone}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>County:</label>
+                                            <span>${customer.county}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Estate:</label>
+                                            <span>${customer.estate}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Street:</label>
+                                            <span>${customer.street}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Building:</label>
+                                            <span>${customer.building || 'N/A'}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>House Number:</label>
+                                            <span>${customer.houseNumber || 'N/A'}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Package:</label>
+                                            <span>${customer.packageId?.name || 'N/A'}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Billing Cycle:</label>
+                                            <span>${customer.billingCycle || 'N/A'}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Status:</label>
+                                            <span>${customer.status}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Preferred Date:</label>
+                                            <span>${new Date(customer.preferredDate).toLocaleDateString()}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Preferred Time:</label>
+                                            <span>${customer.preferredTime}</span>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-secondary" onclick="closeViewCustomerModal()">Close</button>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn-secondary" onclick="closeViewCustomerModal()">Close</button>
-                            </div>
-                        </div>
-                    `;
-                    modal.classList.add('active');
+                        `;
+                        modal.classList.add('active');
+                    } else {
+                        showToast('Customer not found', 'error');
+                    }
                 } else {
                     showToast('Error loading customer details', 'error');
                 }
@@ -514,26 +550,34 @@
         
         async function editCustomer(customerId) {
             try {
-                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/customers/${customerId}`);
-                const customer = await response.json();
+                const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests`, {
+                    headers: getAuthHeaders()
+                });
+                const data = await response.json();
                 
-                if (customer.success && customer.data) {
-                    const newName = prompt('Edit customer name:', customer.data.fullname);
-                    if (newName && newName.trim() && newName !== customer.data.fullname) {
-                        const updateResponse = await fetch(`https://linknet-fiber-backend.onrender.com/api/customers/${customerId}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ fullname: newName.trim() })
-                        });
-                        
-                        if (updateResponse.ok) {
-                            loadCustomers();
-                            showToast('Customer updated successfully', 'success');
-                        } else {
-                            showToast('Error updating customer', 'error');
+                if (data.success && data.data) {
+                    const customer = data.data.find(c => c._id === customerId);
+                    if (customer) {
+                        const newStatus = prompt('Edit status (pending, approved, scheduled, in_progress, completed, cancelled, rejected):', customer.status);
+                        if (newStatus && newStatus.trim() && ['pending', 'approved', 'scheduled', 'in_progress', 'completed', 'cancelled', 'rejected'].includes(newStatus.trim())) {
+                            const updateResponse = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests/${customerId}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    ...getAuthHeaders()
+                                },
+                                body: JSON.stringify({ status: newStatus.trim() })
+                            });
+                            
+                            if (updateResponse.ok) {
+                                loadCustomers();
+                                showToast('Customer updated successfully', 'success');
+                            } else {
+                                showToast('Error updating customer', 'error');
+                            }
                         }
+                    } else {
+                        showToast('Customer not found', 'error');
                     }
                 } else {
                     showToast('Error loading customer', 'error');
@@ -547,8 +591,9 @@
         async function deleteCustomer(customerId) {
             if (confirm('Are you sure you want to delete this customer? This action cannot be undone.')) {
                 try {
-                    const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/customers/${customerId}`, {
-                        method: 'DELETE'
+                    const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/requests/${customerId}`, {
+                        method: 'DELETE',
+                        headers: getAuthHeaders()
                     });
                     
                     if (response.ok) {
