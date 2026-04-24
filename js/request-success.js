@@ -1,7 +1,7 @@
 // request-success.js - Display installation request success data
 
 document.addEventListener('DOMContentLoaded', () => {
-    const successData = JSON.parse(sessionStorage.getItem('requestSuccessData'));
+    const successData = JSON.parse(localStorage.getItem('requestSuccessData'));
     
     if (successData) {
         // Populate the success page with data
@@ -19,8 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('preferred-date').textContent = new Date(successData.preferredDate).toLocaleDateString();
         document.getElementById('preferred-time').textContent = successData.preferredTime.charAt(0).toUpperCase() + successData.preferredTime.slice(1);
         
-        // Clear sessionStorage
-        sessionStorage.removeItem('requestSuccessData');
+        // Don't clear localStorage - let it persist so user can refresh
+        // Clear when user navigates away via buttons
+        document.querySelectorAll('.success-actions .btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                localStorage.removeItem('requestSuccessData');
+            });
+        });
     } else {
         // Redirect to request page if no data
         window.location.href = 'request.html';

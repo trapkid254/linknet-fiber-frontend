@@ -244,7 +244,7 @@
                 
                 const result = await response.json();
                 
-                // Store data in sessionStorage and redirect to success page
+                // Store data in localStorage and redirect to success page
                 const successData = {
                     requestId: result.data?.requestId || 'LN-' + Date.now(),
                     fullname: data.fullname,
@@ -261,7 +261,7 @@
                     preferredTime: data.preferredTime
                 };
                 
-                sessionStorage.setItem('requestSuccessData', JSON.stringify(successData));
+                localStorage.setItem('requestSuccessData', JSON.stringify(successData));
                 window.location.href = 'request-success.html';
                 
                 form.reset();
