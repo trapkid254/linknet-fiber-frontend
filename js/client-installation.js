@@ -2,7 +2,49 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadInstallationStatus();
+    setupModal();
+    await loadPackagesForForm();
 });
+
+function setupModal() {
+    const modal = document.getElementById('installation-modal');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const form = document.getElementById('installation-request-form');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    if (form) {
+        form.addEventListener('submit', handleInstallationSubmit);
+    }
+}
+
+async function loadPackagesForForm() {
+    const packageSelect = document.getElementById('install-package');
+    if (!packageSelect) return;
+
+    try {
+        const packages = await fetchPackages();
+        packages.forEach(pkg => {
+            const option = document.createElement('option');
+            option.value = pkg._id;
+            option.textContent = `${pkg.name} - ${pkg.speed} (KES ${pkg.price}/month)`;
+            packageSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading packages:', error);
+    }
+}
 
 async function loadInstallationStatus() {
     const installationContent = document.getElementById('installation-content');
@@ -22,12 +64,15 @@ async function loadInstallationStatus() {
                         </div>
                         <h3>No Installation Request</h3>
                         <p style="margin: 16px 0 24px; color: #64748B;">You haven't requested an installation yet. Click the button below to get started.</p>
-                        <button class="btn btn-primary btn-large" onclick="window.location.href='../request.html'">
+                        <button class="btn btn-primary btn-large" id="open-modal-btn">
                             <i class="fas fa-plus"></i> Request Installation
                         </button>
                     </div>
                 </div>
             `;
+            
+            // Add click handler to open modal
+            document.getElementById('open-modal-btn').addEventListener('click', openInstallationModal);
             return;
         }
 
@@ -120,6 +165,66 @@ async function loadInstallationStatus() {
                 <p>Failed to load installation status. Please try again later.</p>
             </div>
         `;
+    }
+}
+
+async function openInstallationModal() {
+    const modal = document.getElementById('installation-modal');
+    const clientProfile = await fetchClientProfile();
+    
+    if (clientProfile) {
+        // Auto-fill form with client details
+        document.getElementById('install-fullname').value = `${clientProfile.firstName} ${clientProfile.lastName}`;
+        document.getElementById('install-email').value = clientProfile.email;
+        document.getElementById('install-phone').value = clientProfile.phone || clientProfile.mpesaNumber || '';
+    }
+    
+    modal.style.display = 'block';
+}
+
+async function handleInstallationSubmit(e) {
+    e.preventDefault();
+    
+    const token = getClientToken();
+    if (!token) {
+        alert('Please login to submit installation request');
+        return;
+    }
+
+    const formData = {
+        fullName: document.getElementById('install-fullname').value,
+        email: document.getElementById('install-email').value,
+        phone: document.getElementById('install-phone').value,
+        county: document.getElementById('install-county').value,
+        estate: document.getElementById('install-estate').value,
+        address: document.getElementById('install-address').value,
+        packageId: document.getElementById('install-package').value,
+        preferredDate: document.getElementById('install-date').value
+    };
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/requests`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Installation request submitted successfully!');
+            document.getElementById('installation-modal').style.display = 'none';
+            document.getElementById('installation-request-form').reset();
+            await loadInstallationStatus();
+        } else {
+            alert('Failed to submit request: ' + (data.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error submitting installation request:', error);
+        alert('Failed to submit request. Please try again.');
     }
 }
 
