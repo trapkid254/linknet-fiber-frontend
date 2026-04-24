@@ -1850,38 +1850,42 @@ a:hover {
     margin-top: var(--spacing-8);
 }
 
+.map-section {
+    margin-bottom: var(--spacing-8);
+}
+
 .location-card {
-    background: linear-gradient(135deg, #C6A43F 0%, #D4B85A 100%);
+    background: linear-gradient(135deg, #1E4D8C 0%, #2E6AB0 100%);
     border-radius: var(--radius-2xl);
     padding: var(--spacing-8);
     box-shadow: var(--shadow-lg);
-    border: 1px solid var(--color-gold-dark);
+    border: 1px solid #1E4D8C;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: #1E4D8C;
+    color: #D4AF37;
     font-weight: bold;
     font-style: normal;
 }
 
 .location-card h3 {
-    color: #1E4D8C;
+    color: #D4AF37;
     font-weight: bold;
     font-style: normal;
 }
 
 .location-card address {
-    color: #1E4D8C;
+    color: #D4AF37;
     font-weight: bold;
     font-style: normal;
 }
 
 .location-card p {
-    color: #1E4D8C;
+    color: #D4AF37;
     font-weight: bold;
     font-style: normal;
 }
 
 .location-card i {
-    color: #1E4D8C;
+    color: #D4AF37;
 }
 
 .location-card:hover {
