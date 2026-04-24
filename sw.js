@@ -209,4 +209,84 @@ self.addEventListener('notificationclick', (event) => {
   );
 });
 
+// ── Background Sync ───────────────────────────────────────────────────────────────
+self.addEventListener('sync', (event) => {
+  console.log('[SW] Background sync triggered:', event.tag);
+  
+  if (event.tag === 'sync-requests') {
+    event.waitUntil(syncRequests());
+  }
+  
+  if (event.tag === 'sync-packages') {
+    event.waitUntil(syncPackages());
+  }
+});
+
+async function syncRequests() {
+  try {
+    // Sync any pending installation requests from IndexedDB
+    console.log('[SW] Syncing installation requests...');
+    // Implementation would sync with backend API
+    return true;
+  } catch (error) {
+    console.error('[SW] Sync failed:', error);
+    return false;
+  }
+}
+
+async function syncPackages() {
+  try {
+    // Sync package data from backend
+    console.log('[SW] Syncing package data...');
+    // Implementation would fetch fresh package data
+    return true;
+  } catch (error) {
+    console.error('[SW] Package sync failed:', error);
+    return false;
+  }
+}
+
+// ── Periodic Background Sync ─────────────────────────────────────────────────────
+self.addEventListener('periodicsync', (event) => {
+  console.log('[SW] Periodic sync triggered:', event.tag);
+  
+  if (event.tag === 'update-packages') {
+    event.waitUntil(updatePackages());
+  }
+  
+  if (event.tag === 'check-coverage') {
+    event.waitUntil(updateCoverageData());
+  }
+});
+
+async function updatePackages() {
+  try {
+    console.log('[SW] Periodic package update...');
+    // Fetch fresh package data and cache it
+    const response = await fetch('https://your-backend-api.com/api/packages');
+    if (response.ok) {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      // Cache the response for offline use
+      return true;
+    }
+  } catch (error) {
+    console.error('[SW] Periodic update failed:', error);
+  }
+}
+
+async function updateCoverageData() {
+  try {
+    console.log('[SW] Periodic coverage data update...');
+    // Fetch fresh coverage data and cache it
+    const response = await fetch('https://your-backend-api.com/api/coverage');
+    if (response.ok) {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      // Cache the response for offline use
+      return true;
+    }
+  } catch (error) {
+    console.error('[SW] Coverage update failed:', error);
+  }
+}
+
 console.log('[SW] Service worker script loaded');

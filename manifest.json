@@ -6,6 +6,7 @@
   "id": "./index.html",
   "display": "standalone",
   "display_override": [
+    "tabbed",
     "window-controls-overlay",
     "standalone",
     "minimal-ui",
@@ -133,5 +134,48 @@
   "file_handlers": [],
   "content_rating": {
     "rating_id": "everyone"
+  },
+  "share_target": {
+    "action": "./contact.html",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "message",
+      "url": "link"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "mailto",
+      "url": "./contact.html?email=%s"
+    },
+    {
+      "protocol": "web+linknet",
+      "url": "./index.html?linknet=%s"
+    }
+  ],
+  "widgets": [
+    {
+      "name": "Quick Packages",
+      "short_name": "Packages",
+      "description": "View internet packages",
+      "url": "./packages.html",
+      "icons": [
+        {
+          "src": "./icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ],
+      "screenshots": [
+        {
+          "src": "./icons/screenshot-wide.png",
+          "sizes": "1280x720"
+        }
+      ]
+    }
+  ],
+  "note_taking": {
+    "new_note_url": "./contact.html?note=true"
   }
 }
