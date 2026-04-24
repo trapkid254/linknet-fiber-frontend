@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Linknet Fiber</title>
+    <link rel="stylesheet" href="css/style.css?v=1.6">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Critical inline styles for login choice page */
+        .login-choice-section {
+            padding: 96px 0;
+            background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .login-choice-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.13;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .login-choice-watermark i {
+            font-size: 200px;
+            color: #1E4D8C;
+        }
+        .login-choice-watermark span {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1E4D8C;
+            margin-top: 16px;
+            letter-spacing: 4px;
+        }
+        .login-choice-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(30, 77, 140, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+        .login-choice-section::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(198, 164, 63, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+        .login-choice-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .login-choice-header {
+            text-align: center;
+            margin-bottom: 64px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .login-choice-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1E4D8C;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #1E4D8C 0%, #2B6CB0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .login-choice-subtitle {
+            font-size: 18px;
+            color: #64748B;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .login-choice-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+        .login-choice-card {
+            display: block;
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 56px 40px;
+            text-decoration: none;
+            border: 2px solid #E2E8F0;
+            transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+        .login-choice-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        .login-choice-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .login-choice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+            opacity: 0;
+            transition: opacity 350ms ease;
+        }
+        .login-choice-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+        .login-choice-card:hover::before {
+            opacity: 1;
+        }
+        .login-choice-card.admin-card {
+            color: #1E4D8C;
+        }
+        .login-choice-card.admin-card:hover {
+            border-color: #1E4D8C;
+            box-shadow: 0 25px 50px -12px rgba(30, 77, 140, 0.2), 0 0 0 1px rgba(30, 77, 140, 0.1);
+        }
+        .login-choice-card.client-card {
+            color: #C6A43F;
+        }
+        .login-choice-card.client-card:hover {
+            border-color: #C6A43F;
+            box-shadow: 0 25px 50px -12px rgba(198, 164, 63, 0.2), 0 0 0 1px rgba(198, 164, 63, 0.1);
+        }
+        .login-choice-icon {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 32px;
+            background: linear-gradient(135deg, #1E4D8C 0%, #2B6CB0 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px -5px rgba(30, 77, 140, 0.3);
+            transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .login-choice-card.client-card .login-choice-icon {
+            background: linear-gradient(135deg, #C6A43F 0%, #D4B85A 100%);
+            box-shadow: 0 10px 25px -5px rgba(198, 164, 63, 0.3);
+        }
+        .login-choice-card:hover .login-choice-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 35px -5px rgba(30, 77, 140, 0.4);
+        }
+        .login-choice-card.client-card:hover .login-choice-icon {
+            box-shadow: 0 15px 35px -5px rgba(198, 164, 63, 0.4);
+        }
+        .login-choice-icon i {
+            font-size: 2.5rem;
+            color: #FFFFFF;
+        }
+        .login-choice-card-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1E293B;
+            margin-bottom: 16px;
+            text-align: center;
+            transition: color 350ms ease;
+        }
+        .login-choice-card:hover .login-choice-card-title {
+            color: currentColor;
+        }
+        .login-choice-card-description {
+            font-size: 16px;
+            color: #64748B;
+            text-align: center;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            transition: color 350ms ease;
+        }
+        .login-choice-card:hover .login-choice-card-description {
+            color: #475569;
+        }
+        .login-choice-card-footer {
+            display: flex;
+            justify-content: center;
+        }
+        .login-choice-card-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: #F1F5F9;
+            border-radius: 50%;
+            color: #64748B;
+            transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.2rem;
+        }
+        .login-choice-card:hover .login-choice-card-arrow {
+            background: currentColor;
+            color: #FFFFFF;
+            transform: translateX(8px);
+        }
+        .login-choice-back {
+            text-align: center;
+            animation: fadeInUp 0.6s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(30px, -30px) rotate(5deg);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        [data-theme="dark"] .login-choice-section {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+        }
+        [data-theme="dark"] .login-choice-section::before {
+            background: radial-gradient(circle, rgba(30, 77, 140, 0.1) 0%, transparent 70%);
+        }
+        [data-theme="dark"] .login-choice-section::after {
+            background: radial-gradient(circle, rgba(198, 164, 63, 0.1) 0%, transparent 70%);
+        }
+        [data-theme="dark"] .login-choice-card {
+            background: #1E293B;
+            border-color: #334155;
+        }
+        [data-theme="dark"] .login-choice-card:hover {
+            border-color: #2B6CB0;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(43, 108, 176, 0.2);
+        }
+        [data-theme="dark"] .login-choice-card.client-card:hover {
+            border-color: #D4B85A;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 184, 90, 0.2);
+        }
+        [data-theme="dark"] .login-choice-card-title {
+            color: #F1F5F9;
+        }
+        [data-theme="dark"] .login-choice-card:hover .login-choice-card-title {
+            color: currentColor;
+        }
+        [data-theme="dark"] .login-choice-card-description {
+            color: #94A3B8;
+        }
+        [data-theme="dark"] .login-choice-card:hover .login-choice-card-description {
+            color: #CBD5E1;
+        }
+        [data-theme="dark"] .login-choice-card-arrow {
+            background: #334155;
+            color: #94A3B8;
+        }
+        [data-theme="dark"] .login-choice-card:hover .login-choice-card-arrow {
+            background: currentColor;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Choice Section -->
+    <section class="login-choice-section">
+        <!-- Watermark -->
+        <div class="login-choice-watermark">
+            <i class="fas fa-wifi"></i>
+            <span>LINKNET</span>
+        </div>
+        
+        <div class="container">
+            <div class="login-choice-container">
+                <div class="login-choice-header">
+                    <h1 class="login-choice-title">Choose Your Login Type</h1>
+                    <p class="login-choice-subtitle">Select how you want to access your account</p>
+                </div>
+                
+                <div class="login-choice-options">
+                    <a href="admin/login.html" class="login-choice-card admin-card">
+                        <div class="login-choice-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h2 class="login-choice-card-title">Admin Portal</h2>
+                        <p class="login-choice-card-description">Access the admin dashboard to manage requests, customers, packages, and analytics.</p>
+                        <div class="login-choice-card-footer">
+                            <span class="login-choice-card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                        </div>
+                    </a>
+                    
+                    <a href="client/login.html" class="login-choice-card client-card">
+                        <div class="login-choice-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h2 class="login-choice-card-title">Client Portal</h2>
+                        <p class="login-choice-card-description">Manage your internet service, view billing, and track your installation status.</p>
+                        <div class="login-choice-card-footer">
+                            <span class="login-choice-card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="login-choice-back">
+                    <a href="index.html" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

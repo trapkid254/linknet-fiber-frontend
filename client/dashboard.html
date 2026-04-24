@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal - Linknet Fiber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.7">
+    <link rel="stylesheet" href="../css/client.css?v=1.7">
+</head>
+<body class="client-dashboard">
+    <!-- Sidebar -->
+    <aside class="client-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Client Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active">
+                    <a href="dashboard.html">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="service.html">
+                        <i class="fas fa-wifi"></i> My Service
+                    </a>
+                </li>
+                <li>
+                    <a href="billing.html">
+                        <i class="fas fa-file-invoice-dollar"></i> Billing
+                    </a>
+                </li>
+                <li>
+                    <a href="installation.html">
+                        <i class="fas fa-tools"></i> Installation Status
+                    </a>
+                </li>
+                <li>
+                    <a href="support.html">
+                        <i class="fas fa-headset"></i> Support
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info" id="client-user-info">
+                <div class="user-avatar">
+                    <span id="user-avatar-initial">C</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">John Doe</div>
+                    <div class="user-role" id="user-role">Client</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="client-main">
+        <header class="client-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Welcome back, <span id="header-username">John</span>!</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="btn btn-primary" id="new-request-btn">
+                        <i class="fas fa-plus"></i> New Request
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="client-content">
+            <!-- Dashboard Overview -->
+            <div id="dashboard-section" class="client-section">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Current Package</div>
+                            <div class="stat-value" id="current-package">Pro Plan</div>
+                            <div class="stat-sub">100 Mbps</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Next Billing</div>
+                            <div class="stat-value" id="next-billing">May 1, 2024</div>
+                            <div class="stat-sub" id="billing-amount">KES 4,500</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Connection Status</div>
+                            <div class="stat-value status-active">Active</div>
+                            <div class="stat-sub">Excellent</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Open Tickets</div>
+                            <div class="stat-value" id="open-tickets">0</div>
+                            <div class="stat-sub">All resolved</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-list" id="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Payment Received</div>
+                                        <div class="activity-desc">Monthly payment for April 2024</div>
+                                        <div class="activity-date">2 days ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-wifi"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Plan Upgraded</div>
+                                        <div class="activity-desc">Upgraded from Basic to Pro Plan</div>
+                                        <div class="activity-date">1 week ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-tools"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Installation Completed</div>
+                                        <div class="activity-desc">Your fiber installation was completed</div>
+                                        <div class="activity-date">2 weeks ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="quick-actions-grid">
+                                <a href="billing.html" class="quick-action">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-file-invoice"></i>
+                                    </div>
+                                    <div class="quick-action-title">View Bill</div>
+                                </a>
+                                <a href="service.html" class="quick-action">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </div>
+                                    <div class="quick-action-title">Change Plan</div>
+                                </a>
+                                <a href="support.html" class="quick-action">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </div>
+                                    <div class="quick-action-title">Raise Ticket</div>
+                                </a>
+                                <a href="settings.html" class="quick-action">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-user-edit"></i>
+                                    </div>
+                                    <div class="quick-action-title">Update Profile</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Usage Stats -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-line"></i> Data Usage</h2>
+                        <div class="card-actions">
+                            <select class="form-select" id="usage-period">
+                                <option value="week">This Week</option>
+                                <option value="month" selected>This Month</option>
+                                <option value="year">This Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="usage-overview">
+                            <div class="usage-stat">
+                                <div class="usage-label">Total Used</div>
+                                <div class="usage-value" id="total-used">245 GB</div>
+                            </div>
+                            <div class="usage-stat">
+                                <div class="usage-label">Remaining</div>
+                                <div class="usage-value" id="remaining">755 GB</div>
+                            </div>
+                            <div class="usage-stat">
+                                <div class="usage-label">Data Cap</div>
+                                <div class="usage-value">1 TB</div>
+                            </div>
+                        </div>
+                        <div class="usage-bar">
+                            <div class="usage-progress" style="width: 24.5%;"></div>
+                        </div>
+                        <div class="usage-chart-placeholder">
+                            <p>Usage chart will be displayed here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/client-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Service - Linknet Fiber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.7">
+    <link rel="stylesheet" href="../css/client.css?v=1.7">
+</head>
+<body class="client-dashboard">
+    <!-- Sidebar -->
+    <aside class="client-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Client Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="service.html">
+                        <i class="fas fa-wifi"></i> My Service
+                    </a>
+                </li>
+                <li>
+                    <a href="billing.html">
+                        <i class="fas fa-file-invoice-dollar"></i> Billing
+                    </a>
+                </li>
+                <li>
+                    <a href="installation.html">
+                        <i class="fas fa-tools"></i> Installation Status
+                    </a>
+                </li>
+                <li>
+                    <a href="support.html">
+                        <i class="fas fa-headset"></i> Support
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info" id="client-user-info">
+                <div class="user-avatar">
+                    <span id="user-avatar-initial">C</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">John Doe</div>
+                    <div class="user-role" id="user-role">Client</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="client-main">
+        <header class="client-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>My Service</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="client-content">
+            <!-- Current Plan -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <h2><i class="fas fa-wifi"></i> Current Plan</h2>
+                </div>
+                <div class="card-body">
+                    <div class="plan-details">
+                        <div class="plan-header">
+                            <div class="plan-name">Pro Plan</div>
+                            <div class="plan-badge status-active">Active</div>
+                        </div>
+                        <div class="plan-speed">100 Mbps</div>
+                        <div class="plan-price">KES 4,500 / month</div>
+                        <div class="plan-features">
+                            <div class="plan-feature">
+                                <i class="fas fa-check"></i> Unlimited Data
+                            </div>
+                            <div class="plan-feature">
+                                <i class="fas fa-check"></i> 24/7 Support
+                            </div>
+                            <div class="plan-feature">
+                                <i class="fas fa-check"></i> Free Installation
+                            </div>
+                            <div class="plan-feature">
+                                <i class="fas fa-check"></i> Router Included
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" id="upgrade-plan-btn">
+                            <i class="fas fa-arrow-up"></i> Upgrade Plan
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Available Plans -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-box"></i> Available Plans</h2>
+                </div>
+                <div class="card-body">
+                    <div class="plans-grid">
+                        <div class="plan-card">
+                            <div class="plan-card-header">
+                                <div class="plan-card-name">Basic</div>
+                                <div class="plan-card-speed">25 Mbps</div>
+                            </div>
+                            <div class="plan-card-price">KES 2,500<span>/month</span></div>
+                            <div class="plan-card-features">
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> 500 GB Data
+                                </div>
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> Email Support
+                                </div>
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> Basic Router
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-block">Select Plan</button>
+                        </div>
+                        
+                        <div class="plan-card plan-card-featured">
+                            <div class="plan-card-badge">Current</div>
+                            <div class="plan-card-header">
+                                <div class="plan-card-name">Pro</div>
+                                <div class="plan-card-speed">100 Mbps</div>
+                            </div>
+                            <div class="plan-card-price">KES 4,500<span>/month</span></div>
+                            <div class="plan-card-features">
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> Unlimited Data
+                                </div>
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> 24/7 Support
+                                </div>
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> Premium Router
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-block" disabled>Current Plan</button>
+                        </div>
+                        
+                        <div class="plan-card">
+                            <div class="plan-card-header">
+                                <div class="plan-card-name">Business</div>
+                                <div class="plan-card-speed">500 Mbps</div>
+                            </div>
+                            <div class="plan-card-price">KES 12,000<span>/month</span></div>
+                            <div class="plan-card-features">
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> Unlimited Data
+                                </div>
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> Priority Support
+                                </div>
+                                <div class="plan-card-feature">
+                                    <i class="fas fa-check"></i> Static IP
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-block">Select Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/client-dashboard.js"></script>
+</body>
+</html>

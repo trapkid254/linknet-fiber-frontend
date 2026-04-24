@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation Status - Linknet Fiber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.7">
+    <link rel="stylesheet" href="../css/client.css?v=1.7">
+</head>
+<body class="client-dashboard">
+    <!-- Sidebar -->
+    <aside class="client-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Client Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="service.html">
+                        <i class="fas fa-wifi"></i> My Service
+                    </a>
+                </li>
+                <li>
+                    <a href="billing.html">
+                        <i class="fas fa-file-invoice-dollar"></i> Billing
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="installation.html">
+                        <i class="fas fa-tools"></i> Installation Status
+                    </a>
+                </li>
+                <li>
+                    <a href="support.html">
+                        <i class="fas fa-headset"></i> Support
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info" id="client-user-info">
+                <div class="user-avatar">
+                    <span id="user-avatar-initial">C</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">John Doe</div>
+                    <div class="user-role" id="user-role">Client</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="client-main">
+        <header class="client-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Installation Status</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="client-content">
+            <!-- Installation Status Card -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <h2><i class="fas fa-tools"></i> Current Installation</h2>
+                </div>
+                <div class="card-body">
+                    <div class="installation-status">
+                        <div class="installation-header">
+                            <div class="installation-id">Request ID: LN-123456</div>
+                            <div class="installation-badge status-completed">Completed</div>
+                        </div>
+                        
+                        <div class="installation-timeline">
+                            <div class="timeline-item timeline-item-completed">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="timeline-item timeline-item-completed">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="timeline-item timeline-item-completed">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="timeline-item timeline-item-completed">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="timeline-item timeline-item-completed">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="installation-details">
+                            <div class="installation-detail">
+                                <div class="detail-label">Package</div>
+                                <div class="detail-value">Pro Plan (100 Mbps)</div>
+                            </div>
+                            <div class="installation-detail">
+                                <div class="detail-label">Installation Address</div>
+                                <div class="detail-value">123 Main Street, Westlands, Nairobi</div>
+                            </div>
+                            <div class="installation-detail">
+                                <div class="detail-label">Installation Date</div>
+                                <div class="detail-value">April 15, 2024</div>
+                            </div>
+                            <div class="installation-detail">
+                                <div class="detail-label">Technician</div>
+                                <div class="detail-value">James Kamau</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Installation Steps -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-list-check"></i> Installation Progress</h2>
+                </div>
+                <div class="card-body">
+                    <div class="installation-steps">
+                        <div class="step step-completed">
+                            <div class="step-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-title">Request Submitted</div>
+                                <div class="step-desc">Your installation request has been received</div>
+                                <div class="step-date">April 10, 2024</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step step-completed">
+                            <div class="step-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-title">Site Survey</div>
+                                <div class="step-desc">Technician visited your location for assessment</div>
+                                <div class="step-date">April 12, 2024</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step step-completed">
+                            <div class="step-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-title">Installation Scheduled</div>
+                                <div class="step-desc">Installation date confirmed</div>
+                                <div class="step-date">April 13, 2024</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step step-completed">
+                            <div class="step-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-title">Fiber Installation</div>
+                                <div class="step-desc">Fiber cable installed and connected</div>
+                                <div class="step-date">April 15, 2024</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step step-completed">
+                            <div class="step-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-title">Configuration & Testing</div>
+                                <div class="step-desc">Router configured and connection tested</div>
+                                <div class="step-date">April 15, 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/client-dashboard.js"></script>
+</body>
+</html>

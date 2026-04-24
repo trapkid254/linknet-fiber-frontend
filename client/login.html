@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Login - Linknet Fiber</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Critical inline styles for client login page */
+        .client-login-section {
+            padding: 96px 0;
+            background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .client-login-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.13;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .client-login-watermark i {
+            font-size: 200px;
+            color: #C6A43F;
+        }
+        .client-login-watermark span {
+            font-size: 48px;
+            font-weight: 800;
+            color: #C6A43F;
+            margin-top: 16px;
+            letter-spacing: 4px;
+        }
+        .client-login-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(198, 164, 63, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+        .client-login-container {
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .client-login-header {
+            text-align: center;
+            margin-bottom: 48px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .client-login-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, #C6A43F 0%, #D4B85A 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px -5px rgba(198, 164, 63, 0.3);
+        }
+        .client-login-logo i {
+            font-size: 2rem;
+            color: #FFFFFF;
+        }
+        .client-login-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1E293B;
+            margin-bottom: 12px;
+        }
+        .client-login-subtitle {
+            font-size: 16px;
+            color: #64748B;
+        }
+        .client-login-form {
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            border: 2px solid #E2E8F0;
+            animation: fadeInUp 0.6s ease-out 0.1s;
+            animation-fill-mode: both;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 250ms ease;
+            background: #F8FAFC;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #C6A43F;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(198, 164, 63, 0.1);
+        }
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-checkbox input {
+            width: 18px;
+            height: 18px;
+            accent-color: #C6A43F;
+        }
+        .form-checkbox label {
+            font-size: 14px;
+            color: #64748B;
+        }
+        .form-forgot {
+            color: #C6A43F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 250ms ease;
+        }
+        .form-forgot:hover {
+            color: #A8892F;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #C6A43F 0%, #D4B85A 100%);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 250ms ease;
+            box-shadow: 0 4px 14px rgba(198, 164, 63, 0.25);
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(198, 164, 63, 0.35);
+        }
+        .form-divider {
+            display: flex;
+            align-items: center;
+            margin: 32px 0;
+            color: #94A3B8;
+            font-size: 14px;
+        }
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #E2E8F0;
+        }
+        .form-divider span {
+            padding: 0 16px;
+        }
+        .form-register {
+            text-align: center;
+            margin-top: 24px;
+        }
+        .form-register-text {
+            color: #64748B;
+            font-size: 14px;
+        }
+        .form-register-link {
+            color: #C6A43F;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 4px;
+            transition: color 250ms ease;
+        }
+        .form-register-link:hover {
+            color: #A8892F;
+        }
+        .form-back {
+            text-align: center;
+            margin-top: 32px;
+            animation: fadeInUp 0.6s ease-out 0.2s;
+            animation-fill-mode: both;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(30px, -30px) rotate(5deg);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        [data-theme="dark"] .client-login-section {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+        }
+        [data-theme="dark"] .client-login-section::before {
+            background: radial-gradient(circle, rgba(198, 164, 63, 0.1) 0%, transparent 70%);
+        }
+        [data-theme="dark"] .client-login-form {
+            background: #1E293B;
+            border-color: #334155;
+        }
+        [data-theme="dark"] .client-login-title {
+            color: #F1F5F9;
+        }
+        [data-theme="dark"] .client-login-subtitle {
+            color: #94A3B8;
+        }
+        [data-theme="dark"] .form-label {
+            color: #F1F5F9;
+        }
+        [data-theme="dark"] .form-input {
+            background: #0F172A;
+            border-color: #334155;
+            color: #F1F5F9;
+        }
+        [data-theme="dark"] .form-input:focus {
+            border-color: #D4B85A;
+            background: #1E293B;
+        }
+        [data-theme="dark"] .form-checkbox label {
+            color: #94A3B8;
+        }
+        [data-theme="dark"] .form-divider::before,
+        [data-theme="dark"] .form-divider::after {
+            background: #334155;
+        }
+        [data-theme="dark"] .form-register-text {
+            color: #94A3B8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Client Login Section -->
+    <section class="client-login-section">
+        <!-- Watermark -->
+        <div class="client-login-watermark">
+            <i class="fas fa-wifi"></i>
+            <span>LINKNET</span>
+        </div>
+        
+        <div class="container">
+            <div class="client-login-container">
+                <div class="client-login-header">
+                    <div class="client-login-logo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h1 class="client-login-title">Client Login</h1>
+                    <p class="client-login-subtitle">Access your account to manage your internet service</p>
+                </div>
+                
+                <form class="client-login-form" id="client-login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="#" class="form-forgot">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Sign In</button>
+                    
+                    <div class="form-divider">
+                        <span>or</span>
+                    </div>
+                    
+                    <div class="form-register">
+                        <span class="form-register-text">Don't have an account?</span>
+                        <a href="register.html" class="form-register-link">Register</a>
+                    </div>
+                </form>
+                
+                <div class="form-back">
+                    <a href="../login-choice.html" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Back to Login Options
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/client-login.js"></script>
+</body>
+</html>

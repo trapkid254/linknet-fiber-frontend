@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Linknet Fiber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.7">
+    <link rel="stylesheet" href="../css/client.css?v=1.7">
+</head>
+<body class="client-dashboard">
+    <!-- Sidebar -->
+    <aside class="client-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Client Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="service.html">
+                        <i class="fas fa-wifi"></i> My Service
+                    </a>
+                </li>
+                <li>
+                    <a href="billing.html">
+                        <i class="fas fa-file-invoice-dollar"></i> Billing
+                    </a>
+                </li>
+                <li>
+                    <a href="installation.html">
+                        <i class="fas fa-tools"></i> Installation Status
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="support.html">
+                        <i class="fas fa-headset"></i> Support
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info" id="client-user-info">
+                <div class="user-avatar">
+                    <span id="user-avatar-initial">C</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">John Doe</div>
+                    <div class="user-role" id="user-role">Client</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="client-main">
+        <header class="client-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Support</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="client-content">
+            <!-- Support Options -->
+            <div class="stats-grid" style="margin-bottom: 32px;">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Call Us</div>
+                        <div class="stat-value">+254 700 000 000</div>
+                        <div class="stat-sub">24/7 Support</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Email Us</div>
+                        <div class="stat-value">support@linknet.co.ke</div>
+                        <div class="stat-sub">Response within 24h</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Live Chat</div>
+                        <div class="stat-value">Available</div>
+                        <div class="stat-sub">Mon-Fri 8am-8pm</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Create Ticket -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <h2><i class="fas fa-plus-circle"></i> Create Support Ticket</h2>
+                </div>
+                <div class="card-body">
+                    <form id="support-ticket-form">
+                        <div class="form-group">
+                            <label class="form-label">Issue Type</label>
+                            <select class="form-select" id="issue-type" required>
+                                <option value="">Select issue type</option>
+                                <option value="connection">Connection Issues</option>
+                                <option value="speed">Slow Speed</option>
+                                <option value="billing">Billing Problem</option>
+                                <option value="equipment">Equipment Issue</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Subject</label>
+                            <input type="text" class="form-input" id="ticket-subject" placeholder="Brief description of your issue" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-input" id="ticket-description" rows="4" placeholder="Please provide details about your issue" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Priority</label>
+                            <select class="form-select" id="ticket-priority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i> Submit Ticket
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- My Tickets -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-ticket-alt"></i> My Tickets</h2>
+                    <div class="card-actions">
+                        <select class="form-select" id="ticket-filter">
+                            <option value="all">All Tickets</option>
+                            <option value="open">Open</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="ticket-list">
+                        <div class="ticket-item">
+                            <div class="ticket-info">
+                                <div class="ticket-id">TKT-001</div>
+                                <div class="ticket-subject">Slow internet speed</div>
+                                <div class="ticket-date">Created: April 20, 2024</div>
+                            </div>
+                            <div class="ticket-priority priority-medium">Medium</div>
+                            <div class="ticket-status status-open">Open</div>
+                        </div>
+                        
+                        <div class="ticket-item">
+                            <div class="ticket-info">
+                                <div class="ticket-id">TKT-002</div>
+                                <div class="ticket-subject">Router not connecting</div>
+                                <div class="ticket-date">Created: April 18, 2024</div>
+                            </div>
+                            <div class="ticket-priority priority-high">High</div>
+                            <div class="ticket-status status-resolved">Resolved</div>
+                        </div>
+                        
+                        <div class="ticket-item">
+                            <div class="ticket-info">
+                                <div class="ticket-id">TKT-003</div>
+                                <div class="ticket-subject">Billing inquiry</div>
+                                <div class="ticket-date">Created: April 15, 2024</div>
+                            </div>
+                            <div class="ticket-priority priority-low">Low</div>
+                            <div class="ticket-status status-resolved">Resolved</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/client-dashboard.js"></script>
+</body>
+</html>

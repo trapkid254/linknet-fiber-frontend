@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing - Linknet Fiber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.7">
+    <link rel="stylesheet" href="../css/client.css?v=1.7">
+</head>
+<body class="client-dashboard">
+    <!-- Sidebar -->
+    <aside class="client-sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="login-logo">
+                <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
+            </a>
+            <p>Client Portal</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="service.html">
+                        <i class="fas fa-wifi"></i> My Service
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="billing.html">
+                        <i class="fas fa-file-invoice-dollar"></i> Billing
+                    </a>
+                </li>
+                <li>
+                    <a href="installation.html">
+                        <i class="fas fa-tools"></i> Installation Status
+                    </a>
+                </li>
+                <li>
+                    <a href="support.html">
+                        <i class="fas fa-headset"></i> Support
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info" id="client-user-info">
+                <div class="user-avatar">
+                    <span id="user-avatar-initial">C</span>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">John Doe</div>
+                    <div class="user-role" id="user-role">Client</div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="client-main">
+        <header class="client-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Billing</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="client-content">
+            <!-- Billing Overview -->
+            <div class="stats-grid" style="margin-bottom: 32px;">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Current Bill</div>
+                        <div class="stat-value" id="current-bill">KES 4,500</div>
+                        <div class="stat-sub">Due: May 1, 2024</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Last Payment</div>
+                        <div class="stat-value" id="last-payment">KES 4,500</div>
+                        <div class="stat-sub">Paid: Apr 1, 2024</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Payment Status</div>
+                        <div class="stat-value status-active">Up to Date</div>
+                        <div class="stat-sub">No overdue payments</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Methods -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <h2><i class="fas fa-mobile-alt"></i> Payment Method</h2>
+                </div>
+                <div class="card-body">
+                    <div class="payment-methods-list">
+                        <div class="payment-method payment-method-default">
+                            <div class="payment-method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/M-PESA_LOGO-01.svg/512px-M-PESA_LOGO-01.svg.png" alt="M-Pesa" style="width: 32px; height: 32px;">
+                            </div>
+                            <div class="payment-method-details">
+                                <div class="payment-method-name">M-Pesa</div>
+                                <div class="payment-method-expiry">0712 345 678</div>
+                            </div>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-credit-card"></i> Pay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Invoice History -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-history"></i> Invoice History</h2>
+                    <div class="card-actions">
+                        <select class="form-select" id="invoice-filter">
+                            <option value="all">All Invoices</option>
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="invoice-list">
+                        <div class="invoice-item">
+                            <div class="invoice-info">
+                                <div class="invoice-number">INV-2024-004</div>
+                                <div class="invoice-date">May 2024</div>
+                            </div>
+                            <div class="invoice-amount">KES 4,500</div>
+                            <div class="invoice-status status-pending">Pending</div>
+                            <button class="btn btn-outline btn-sm">View</button>
+                        </div>
+                        
+                        <div class="invoice-item">
+                            <div class="invoice-info">
+                                <div class="invoice-number">INV-2024-003</div>
+                                <div class="invoice-date">April 2024</div>
+                            </div>
+                            <div class="invoice-amount">KES 4,500</div>
+                            <div class="invoice-status status-paid">Paid</div>
+                            <button class="btn btn-outline btn-sm">View</button>
+                        </div>
+                        
+                        <div class="invoice-item">
+                            <div class="invoice-info">
+                                <div class="invoice-number">INV-2024-002</div>
+                                <div class="invoice-date">March 2024</div>
+                            </div>
+                            <div class="invoice-amount">KES 4,500</div>
+                            <div class="invoice-status status-paid">Paid</div>
+                            <button class="btn btn-outline btn-sm">View</button>
+                        </div>
+                        
+                        <div class="invoice-item">
+                            <div class="invoice-info">
+                                <div class="invoice-number">INV-2024-001</div>
+                                <div class="invoice-date">February 2024</div>
+                            </div>
+                            <div class="invoice-amount">KES 4,500</div>
+                            <div class="invoice-status status-paid">Paid</div>
+                            <button class="btn btn-outline btn-sm">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/client-dashboard.js"></script>
+</body>
+</html>
