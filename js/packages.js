@@ -94,11 +94,7 @@
             const newPkg = { ...pkg };
             
             // Apply discounts based on filter
-            if (filter === 'quarterly') {
-                newPkg.price = Math.round(pkg.price * 0.9);
-                newPkg.period = 'quarter';
-                newPkg.savings = 'Save 10%';
-            } else if (filter === 'yearly') {
+            if (filter === 'yearly') {
                 newPkg.price = Math.round(pkg.price * 0.8);
                 newPkg.period = 'year';
                 newPkg.savings = 'Save 20%';
