@@ -198,7 +198,7 @@
                     cta2: { text: 'View Plans', href: '/packages/' }
                 },
                 {
-                    image: 'images/1000311431.jpg',
+                    image: '/images/1000311431.jpg',
                     title: 'Professional <span class="highlight">Support</span>',
                     description: 'Expert technical support available 24/7 to keep you connected.',
                     cta1: { text: 'Contact Us', href: '/contact/' },
