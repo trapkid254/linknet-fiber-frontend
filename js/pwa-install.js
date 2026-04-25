@@ -1,4 +1,3 @@
-
 // js/pwa-install.js - Linknet Fiber PWA Install Manager v2
 // Handles: Chrome/Edge/Samsung (beforeinstallprompt), iOS Safari (manual guide),
 //          Firefox (manual guide), already-installed detection, race conditions
