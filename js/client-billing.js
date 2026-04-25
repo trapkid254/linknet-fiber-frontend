@@ -175,16 +175,90 @@ async function loadBillingData() {
             // Update current bill
             const currentBill = document.getElementById('current-bill');
             if (currentBill) {
-                currentBill.textContent = `KES ${billing.currentBill.toLocaleString()}`;
+                currentBill.textContent = `KES ${billing.currentBill?.toLocaleString() || '0'}`;
             }
 
             // Update next billing date
             const nextBilling = document.getElementById('next-billing-date');
-            if (nextBilling && billing.nextBillingDate) {
-                nextBilling.textContent = new Date(billing.nextBillingDate).toLocaleDateString();
+            if (nextBilling) {
+                if (billing.nextBillingDate) {
+                    nextBilling.textContent = `Due: ${new Date(billing.nextBillingDate).toLocaleDateString()}`;
+                } else {
+                    nextBilling.textContent = 'No billing date set';
+                }
             }
+
+            // Update outstanding balance
+            const outstandingBalance = document.getElementById('outstanding-balance');
+            if (outstandingBalance) {
+                outstandingBalance.textContent = `KES ${billing.outstandingBalance?.toLocaleString() || '0'}`;
+            }
+
+            // Update payment status
+            const paymentStatusText = document.getElementById('payment-status-text');
+            if (paymentStatusText) {
+                if (billing.outstandingBalance > 0) {
+                    paymentStatusText.textContent = 'Payment overdue';
+                } else {
+                    paymentStatusText.textContent = 'No outstanding balance';
+                }
+            }
+
+            // Update account status
+            const accountStatus = document.getElementById('account-status');
+            const accountStatusSub = document.getElementById('account-status-sub');
+            if (accountStatus) {
+                if (billing.outstandingBalance > 0) {
+                    accountStatus.textContent = 'Overdue';
+                    accountStatus.className = 'stat-value status-overdue';
+                    if (accountStatusSub) accountStatusSub.textContent = 'Please clear outstanding balance';
+                } else {
+                    accountStatus.textContent = 'Active';
+                    accountStatus.className = 'stat-value status-active';
+                    if (accountStatusSub) accountStatusSub.textContent = 'Account in good standing';
+                }
+            }
+
+            // Update payment history
+            const paymentHistory = document.getElementById('payment-history');
+            if (paymentHistory) {
+                if (billing.paymentHistory && billing.paymentHistory.length > 0) {
+                    paymentHistory.innerHTML = billing.paymentHistory.map(payment => `
+                        <div class="invoice-item">
+                            <div class="invoice-info">
+                                <div class="invoice-number">${payment.invoiceNumber || 'N/A'}</div>
+                                <div class="invoice-date">${payment.date ? new Date(payment.date).toLocaleDateString() : 'N/A'}</div>
+                            </div>
+                            <div class="invoice-amount">KES ${payment.amount?.toLocaleString() || '0'}</div>
+                            <div class="invoice-status ${payment.status === 'paid' ? 'status-paid' : 'status-pending'}">${payment.status || 'Unknown'}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    paymentHistory.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #64748B;">
+                            <i class="fas fa-receipt" style="font-size: 48px; margin-bottom: 12px; opacity: 0.5;"></i>
+                            <p>No payment history available</p>
+                        </div>
+                    `;
+                }
+            }
+        } else {
+            // Show error state
+            document.getElementById('current-bill').textContent = 'Error loading';
+            document.getElementById('next-billing-date').textContent = 'Please try again';
+            document.getElementById('outstanding-balance').textContent = 'Error loading';
+            document.getElementById('payment-status-text').textContent = 'Please try again';
+            document.getElementById('account-status').textContent = 'Error';
+            document.getElementById('account-status-sub').textContent = 'Please try again';
         }
     } catch (error) {
         console.error('Error loading billing data:', error);
+        // Show error state
+        document.getElementById('current-bill').textContent = 'Error loading';
+        document.getElementById('next-billing-date').textContent = 'Please try again';
+        document.getElementById('outstanding-balance').textContent = 'Error loading';
+        document.getElementById('payment-status-text').textContent = 'Please try again';
+        document.getElementById('account-status').textContent = 'Error';
+        document.getElementById('account-status-sub').textContent = 'Please try again';
     }
 }

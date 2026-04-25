@@ -97,8 +97,8 @@
                     </div>
                     <div class="stat-content">
                         <div class="stat-label">Current Bill</div>
-                        <div class="stat-value" id="current-bill">KES 4,500</div>
-                        <div class="stat-sub">Due: May 1, 2024</div>
+                        <div class="stat-value" id="current-bill">Loading...</div>
+                        <div class="stat-sub" id="next-billing-date">Loading...</div>
                     </div>
                 </div>
                 
@@ -107,9 +107,9 @@
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-label">Last Payment</div>
-                        <div class="stat-value" id="last-payment">KES 4,500</div>
-                        <div class="stat-sub">Paid: Apr 1, 2024</div>
+                        <div class="stat-label">Outstanding Balance</div>
+                        <div class="stat-value" id="outstanding-balance">Loading...</div>
+                        <div class="stat-sub" id="payment-status-text">Loading...</div>
                     </div>
                 </div>
                 
@@ -118,9 +118,9 @@
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-label">Payment Status</div>
-                        <div class="stat-value status-active">Up to Date</div>
-                        <div class="stat-sub">No overdue payments</div>
+                        <div class="stat-label">Account Status</div>
+                        <div class="stat-value" id="account-status">Loading...</div>
+                        <div class="stat-sub" id="account-status-sub">Loading...</div>
                     </div>
                 </div>
             </div>
@@ -151,55 +151,13 @@
             <!-- Invoice History -->
             <div class="card">
                 <div class="card-header">
-                    <h2><i class="fas fa-history"></i> Invoice History</h2>
-                    <div class="card-actions">
-                        <select class="form-select" id="invoice-filter">
-                            <option value="all">All Invoices</option>
-                            <option value="paid">Paid</option>
-                            <option value="pending">Pending</option>
-                        </select>
-                    </div>
+                    <h2><i class="fas fa-history"></i> Payment History</h2>
                 </div>
                 <div class="card-body">
-                    <div class="invoice-list">
-                        <div class="invoice-item">
-                            <div class="invoice-info">
-                                <div class="invoice-number">INV-2024-004</div>
-                                <div class="invoice-date">May 2024</div>
-                            </div>
-                            <div class="invoice-amount">KES 4,500</div>
-                            <div class="invoice-status status-pending">Pending</div>
-                            <button class="btn btn-outline btn-sm">View</button>
-                        </div>
-                        
-                        <div class="invoice-item">
-                            <div class="invoice-info">
-                                <div class="invoice-number">INV-2024-003</div>
-                                <div class="invoice-date">April 2024</div>
-                            </div>
-                            <div class="invoice-amount">KES 4,500</div>
-                            <div class="invoice-status status-paid">Paid</div>
-                            <button class="btn btn-outline btn-sm">View</button>
-                        </div>
-                        
-                        <div class="invoice-item">
-                            <div class="invoice-info">
-                                <div class="invoice-number">INV-2024-002</div>
-                                <div class="invoice-date">March 2024</div>
-                            </div>
-                            <div class="invoice-amount">KES 4,500</div>
-                            <div class="invoice-status status-paid">Paid</div>
-                            <button class="btn btn-outline btn-sm">View</button>
-                        </div>
-                        
-                        <div class="invoice-item">
-                            <div class="invoice-info">
-                                <div class="invoice-number">INV-2024-001</div>
-                                <div class="invoice-date">February 2024</div>
-                            </div>
-                            <div class="invoice-amount">KES 4,500</div>
-                            <div class="invoice-status status-paid">Paid</div>
-                            <button class="btn btn-outline btn-sm">View</button>
+                    <div class="invoice-list" id="payment-history">
+                        <div style="text-align: center; padding: 40px; color: #64748B;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 12px;"></i>
+                            <p>Loading payment history...</p>
                         </div>
                     </div>
                 </div>
