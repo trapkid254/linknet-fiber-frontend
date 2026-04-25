@@ -668,31 +668,6 @@
             }
         }
         
-        async function editCoverage(coverageId) {
-            const newName = prompt('Edit county name:');
-            if (newName && newName.trim()) {
-                try {
-                    const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/coverage/${coverageId}`, {
-                        method: 'PUT',
-                        headers: {
-                            ...getAuthHeaders(),
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ county: newName.trim() })
-                    });
-                    
-                    if (response.ok) {
-                        loadCoverage();
-                        showToast('Coverage updated successfully', 'success');
-                    } else {
-                        showToast('Error updating coverage', 'error');
-                    }
-                } catch (error) {
-                    console.error('Error updating coverage:', error);
-                    showToast('Error updating coverage', 'error');
-                }
-            }
-        }
         
         async function deleteCoverage(coverageId) {
             if (confirm('Are you sure you want to delete this coverage area? This action cannot be undone.')) {
