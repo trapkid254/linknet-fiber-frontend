@@ -1814,12 +1814,6 @@ window.hideModal = hideModal;
     window.showDashboardPage = showDashboardPage;
     
     // Add missing functions for admin pages
-    window.showAddCoverageModal = showAddCoverageModal;
-    window.closeAddCoverageModal = closeAddCoverageModal;
-    window.saveCoverage = saveCoverage;
-    window.closeEditCoverageModal = closeEditCoverageModal;
-    window.saveEditCoverage = saveEditCoverage;
-    window.closeViewCoverageModal = closeViewCoverageModal;
     window.exportAnalytics = exportAnalytics;
     
     // Start when DOM is ready
