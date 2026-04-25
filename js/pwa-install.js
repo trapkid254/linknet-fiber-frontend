@@ -306,14 +306,9 @@
       return;
     }
 
-    // Determine correct SW path based on current page location
-    const swPath = window.location.pathname.includes('/admin/')
-      ? '../sw.js'
-      : './sw.js';
-
-    const swScope = window.location.pathname.includes('/admin/')
-      ? '../'
-      : './';
+    // Always use absolute path from root for service worker
+    const swPath = '/sw.js';
+    const swScope = '/';
 
     navigator.serviceWorker.register(swPath, { scope: swScope })
       .then((registration) => {
