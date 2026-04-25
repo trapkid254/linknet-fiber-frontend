@@ -72,6 +72,12 @@ async function loadRecentActivity(clientId) {
             }
         });
         
+        if (!response.ok) {
+            // Endpoint not implemented or other error
+            activityList.innerHTML = '<div class="no-data">No recent activity</div>';
+            return;
+        }
+        
         const data = await response.json();
         
         if (data.success && data.activities && data.activities.length > 0) {
