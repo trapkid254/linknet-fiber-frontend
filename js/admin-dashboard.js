@@ -40,10 +40,10 @@ const API_BASE_URL = 'https://linknet-fiber-backend.onrender.com/api';
         }
     };
 
-// Expose to window immediately
-window.getAuthHeaders = getAuthHeaders;
+    // Expose to window immediately
+    window.getAuthHeaders = getAuthHeaders;
 
-const showToast = (message, type = 'info') => {
+    const showToast = (message, type = 'info') => {
     // Remove any existing toasts to prevent stacking
     const existingToasts = document.querySelectorAll('.toast-notification');
     existingToasts.forEach(toast => toast.remove());
@@ -174,11 +174,10 @@ const hideModal = (modalId) => {
 // Expose to window immediately
 window.hideModal = hideModal;
 
-(function() {
-    'use strict';
-    
-    // Check authentication
-    const checkAuth = () => {
+'use strict';
+
+// Check authentication
+const checkAuth = () => {
         const authData = localStorage.getItem(AUTH_KEY);
         if (!authData) {
             window.location.href = '/admin/login/';
