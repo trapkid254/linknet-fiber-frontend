@@ -163,35 +163,35 @@
         createSlides() {
             const slideData = [
                 {
-                    image: 'images/roszie-glass-fiber-7430901_1920.jpg',
+                    image: 'mages/roszie-glass-fiber-7430901_1920.jpg',
                     title: 'Experience <span class="highlight">Lightning Fast</span> Fiber Internet',
                     description: 'Stream, work, and game with speeds up to 1 Gbps. Kenya\'s most reliable fiber network.',
                     cta1: { text: 'View Packages', href: '/packages/' },
                     cta2: { text: 'Check Coverage', href: '#coverage-check' }
                 },
                 {
-                    image: 'images/1000311407.jpg',
+                    image: 'mages/1000311407.jpg',
                     title: 'Connect Your <span class="highlight">Home & Business</span>',
                     description: 'Unlimited data, 24/7 support, and free installation. Join thousands of satisfied customers.',
                     cta1: { text: 'Get Started', href: '/packages/' },
                     cta2: { text: 'Contact Sales', href: '/contact/' }
                 },
                 {
-                    image: 'images/1000311428.jpg',
+                    image: 'mages/1000311428.jpg',
                     title: 'Enterprise <span class="highlight">Solutions</span>',
                     description: 'Dedicated bandwidth, SLA-backed reliability, and 99.9% uptime guarantee.',
                     cta1: { text: 'Business Plans', href: '/packages/' },
                     cta2: { text: 'Request Quote', href: '/request/' }
                 },
                 {
-                    image: 'images/1000311401.jpg',
+                    image: '/images/1000311401.jpg',
                     title: 'Next-Generation <span class="highlight">Technology</span>',
                     description: 'Cutting-edge fiber infrastructure delivering unprecedented speeds and reliability.',
                     cta1: { text: 'Learn More', href: '/about/' },
                     cta2: { text: 'Get Started', href: '/packages/' }
                 },
                 {
-                    image: 'images/1000311430.jpg',
+                    image: '/images/1000311430.jpg',
                     title: 'Nationwide <span class="highlight">Coverage</span>',
                     description: 'Expanding rapidly to bring high-speed internet to every corner of Kenya.',
                     cta1: { text: 'Check Coverage', href: '#coverage-check' },
