@@ -1,6 +1,6 @@
 // client-register.js - Client Registration Implementation
 
-const API_BASE_URL = 'http://localhost:5000/api/clients';
+const API_BASE_URL = 'https://linknet-fiber-backend.onrender.com/api/clients';
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('client-register-form');
