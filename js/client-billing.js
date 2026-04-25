@@ -169,13 +169,19 @@ function resetPaymentForm() {
 
 async function loadBillingData() {
     try {
-        const clientProfile = await fetchClientProfile();
+        const billing = await fetchClientBilling();
         
-        if (clientProfile && clientProfile.package) {
-            // Update current bill with package price
+        if (billing) {
+            // Update current bill
             const currentBill = document.getElementById('current-bill');
             if (currentBill) {
-                currentBill.textContent = `KES ${clientProfile.package.price.toLocaleString()}`;
+                currentBill.textContent = `KES ${billing.currentBill.toLocaleString()}`;
+            }
+
+            // Update next billing date
+            const nextBilling = document.getElementById('next-billing-date');
+            if (nextBilling && billing.nextBillingDate) {
+                nextBilling.textContent = new Date(billing.nextBillingDate).toLocaleDateString();
             }
         }
     } catch (error) {

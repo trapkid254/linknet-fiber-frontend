@@ -65,23 +65,10 @@ async function loadRecentActivity(clientId) {
     if (!activityList) return;
 
     try {
-        const token = getClientToken();
-        const response = await fetch(`${API_BASE_URL}/clients/activity`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const activities = await fetchClientActivity();
         
-        if (!response.ok) {
-            // Endpoint not implemented or other error
-            activityList.innerHTML = '<div class="no-data">No recent activity</div>';
-            return;
-        }
-        
-        const data = await response.json();
-        
-        if (data.success && data.activities && data.activities.length > 0) {
-            activityList.innerHTML = data.activities.map(activity => `
+        if (activities && activities.length > 0) {
+            activityList.innerHTML = activities.map(activity => `
                 <div class="activity-item">
                     <div class="activity-icon">
                         <i class="fas ${getActivityIcon(activity.type)}"></i>

@@ -229,21 +229,7 @@ async function handleInstallationSubmit(e) {
 }
 
 async function fetchClientRequests() {
-    const token = getClientToken();
-    if (!token) return [];
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/requests`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        const data = await response.json();
-        return data.requests || [];
-    } catch (error) {
-        console.error('Error fetching requests:', error);
-        return [];
-    }
+    return await fetchClientRequests();
 }
 
 function getInstallationSteps(currentStatus) {

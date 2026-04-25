@@ -66,6 +66,63 @@ async function updateClientProfile(profileData) {
     }
 }
 
+// Fetch client activity
+async function fetchClientActivity() {
+    const token = getClientToken();
+    if (!token) return [];
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/clients/activity`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        return data.success ? data.activities : [];
+    } catch (error) {
+        console.error('Error fetching client activity:', error);
+        return [];
+    }
+}
+
+// Fetch client requests
+async function fetchClientRequests() {
+    const token = getClientToken();
+    if (!token) return [];
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/clients/requests`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        return data.success ? data.requests : [];
+    } catch (error) {
+        console.error('Error fetching client requests:', error);
+        return [];
+    }
+}
+
+// Fetch client billing
+async function fetchClientBilling() {
+    const token = getClientToken();
+    if (!token) return null;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/clients/billing`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        return data.success ? data.billing : null;
+    } catch (error) {
+        console.error('Error fetching client billing:', error);
+        return null;
+    }
+}
+
 // Logout client
 function logoutClient() {
     localStorage.removeItem('clientToken');
