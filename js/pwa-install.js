@@ -306,9 +306,9 @@
       return;
     }
 
-    // Always use absolute path from root for service worker
-    const swPath = '/sw.js';
-    const swScope = '/';
+    // Use absolute URL from domain root to ensure correct path regardless of current page
+    const swPath = new URL('/sw.js', window.location.origin).href;
+    const swScope = new URL('/', window.location.origin).href;
 
     navigator.serviceWorker.register(swPath, { scope: swScope })
       .then((registration) => {
