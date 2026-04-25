@@ -4,22 +4,22 @@
     
     // All available images from the images folder
     const allImages = [
-        'images/1000311337.jpg',
-        'images/1000311339.jpg',
-        'images/1000311343.jpg',
-        'images/1000311401.jpg',
-        'images/1000311402.jpg',
-        'images/1000311404.jpg',
-        'images/1000311407.jpg',
-        'images/1000311409.jpg',
-        'images/1000311410.jpg',
-        'images/1000311426.jpg',
-        'images/1000311428.jpg',
-        'images/1000311430.jpg',
-        'images/1000311431.jpg',
-        'images/1000311432.jpg',
-        'images/1000311433.jpg',
-        'images/roszie-glass-fiber-7430901_1920.jpg'
+        '/images/1000311337.jpg',
+        '/images/1000311339.jpg',
+        '/images/1000311343.jpg',
+        '/images/1000311401.jpg',
+        '/images/1000311402.jpg',
+        '/images/1000311404.jpg',
+        '/images/1000311407.jpg',
+        '/images/1000311409.jpg',
+        '/images/1000311410.jpg',
+        '/images/1000311426.jpg',
+        '/images/1000311428.jpg',
+        '/images/1000311430.jpg',
+        '/images/1000311431.jpg',
+        '/images/1000311432.jpg',
+        '/images/1000311433.jpg',
+        '/images/roszie-glass-fiber-7430901_1920.jpg'
     ];
     
     // Exclude logo image from rotation (keep it static)
