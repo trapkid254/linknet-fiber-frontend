@@ -23,7 +23,7 @@
     ];
     
     // Exclude logo image from rotation (keep it static)
-    const logoImage = 'images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg';
+    const logoImage = '/images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg';
     const rotatableImages = allImages;
     
     // Image rotation class
@@ -163,21 +163,21 @@
         createSlides() {
             const slideData = [
                 {
-                    image: 'mages/roszie-glass-fiber-7430901_1920.jpg',
+                    image: '/images/roszie-glass-fiber-7430901_1920.jpg',
                     title: 'Experience <span class="highlight">Lightning Fast</span> Fiber Internet',
                     description: 'Stream, work, and game with speeds up to 1 Gbps. Kenya\'s most reliable fiber network.',
                     cta1: { text: 'View Packages', href: '/packages/' },
                     cta2: { text: 'Check Coverage', href: '#coverage-check' }
                 },
                 {
-                    image: 'mages/1000311407.jpg',
+                    image: '/images/1000311407.jpg',
                     title: 'Connect Your <span class="highlight">Home & Business</span>',
                     description: 'Unlimited data, 24/7 support, and free installation. Join thousands of satisfied customers.',
                     cta1: { text: 'Get Started', href: '/packages/' },
                     cta2: { text: 'Contact Sales', href: '/contact/' }
                 },
                 {
-                    image: 'mages/1000311428.jpg',
+                    image: '/images/1000311428.jpg',
                     title: 'Enterprise <span class="highlight">Solutions</span>',
                     description: 'Dedicated bandwidth, SLA-backed reliability, and 99.9% uptime guarantee.',
                     cta1: { text: 'Business Plans', href: '/packages/' },
