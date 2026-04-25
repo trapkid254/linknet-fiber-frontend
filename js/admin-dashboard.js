@@ -1601,30 +1601,40 @@ window.hideModal = hideModal;
             
             const settings = result.data;
             
-            // Populate system settings form
-            document.getElementById('site-name').value = settings.siteName || '';
-            document.getElementById('site-description').value = settings.siteDescription || '';
-            document.getElementById('contact-email').value = settings.contactEmail || '';
-            document.getElementById('contact-phone').value = settings.contactPhone || '';
-            document.getElementById('support-email').value = settings.supportEmail || '';
-            document.getElementById('whatsapp-number').value = settings.whatsappNumber || '';
+            // Populate system settings form - check if elements exist first
+            const setElementValue = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.value = value || '';
+            };
+            
+            const setElementChecked = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.checked = value || false;
+            };
+            
+            setElementValue('site-name', settings.siteName);
+            setElementValue('site-description', settings.siteDescription);
+            setElementValue('contact-email', settings.contactEmail);
+            setElementValue('contact-phone', settings.contactPhone);
+            setElementValue('support-email', settings.supportEmail);
+            setElementValue('whatsapp-number', settings.whatsappNumber);
             
             // Social media
-            document.getElementById('facebook-url').value = settings.socialMedia?.facebook || '';
-            document.getElementById('twitter-url').value = settings.socialMedia?.twitter || '';
-            document.getElementById('instagram-url').value = settings.socialMedia?.instagram || '';
-            document.getElementById('linkedin-url').value = settings.socialMedia?.linkedin || '';
+            setElementValue('facebook-url', settings.socialMedia?.facebook);
+            setElementValue('twitter-url', settings.socialMedia?.twitter);
+            setElementValue('instagram-url', settings.socialMedia?.instagram);
+            setElementValue('linkedin-url', settings.socialMedia?.linkedin);
             
             // Business hours
-            document.getElementById('weekdays-hours').value = settings.businessHours?.weekdays || '';
-            document.getElementById('saturday-hours').value = settings.businessHours?.saturday || '';
-            document.getElementById('sunday-hours').value = settings.businessHours?.sunday || '';
+            setElementValue('weekdays-hours', settings.businessHours?.weekdays);
+            setElementValue('saturday-hours', settings.businessHours?.saturday);
+            setElementValue('sunday-hours', settings.businessHours?.sunday);
             
             // Notifications
-            document.getElementById('email-notifications').checked = settings.notifications?.emailNotifications || false;
-            document.getElementById('sms-notifications').checked = settings.notifications?.smsNotifications || false;
-            document.getElementById('new-request-alert').checked = settings.notifications?.newRequestAlert || false;
-            document.getElementById('monthly-reports').checked = settings.notifications?.monthlyReports || false;
+            setElementChecked('email-notifications', settings.notifications?.emailNotifications);
+            setElementChecked('sms-notifications', settings.notifications?.smsNotifications);
+            setElementChecked('new-request-alert', settings.notifications?.newRequestAlert);
+            setElementChecked('monthly-reports', settings.notifications?.monthlyReports);
             
         } catch (error) {
             console.error('Error loading system settings:', error);
@@ -1812,6 +1822,9 @@ window.hideModal = hideModal;
     window.handleSystemSettingsSubmit = handleSystemSettingsSubmit;
     window.showSettingsPage = showSettingsPage;
     window.showDashboardPage = showDashboardPage;
+    window.loadSystemSettings = loadSystemSettings;
+    window.loadAdminProfile = loadAdminProfile;
+    window.initSettings = initSettings;
     
     // Start when DOM is ready
     if (document.readyState === 'loading') {

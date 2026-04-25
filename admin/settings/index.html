@@ -793,13 +793,19 @@
         // Settings page specific initialization
         document.addEventListener('DOMContentLoaded', function() {
             // Load admin profile data
-            loadAdminProfile();
+            if (typeof loadAdminProfile === 'function') {
+                loadAdminProfile();
+            }
             
             // Load system settings if super admin
-            loadSystemSettings();
+            if (typeof loadSystemSettings === 'function') {
+                loadSystemSettings();
+            }
             
             // Initialize settings functionality
-            initSettings();
+            if (typeof initSettings === 'function') {
+                initSettings();
+            }
         });
     </script>
 </body>
