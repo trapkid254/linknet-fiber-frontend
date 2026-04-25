@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and client portals
+Disallow: /admin/
+Disallow: /client/
+
+# Disallow login and success pages
+Disallow: /login-choice/
+Disallow: /request-success/
+
+# Sitemap
+Sitemap: https://linknetkenya.co.ke/sitemap.xml
