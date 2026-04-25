@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Redirect to client dashboard
                     setTimeout(() => {
-                        window.location.href = 'client/dashboard.html';
+                        window.location.href = '/client/dashboard/';
                     }, 1500);
                 } else {
                     showNotification(data.error || 'Registration failed', 'error');

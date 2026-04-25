@@ -163,7 +163,7 @@
                 container.innerHTML = `
                     <div class="no-packages">
                         <p>No packages available at the moment. Please check back later.</p>
-                        <a href="packages.html" class="btn btn-outline">Contact Support</a>
+                        <a href="/packages/" class="btn btn-outline">Contact Support</a>
                     </div>
                 `;
                 return;
@@ -189,7 +189,7 @@
                         `).join('')}
                     </ul>
                     <div class="package-actions">
-                        <a href="request.html?package=${pkg.id}" class="btn btn-primary btn-block">Request Installation</a>
+                        <a href="/request/?package=${pkg.id}" class="btn btn-primary btn-block">Request Installation</a>
                     </div>
                 </div>
             `).join('');

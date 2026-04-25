@@ -12,14 +12,14 @@
     <meta name="theme-color" content="#1E4D8C">
     <meta name="msapplication-TileColor" content="#1E4D8C">
     <meta name="msapplication-TileImage" content="./icons/icon-144.png">
-    <link rel="manifest" href="./manifest.json">
-    <link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
-    <link rel="apple-touch-icon" href="./icons/icon-192.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" sizes="152x152" href="../icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="../icons/icon-192.png">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../icons/icon-512.png">
     <!-- Load PWA installer early to capture beforeinstallprompt -->
-    <script src="./js/pwa-install.js" defer></script>
+    <script src="../js/pwa-install.js" defer></script>
     <meta name="description" content="Explore Linknet Fiber's internet packages - from basic home plans to enterprise solutions. Find the perfect fiber internet package for your needs.">
     <title>Internet Packages - Linknet Fiber</title>
     <!-- PWA Meta Tags -->
@@ -43,7 +43,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css?v=1.0.2">
+    <link rel="stylesheet" href="../css/style.css?v=1.0.2">
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -53,23 +53,23 @@
             <div class="nav-container">
                 <!-- Logo and Brand Name -->
                 <div class="nav-brand">
-                    <a href="index.html" class="logo" aria-label="Linknet Fiber Home">
-                        <img src="images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg" alt="Linknet Fiber Logo" width="40" height="40">
+                    <a href="/" class="logo" aria-label="Linknet Fiber Home">
+                        <img src="../images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg" alt="Linknet Fiber Logo" width="40" height="40">
                         <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
                     </a>
                 </div>
                 
                 <!-- Navigation Menu -->
                 <ul class="nav-menu" role="list">
-                    <li role="listitem"><a href="index.html" class="nav-link">Home</a></li>
-                    <li role="listitem"><a href="packages.html" class="nav-link active" aria-current="page">Packages</a></li>
-                    <li role="listitem"><a href="about.html" class="nav-link">Coverage</a></li>
-                    <li role="listitem"><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li role="listitem"><a href="/" class="nav-link">Home</a></li>
+                    <li role="listitem"><a href="/packages/" class="nav-link active" aria-current="page">Packages</a></li>
+                    <li role="listitem"><a href="/about/" class="nav-link">Coverage</a></li>
+                    <li role="listitem"><a href="/contact/" class="nav-link">Contact</a></li>
                     <!-- Mobile-only menu items -->
-                    <li role="listitem" class="mobile-only"><a href="login-choice.html" class="nav-link">
+                    <li role="listitem" class="mobile-only"><a href="/login-choice/" class="nav-link">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </a></li>
-                    <li role="listitem" class="mobile-only"><a href="request.html" class="nav-link">
+                    <li role="listitem" class="mobile-only"><a href="/request/" class="nav-link">
                         <i class="fas fa-wifi"></i> Request Installation
                     </a></li>
                 </ul>
@@ -82,10 +82,10 @@
                     <button class="theme-toggle" aria-label="Toggle dark mode">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <a href="login-choice.html" class="btn btn-admin" aria-label="Login">
+                    <a href="/login-choice/" class="btn btn-admin" aria-label="Login">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </a>
-                    <a href="request.html" class="btn btn-primary">Request Installation</a>
+                    <a href="/request/" class="btn btn-primary">Request Installation</a>
                 </div>
                 
                 <!-- Mobile Toggle -->
@@ -190,16 +190,16 @@
                 <div class="footer-col">
                     <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="packages.html">Internet Packages</a></li>
-                        <li><a href="about.html">Coverage Areas</a></li>
-                        <li><a href="request.html">Request Installation</a></li>
+                        <li><a href="/packages/">Internet Packages</a></li>
+                        <li><a href="/about/">Coverage Areas</a></li>
+                        <li><a href="/request/">Request Installation</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>Support</h3>
                     <ul>
-                        <li><a href="contact.html">Help Center</a></li>
-                        <li><a href="contact.html">Report Issue</a></li>
+                        <li><a href="/contact/">Help Center</a></li>
+                        <li><a href="/contact/">Report Issue</a></li>
                         <li><a href="#">FAQs</a></li>
                     </ul>
                 </div>
@@ -222,19 +222,19 @@
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    <script src="js/darkmode.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/image-rotator.js"></script>
-    <script src="js/packages.js"></script>
+    <script src="../js/darkmode.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/image-rotator.js"></script>
+    <script src="../js/packages.js"></script>
 
 
-    <script src="js/pwa-install.js"></script>
+    <script src="../js/pwa-install.js"></script>
     
     <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
+                navigator.serviceWorker.register('../sw.js')
                     .then((registration) => {
                         console.log('Service Worker registered successfully:', registration.scope);
                     })

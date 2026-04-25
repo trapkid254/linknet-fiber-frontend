@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check authentication
     const token = localStorage.getItem('clientToken') || sessionStorage.getItem('clientToken');
     if (!token) {
-        window.location.href = 'login.html';
+        window.location.href = '/client/login/';
         return;
     }
     
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.removeItem('clientEmail');
             
             // Redirect to login page
-            window.location.href = 'login.html';
+            window.location.href = '/client/login/';
         });
     }
     
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (newRequestBtn) {
         newRequestBtn.addEventListener('click', () => {
             // Redirect to request installation page
-            window.location.href = '../request.html';
+            window.location.href = '/request/';
         });
     }
     

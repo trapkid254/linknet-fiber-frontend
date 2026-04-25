@@ -90,7 +90,7 @@ async function loadInstallationStatus() {
                         </div>
                         <h3>Installation Completed</h3>
                         <p style="margin: 16px 0 24px; color: #64748B;">Your installation has been completed successfully.</p>
-                        <button class="btn btn-primary" onclick="window.location.href='service.html'">
+                        <button class="btn btn-primary" onclick="window.location.href='/client/service/'">
                             <i class="fas fa-wifi"></i> View My Service
                         </button>
                     </div>

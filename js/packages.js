@@ -124,7 +124,7 @@
                     `).join('')}
                 </ul>
                 <div class="package-actions">
-                    <a href="request.html?package=${pkg.id}" class="btn btn-primary btn-block">Request Installation</a>
+                    <a href="/request/?package=${pkg.id}" class="btn btn-primary btn-block">Request Installation</a>
                 </div>
             </div>
         `).join('');

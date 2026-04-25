@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Login - Linknet Fiber</title>
+    <title>Client Registration - Linknet Fiber</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Critical inline styles for client login page */
-        .client-login-section {
+        /* Critical inline styles for client registration page */
+        .client-register-section {
             padding: 96px 0;
             background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);
             min-height: 100vh;
@@ -17,7 +17,7 @@
             display: flex;
             align-items: center;
         }
-        .client-login-watermark {
+        .client-register-watermark {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -30,18 +30,18 @@
             pointer-events: none;
             z-index: 0;
         }
-        .client-login-watermark i {
+        .client-register-watermark i {
             font-size: 200px;
             color: #C6A43F;
         }
-        .client-login-watermark span {
+        .client-register-watermark span {
             font-size: 48px;
             font-weight: 800;
             color: #C6A43F;
             margin-top: 16px;
             letter-spacing: 4px;
         }
-        .client-login-section::before {
+        .client-register-section::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -52,18 +52,18 @@
             border-radius: 50%;
             animation: float 20s ease-in-out infinite;
         }
-        .client-login-container {
-            max-width: 480px;
+        .client-register-container {
+            max-width: 520px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
-        .client-login-header {
+        .client-register-header {
             text-align: center;
             margin-bottom: 48px;
             animation: fadeInUp 0.6s ease-out;
         }
-        .client-login-logo {
+        .client-register-logo {
             width: 80px;
             height: 80px;
             margin: 0 auto 24px;
@@ -74,21 +74,21 @@
             justify-content: center;
             box-shadow: 0 10px 25px -5px rgba(198, 164, 63, 0.3);
         }
-        .client-login-logo i {
+        .client-register-logo i {
             font-size: 2rem;
             color: #FFFFFF;
         }
-        .client-login-title {
+        .client-register-title {
             font-size: 36px;
             font-weight: 800;
             color: #1E293B;
             margin-bottom: 12px;
         }
-        .client-login-subtitle {
+        .client-register-subtitle {
             font-size: 16px;
             color: #64748B;
         }
-        .client-login-form {
+        .client-register-form {
             background: #FFFFFF;
             border-radius: 24px;
             padding: 48px;
@@ -98,7 +98,7 @@
             animation-fill-mode: both;
         }
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .form-label {
             display: block;
@@ -122,35 +122,27 @@
             background: #FFFFFF;
             box-shadow: 0 0 0 3px rgba(198, 164, 63, 0.1);
         }
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
         }
         .form-checkbox {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 8px;
+            margin-bottom: 24px;
         }
         .form-checkbox input {
             width: 18px;
             height: 18px;
             accent-color: #C6A43F;
+            margin-top: 2px;
         }
         .form-checkbox label {
-            font-size: 14px;
+            font-size: 13px;
             color: #64748B;
-        }
-        .form-forgot {
-            color: #C6A43F;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 250ms ease;
-        }
-        .form-forgot:hover {
-            color: #A8892F;
+            line-height: 1.5;
         }
         .btn-submit {
             width: 100%;
@@ -186,22 +178,22 @@
         .form-divider span {
             padding: 0 16px;
         }
-        .form-register {
+        .form-login {
             text-align: center;
             margin-top: 24px;
         }
-        .form-register-text {
+        .form-login-text {
             color: #64748B;
             font-size: 14px;
         }
-        .form-register-link {
+        .form-login-link {
             color: #C6A43F;
             text-decoration: none;
             font-weight: 600;
             margin-left: 4px;
             transition: color 250ms ease;
         }
-        .form-register-link:hover {
+        .form-login-link:hover {
             color: #A8892F;
         }
         .form-back {
@@ -228,20 +220,20 @@
                 transform: translateY(0);
             }
         }
-        [data-theme="dark"] .client-login-section {
+        [data-theme="dark"] .client-register-section {
             background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
         }
-        [data-theme="dark"] .client-login-section::before {
+        [data-theme="dark"] .client-register-section::before {
             background: radial-gradient(circle, rgba(198, 164, 63, 0.1) 0%, transparent 70%);
         }
-        [data-theme="dark"] .client-login-form {
+        [data-theme="dark"] .client-register-form {
             background: #1E293B;
             border-color: #334155;
         }
-        [data-theme="dark"] .client-login-title {
+        [data-theme="dark"] .client-register-title {
             color: #F1F5F9;
         }
-        [data-theme="dark"] .client-login-subtitle {
+        [data-theme="dark"] .client-register-subtitle {
             color: #94A3B8;
         }
         [data-theme="dark"] .form-label {
@@ -263,63 +255,81 @@
         [data-theme="dark"] .form-divider::after {
             background: #334155;
         }
-        [data-theme="dark"] .form-register-text {
+        [data-theme="dark"] .form-login-text {
             color: #94A3B8;
         }
     </style>
 </head>
 <body>
-    <!-- Client Login Section -->
-    <section class="client-login-section">
+    <!-- Client Registration Section -->
+    <section class="client-register-section">
         <!-- Watermark -->
-        <div class="client-login-watermark">
+        <div class="client-register-watermark">
             <i class="fas fa-wifi"></i>
             <span>LINKNET</span>
         </div>
         
         <div class="container">
-            <div class="client-login-container">
-                <div class="client-login-header">
-                    <div class="client-login-logo">
-                        <i class="fas fa-user"></i>
+            <div class="client-register-container">
+                <div class="client-register-header">
+                    <div class="client-register-logo">
+                        <i class="fas fa-user-plus"></i>
                     </div>
-                    <h1 class="client-login-title">Client Login</h1>
-                    <p class="client-login-subtitle">Access your account to manage your internet service</p>
+                    <h1 class="client-register-title">Create Account</h1>
+                    <p class="client-register-subtitle">Register to manage your internet service and track installations</p>
                 </div>
                 
-                <form class="client-login-form" id="client-login-form">
+                <form class="client-register-form" id="client-register-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="firstname">First Name</label>
+                            <input type="text" id="firstname" class="form-input" placeholder="First name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lastname">Last Name</label>
+                            <input type="text" id="lastname" class="form-input" placeholder="Last name" required>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label class="form-label" for="email">Email Address</label>
                         <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
                     </div>
                     
                     <div class="form-group">
+                        <label class="form-label" for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="0712 345 678" required>
+                    </div>
+                    
+                    <div class="form-group">
                         <label class="form-label" for="password">Password</label>
-                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                        <input type="password" id="password" class="form-input" placeholder="Create a password" required>
                     </div>
                     
-                    <div class="form-options">
-                        <div class="form-checkbox">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">Remember me</label>
-                        </div>
-                        <a href="#" class="form-forgot">Forgot password?</a>
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" class="form-input" placeholder="Confirm your password" required>
                     </div>
                     
-                    <button type="submit" class="btn-submit">Sign In</button>
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the <a href="#" style="color: #C6A43F;">Terms of Service</a> and <a href="#" style="color: #C6A43F;">Privacy Policy</a></label>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Create Account</button>
                     
                     <div class="form-divider">
                         <span>or</span>
                     </div>
                     
-                    <div class="form-register">
-                        <span class="form-register-text">Don't have an account?</span>
-                        <a href="register.html" class="form-register-link">Register</a>
+                    <div class="form-login">
+                        <span class="form-login-text">Already have an account?</span>
+                        <a href="/client/login/" class="form-login-link">Sign In</a>
                     </div>
                 </form>
                 
                 <div class="form-back">
-                    <a href="../login-choice.html" class="btn btn-outline">
+                    <a href="/login-choice/" class="btn btn-outline">
                         <i class="fas fa-arrow-left"></i> Back to Login Options
                     </a>
                 </div>
@@ -327,6 +337,6 @@
         </div>
     </section>
 
-    <script src="../js/client-login.js"></script>
+    <script src="../js/client-register.js"></script>
 </body>
 </html>

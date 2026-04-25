@@ -269,7 +269,7 @@
                 
                 // Small delay to ensure localStorage is set before redirect
                 setTimeout(() => {
-                    window.location.href = 'request-success.html';
+                    window.location.href = '/request-success/';
                 }, 100);
                 
                 form.reset();

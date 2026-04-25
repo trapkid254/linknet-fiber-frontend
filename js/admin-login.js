@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const data = JSON.parse(existingAuth);
             if (data.expires && data.expires > Date.now()) {
-                window.location.href = 'dashboard.html';
+                window.location.href = '/admin/dashboard/';
                 return;
             } else {
                 localStorage.removeItem(AUTH_KEY);
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Redirect to dashboard after a short delay
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '/admin/dashboard/';
                 }, 1000);
             } else {
                 showError(data.error || 'Invalid credentials. Please try again.');

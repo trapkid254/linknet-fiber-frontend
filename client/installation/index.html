@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Service - Linknet Fiber</title>
+    <title>Installation Status - Linknet Fiber</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css?v=1.7">
@@ -13,7 +13,7 @@
     <!-- Sidebar -->
     <aside class="client-sidebar">
         <div class="sidebar-header">
-            <a href="../index.html" class="login-logo">
+            <a href="/" class="login-logo">
                 <span class="brand-text">Linknet<span class="brand-accent">Fiber</span></span>
             </a>
             <p>Client Portal</p>
@@ -22,32 +22,32 @@
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <a href="dashboard.html">
+                    <a href="/client/dashboard/">
                         <i class="fas fa-home"></i> Dashboard
                     </a>
                 </li>
-                <li class="active">
-                    <a href="service.html">
+                <li>
+                    <a href="/client/service/">
                         <i class="fas fa-wifi"></i> My Service
                     </a>
                 </li>
                 <li>
-                    <a href="billing.html">
+                    <a href="/client/billing/">
                         <i class="fas fa-file-invoice-dollar"></i> Billing
                     </a>
                 </li>
-                <li>
-                    <a href="installation.html">
+                <li class="active">
+                    <a href="/client/installation/">
                         <i class="fas fa-tools"></i> Installation Status
                     </a>
                 </li>
                 <li>
-                    <a href="support.html">
+                    <a href="/client/support/">
                         <i class="fas fa-headset"></i> Support
                     </a>
                 </li>
                 <li>
-                    <a href="settings.html">
+                    <a href="/client/settings/">
                         <i class="fas fa-cog"></i> Settings
                     </a>
                 </li>
@@ -77,7 +77,7 @@
                 <button class="sidebar-toggle" aria-label="Toggle sidebar">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h1>My Service</h1>
+                <h1>Installation Status</h1>
             </div>
             <div class="header-right">
                 <div class="header-actions">
@@ -89,30 +89,9 @@
         </header>
         
         <div class="client-content">
-            <!-- Current Plan -->
-            <div class="card" style="margin-bottom: 24px;" id="current-plan-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-wifi"></i> Current Plan</h2>
-                </div>
-                <div class="card-body" id="current-plan-content">
-                    <div class="no-service-message">
-                        <i class="fas fa-wifi-slash"></i>
-                        <h3>No Active Service</h3>
-                        <p>You don't have an active service yet. Choose a plan from the available plans below to get started.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Available Plans -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-box"></i> Available Plans</h2>
-                </div>
-                <div class="card-body">
-                    <div class="plans-grid" id="available-plans-grid">
-                        <div class="loading-spinner">Loading plans...</div>
-                    </div>
-                </div>
+            <div id="installation-content">
+                <!-- Content will be loaded dynamically based on installation status -->
+                <div class="loading-spinner">Loading installation status...</div>
             </div>
         </div>
 
@@ -181,6 +160,6 @@
     <script src="../js/client-auth.js"></script>
     <script src="../js/client-api.js"></script>
     <script src="../js/client-dashboard.js"></script>
-    <script src="../js/client-service.js"></script>
+    <script src="../js/client-installation.js"></script>
 </body>
 </html>

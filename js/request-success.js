@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h1 class="success-title" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">No Request Data Found</h1>
                 <p class="success-subtitle">The request data could not be found. Please submit a new request.</p>
                 <div class="success-actions">
-                    <a href="request.html" class="btn btn-primary">Submit New Request</a>
-                    <a href="index.html" class="btn btn-gold">Back to Home</a>
+                    <a href="/request/" class="btn btn-primary">Submit New Request</a>
+                    <a href="/" class="btn btn-gold">Back to Home</a>
                 </div>
             `;
         }

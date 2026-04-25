@@ -48,7 +48,7 @@
                             <i class="fas fa-check-circle"></i>
                             <strong>Great news!</strong> Linknet Fiber is available in ${estate}, ${county}.
                             <br>
-                            <a href="packages.html" class="btn btn-primary btn-sm" style="margin-top: 10px;">View Available Packages</a>
+                            <a href="/packages/" class="btn btn-primary btn-sm" style="margin-top: 10px;">View Available Packages</a>
                         `, 'success');
                     } else {
                         showResult(`

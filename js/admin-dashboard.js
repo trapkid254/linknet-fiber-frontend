@@ -9,7 +9,7 @@ const getAuthHeaders = () => {
     
     if (!authData) {
         console.log('No auth data found, redirecting to login');
-        window.location.href = 'login.html';
+        window.location.href = '/admin/login/';
         return {};
     }
     
@@ -20,7 +20,7 @@ const getAuthHeaders = () => {
         if (parsed.expires && parsed.expires < Date.now()) {
             console.log('Token expired, removing and redirecting');
             localStorage.removeItem(AUTH_KEY);
-            window.location.href = 'login.html';
+            window.location.href = '/admin/login/';
             return {};
         }
         
@@ -33,7 +33,7 @@ const getAuthHeaders = () => {
     } catch (error) {
         console.error('Error parsing auth data:', error);
         localStorage.removeItem(AUTH_KEY);
-        window.location.href = 'login.html';
+        window.location.href = '/admin/login/';
         return {};
     }
 };
@@ -179,7 +179,7 @@ window.hideModal = hideModal;
     const checkAuth = () => {
         const authData = localStorage.getItem(AUTH_KEY);
         if (!authData) {
-            window.location.href = 'login.html';
+            window.location.href = '/admin/login/';
             return false;
         }
         
@@ -187,13 +187,13 @@ window.hideModal = hideModal;
             const parsed = JSON.parse(authData);
             if (parsed.expires && parsed.expires < Date.now()) {
                 localStorage.removeItem(AUTH_KEY);
-                window.location.href = 'login.html';
+                window.location.href = '/admin/login/';
                 return false;
             }
             return parsed;
         } catch (e) {
             localStorage.removeItem(AUTH_KEY);
-            window.location.href = 'login.html';
+            window.location.href = '/admin/login/';
             return false;
         }
     };
@@ -749,7 +749,7 @@ window.hideModal = hideModal;
                 localStorage.removeItem(AUTH_KEY);
                 showToast('Logged out successfully', 'success');
                 setTimeout(() => {
-                    window.location.href = 'login.html';
+                    window.location.href = '/admin/login/';
                 }, 1000);
             });
         }

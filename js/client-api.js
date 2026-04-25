@@ -1,6 +1,6 @@
 // client-api.js - Client API Integration
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://linknet-fiber-backend.onrender.com/api';
 
 // Get client token
 function getClientToken() {
@@ -74,5 +74,5 @@ function logoutClient() {
     sessionStorage.removeItem('clientToken');
     sessionStorage.removeItem('clientEmail');
     sessionStorage.removeItem('clientData');
-    window.location.href = 'login.html';
+    window.location.href = '/client/login/';
 }
