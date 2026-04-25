@@ -301,14 +301,16 @@
 
   // ── Register Service Worker ───────────────────────────────────────────────
   const registerSW = () => {
-    if (!('serviceWorker' in navigator)) {
+    if (!('serviceWorker' in navigator')) {
       console.log('[PWA] Service Worker not supported');
       return;
     }
 
-    // Use absolute URL from domain root to ensure correct path regardless of current page
-    const swPath = new URL('/sw.js', window.location.origin).href;
-    const swScope = new URL('/', window.location.origin).href;
+    // Use absolute path from domain root to ensure correct path regardless of current page
+    const swPath = window.location.origin + '/sw.js';
+    const swScope = '/';
+
+    console.log('[PWA] Registering SW with path:', swPath, 'scope:', swScope);
 
     navigator.serviceWorker.register(swPath, { scope: swScope })
       .then((registration) => {
