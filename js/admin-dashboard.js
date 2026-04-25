@@ -1813,9 +1813,6 @@ window.hideModal = hideModal;
     window.showSettingsPage = showSettingsPage;
     window.showDashboardPage = showDashboardPage;
     
-    // Add missing functions for admin pages
-    window.exportAnalytics = exportAnalytics;
-    
     // Start when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
