@@ -206,10 +206,10 @@ const checkAuth = () => {
             console.log('Auth headers:', headers); // Debug log
             
             // First try test endpoint without auth to verify API is working
-            const testResponse = await fetch(`${API_BASE}/admin/test`);
+            const testResponse = await fetch(`${API_BASE_URL}/admin/test`);
             console.log('Test endpoint response:', testResponse.status);
             
-            const response = await fetch(`${API_BASE}/admin/dashboard/stats`, {
+            const response = await fetch(`${API_BASE_URL}/admin/dashboard/stats`, {
                 headers: headers
             });
             
@@ -225,7 +225,7 @@ const checkAuth = () => {
                     
                     // Try verify endpoint to check if token is valid
                     try {
-                        const verifyResponse = await fetch(`${API_BASE}/admin/verify`, {
+                        const verifyResponse = await fetch(`${API_BASE_URL}/admin/verify`, {
                             headers: headers
                         });
                         console.log('Verify response:', verifyResponse.status);
@@ -759,7 +759,7 @@ const checkAuth = () => {
     // Load packages from API
     const loadPackages = async () => {
         try {
-            const response = await fetch(`${API_BASE}/admin/packages`, {
+            const response = await fetch(`${API_BASE_URL}/admin/packages`, {
                 headers: getAuthHeaders()
             });
             
@@ -821,7 +821,7 @@ const checkAuth = () => {
     // Load requests from API
     const loadRequests = async () => {
         try {
-            const response = await fetch(`${API_BASE}/admin/requests`, {
+            const response = await fetch(`${API_BASE_URL}/admin/requests`, {
                 headers: getAuthHeaders()
             });
             
@@ -889,7 +889,7 @@ const checkAuth = () => {
     // Load coverage areas from API
     const loadCoverageAreas = async () => {
         try {
-            const response = await fetch(`${API_BASE}/admin/coverage`, {
+            const response = await fetch(`${API_BASE_URL}/admin/coverage`, {
                 headers: getAuthHeaders()
             });
             
@@ -1001,7 +1001,7 @@ const checkAuth = () => {
     // Package operations
     const addPackage = async (formData) => {
         try {
-            const response = await fetch(`${API_BASE}/admin/packages`, {
+            const response = await fetch(`${API_BASE_URL}/admin/packages`, {
                 method: 'POST',
                 headers: {
                     ...getAuthHeaders(),
@@ -1023,7 +1023,7 @@ const checkAuth = () => {
     
     const editPackage = async (id) => {
         try {
-            const response = await fetch(`${API_BASE}/admin/packages/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/packages/${id}`, {
                 headers: getAuthHeaders()
             });
             
@@ -1066,7 +1066,7 @@ const checkAuth = () => {
         if (!confirm('Are you sure you want to delete this package?')) return;
         
         try {
-            const response = await fetch(`${API_BASE}/admin/packages/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/packages/${id}`, {
                 method: 'DELETE',
                 headers: getAuthHeaders()
             });
@@ -1088,7 +1088,7 @@ const checkAuth = () => {
     // Request operations
     const updateRequestStatus = async (id, status) => {
         try {
-            const response = await fetch(`${API_BASE}/admin/requests/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/requests/${id}`, {
                 method: 'PATCH',
                 headers: {
                     ...getAuthHeaders(),
@@ -1111,7 +1111,7 @@ const checkAuth = () => {
         if (!confirm('Are you sure you want to delete this request?')) return;
         
         try {
-            const response = await fetch(`${API_BASE}/admin/requests/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/requests/${id}`, {
                 method: 'DELETE',
                 headers: getAuthHeaders()
             });
@@ -1129,7 +1129,7 @@ const checkAuth = () => {
     // Coverage operations
     const addCoverageArea = async (formData) => {
         try {
-            const response = await fetch(`${API_BASE}/admin/coverage`, {
+            const response = await fetch(`${API_BASE_URL}/admin/coverage`, {
                 method: 'POST',
                 headers: {
                     ...getAuthHeaders(),
@@ -1151,7 +1151,7 @@ const checkAuth = () => {
     
     const editCoverage = async (id) => {
         try {
-            const response = await fetch(`${API_BASE}/admin/coverage/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/coverage/${id}`, {
                 headers: getAuthHeaders()
             });
             
@@ -1174,7 +1174,7 @@ const checkAuth = () => {
         if (!confirm('Are you sure you want to delete this coverage area?')) return;
         
         try {
-            const response = await fetch(`${API_BASE}/admin/coverage/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/coverage/${id}`, {
                 method: 'DELETE',
                 headers: getAuthHeaders()
             });
@@ -1225,7 +1225,7 @@ const checkAuth = () => {
             
             if (editId) {
                 // Edit existing package
-                response = await fetch(`${API_BASE}/admin/packages/${editId}`, {
+                response = await fetch(`${API_BASE_URL}/admin/packages/${editId}`, {
                     method: 'PUT',
                     headers: {
                         ...getAuthHeaders(),
@@ -1236,7 +1236,7 @@ const checkAuth = () => {
                 message = 'Package updated successfully';
             } else {
                 // Create new package
-                response = await fetch(`${API_BASE}/admin/packages`, {
+                response = await fetch(`${API_BASE_URL}/admin/packages`, {
                     method: 'POST',
                     headers: {
                         ...getAuthHeaders(),
@@ -1297,7 +1297,7 @@ const checkAuth = () => {
         };
         
         try {
-            const response = await fetch(`${API_BASE}/admin/customers`, {
+            const response = await fetch(`${API_BASE_URL}/admin/customers`, {
                 method: 'POST',
                 headers: {
                     ...getAuthHeaders(),
@@ -1371,7 +1371,7 @@ const checkAuth = () => {
     // Load customers function
     const loadCustomers = async () => {
         try {
-            const response = await fetch(`${API_BASE}/admin/customers`, {
+            const response = await fetch(`${API_BASE_URL}/admin/customers`, {
                 headers: getAuthHeaders()
             });
             
@@ -1425,7 +1425,7 @@ const checkAuth = () => {
     // Settings functionality
     const loadAdminProfile = async () => {
         try {
-            const response = await fetch(`${API_BASE}/admin/profile`, {
+            const response = await fetch(`${API_BASE_URL}/admin/profile`, {
                 headers: getAuthHeaders()
             });
             
@@ -1472,7 +1472,7 @@ const checkAuth = () => {
         };
         
         try {
-            const response = await fetch(`${API_BASE}/admin/profile`, {
+            const response = await fetch(`${API_BASE_URL}/admin/profile`, {
                 method: 'PUT',
                 headers: {
                     ...getAuthHeaders(),
@@ -1515,7 +1515,7 @@ const checkAuth = () => {
         }
         
         try {
-            const response = await fetch(`${API_BASE}/admin/change-password`, {
+            const response = await fetch(`${API_BASE_URL}/admin/change-password`, {
                 method: 'POST',
                 headers: {
                     ...getAuthHeaders(),
@@ -1558,7 +1558,7 @@ const checkAuth = () => {
             const imageData = event.target.result;
             
             try {
-                const response = await fetch(`${API_BASE}/admin/profile/image`, {
+                const response = await fetch(`${API_BASE_URL}/admin/profile/image`, {
                     method: 'POST',
                     headers: {
                         ...getAuthHeaders(),
@@ -1591,7 +1591,7 @@ const checkAuth = () => {
     
     const loadSystemSettings = async () => {
         try {
-            const response = await fetch(`${API_BASE}/admin/settings`, {
+            const response = await fetch(`${API_BASE_URL}/admin/settings`, {
                 headers: getAuthHeaders()
             });
             
@@ -1673,7 +1673,7 @@ const checkAuth = () => {
         };
         
         try {
-            const response = await fetch(`${API_BASE}/admin/settings`, {
+            const response = await fetch(`${API_BASE_URL}/admin/settings`, {
                 method: 'PUT',
                 headers: {
                     ...getAuthHeaders(),
@@ -1832,16 +1832,8 @@ const checkAuth = () => {
     };
     
     const fetchNotifications = async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/admin/notifications`, {
-                headers: getAuthHeaders()
-            });
-            const data = await response.json();
-            return data.success ? data.notifications : [];
-        } catch (error) {
-            console.error('Error fetching notifications:', error);
-            return [];
-        }
+        // Return empty array for now - notifications endpoint not implemented yet
+        return [];
     };
     
     const formatNotificationTime = (date) => {
