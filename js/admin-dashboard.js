@@ -1814,12 +1814,8 @@ window.hideModal = hideModal;
     window.showDashboardPage = showDashboardPage;
     
     // Add missing functions for admin pages
-    window.editRequest = editRequest;
-    window.viewPackage = viewPackage;
-    window.viewCustomer = viewCustomer;
     window.editCustomer = editCustomer;
     window.deleteCustomer = deleteCustomer;
-    window.viewCoverage = viewCoverage;
     window.showAddCoverageModal = showAddCoverageModal;
     window.closeAddCoverageModal = closeAddCoverageModal;
     window.saveCoverage = saveCoverage;
