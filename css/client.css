@@ -1728,6 +1728,22 @@ textarea.form-input {
         display: block;
     }
     
+    .client-header {
+        padding: var(--spacing-md) var(--spacing-lg);
+        height: auto;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .header-left {
+        width: 100%;
+    }
+    
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
     .stats-grid {
         grid-template-columns: 1fr;
     }
@@ -1739,10 +1755,6 @@ textarea.form-input {
     .usage-overview {
         grid-template-columns: 1fr;
         gap: 16px;
-    }
-    
-    .client-header {
-        padding: 16px;
     }
     
     .client-content {

@@ -1,42 +1,44 @@
-// js/admin-dashboard.js - Clean Admin Dashboard
-const AUTH_KEY = 'linknet_admin_auth';
-const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
+// js/admin-dashboard.js - Admin Dashboard Logic
 
-// Utility functions - defined outside IIFE for global access
-const getAuthHeaders = () => {
-    const authData = localStorage.getItem(AUTH_KEY);
-    console.log('Raw auth data from localStorage:', authData); // Debug
+const API_BASE_URL = 'https://linknet-fiber-backend.onrender.com/api';
+
+(function() {
+    const AUTH_KEY = 'linknet_admin_auth';
     
-    if (!authData) {
-        console.log('No auth data found, redirecting to login');
-        window.location.href = '/admin/login/';
-        return {};
-    }
-    
-    try {
-        const parsed = JSON.parse(authData);
-        console.log('Parsed auth data:', parsed); // Debug
+    const getAuthHeaders = () => {
+        const authData = localStorage.getItem(AUTH_KEY);
+        console.log('Raw auth data from localStorage:', authData); // Debug
         
-        if (parsed.expires && parsed.expires < Date.now()) {
-            console.log('Token expired, removing and redirecting');
-            localStorage.removeItem(AUTH_KEY);
+        if (!authData) {
+            console.log('No auth data found, redirecting to login');
             window.location.href = '/admin/login/';
             return {};
         }
         
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${parsed.token}`
-        };
-        console.log('Generated headers:', headers); // Debug
-        return headers;
-    } catch (error) {
-        console.error('Error parsing auth data:', error);
-        localStorage.removeItem(AUTH_KEY);
-        window.location.href = '/admin/login/';
-        return {};
-    }
-};
+        try {
+            const parsed = JSON.parse(authData);
+            console.log('Parsed auth data:', parsed); // Debug
+            
+            if (parsed.expires && parsed.expires < Date.now()) {
+                console.log('Token expired, removing and redirecting');
+                localStorage.removeItem(AUTH_KEY);
+                window.location.href = '/admin/login/';
+                return {};
+            }
+            
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${parsed.token}`
+            };
+            console.log('Generated headers:', headers); // Debug
+            return headers;
+        } catch (error) {
+            console.error('Error parsing auth data:', error);
+            localStorage.removeItem(AUTH_KEY);
+            window.location.href = '/admin/login/';
+            return {};
+        }
+    };
 
 // Expose to window immediately
 window.getAuthHeaders = getAuthHeaders;
