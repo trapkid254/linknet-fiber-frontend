@@ -295,12 +295,11 @@
     state.promptCaptured = false;
     setInstallVisible(false);
     showToast('🎉 Linknet Fiber App installed successfully!', 'success');
-    console.log('[PWA] App installed!');
   });
 
   // ── Register Service Worker ───────────────────────────────────────────────
   const registerSW = () => {
-    if (!('serviceWorker' in navigator')) {
+    if (! ('serviceWorker' in navigator)) {
       console.log('[PWA] Service Worker not supported');
       return;
     }
