@@ -841,7 +841,7 @@ window.hideModal = hideModal;
                         <td><span class="status-badge ${req.status || 'pending'}">${req.status || 'Pending'}</span></td>
                         <td>
                             <div class="action-buttons">
-                                <button class="action-btn" onclick="viewRequest('${req._id}')">
+                                <button class="action-btn" onclick="editRequest('${req._id}')">
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 ${req.status === 'pending' ? `

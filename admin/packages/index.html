@@ -339,8 +339,9 @@
         <script>
             // Packages page specific functionality
             // Define functions globally for onclick handlers
-            let loadPackages, showPackageModal, viewPackage, editPackage, deletePackage, hideModal;
-            loadPackages = async function(category = '', status = '', search = '') {
+            document.addEventListener('DOMContentLoaded', function() {
+                let loadPackages, showPackageModal, viewPackage, editPackage, deletePackage, hideModal;
+                loadPackages = async function(category = '', status = '', search = '') {
                 try {
                     console.log('Loading packages from admin packages page...');
                     const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/packages', {
@@ -400,18 +401,18 @@
                 if (modal) modal.classList.remove('active');
             };
             
-            // Expose to window
-            window.loadPackages = loadPackages;
-            window.showPackageModal = showPackageModal;
-            window.viewPackage = viewPackage;
-            window.editPackage = editPackage;
-            window.deletePackage = deletePackage;
-            window.hideModal = hideModal;
-            
-            loadPackages();
-            initPackageSearch();
-            initFilters();
-        });
+                // Expose to window
+                window.loadPackages = loadPackages;
+                window.showPackageModal = showPackageModal;
+                window.viewPackage = viewPackage;
+                window.editPackage = editPackage;
+                window.deletePackage = deletePackage;
+                window.hideModal = hideModal;
+                
+                loadPackages();
+                initPackageSearch();
+                initFilters();
+            });
         
         // Display packages in table
         function displayPackages(packages) {
