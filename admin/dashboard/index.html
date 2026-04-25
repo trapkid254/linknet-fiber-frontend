@@ -124,16 +124,28 @@
             <div class="header-right">
                 <div class="admin-search">
                     <i class="fas fa-search"></i>
-                    <input type="search" placeholder="Search...">
+                    <input type="search" id="admin-search-input" placeholder="Search...">
                 </div>
                 
-                <button class="theme-toggle" aria-label="Toggle theme">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
                     <i class="fas fa-moon"></i>
                 </button>
                 
-                <button class="notification-btn">
+                <button class="notification-btn" id="notification-btn" aria-label="Notifications">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
+                    <span class="notification-badge" id="notification-count">0</span>
+                    
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-dropdown-header">
+                            <h4>Notifications</h4>
+                        </div>
+                        <div id="notification-list">
+                            <div class="notification-empty">
+                                <i class="fas fa-bell-slash"></i>
+                                <p>No notifications</p>
+                            </div>
+                        </div>
+                    </div>
                 </button>
             </div>
         </header>

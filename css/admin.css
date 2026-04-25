@@ -548,13 +548,14 @@
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--gray-200);
-    padding: var(--spacing-lg) var(--spacing-xl);
+    padding: 0.75rem var(--spacing-xl);
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
+    height: 64px;
 }
 
 .sidebar-toggle {
@@ -593,10 +594,141 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--gray-400);
+    pointer-events: none;
 }
 
 .admin-content {
     padding: var(--spacing-xl);
+}
+
+/* Header Right Actions */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.theme-toggle,
+.notification-btn {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    color: var(--gray-600);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    font-size: 1rem;
+}
+
+.theme-toggle:hover,
+.notification-btn:hover {
+    background: var(--gray-200);
+    color: var(--gray-800);
+    transform: translateY(-1px);
+}
+
+.theme-toggle:active,
+.notification-btn:active {
+    transform: translateY(0);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--gold-primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    min-width: 18px;
+    height: 18px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 2px solid white;
+}
+
+.notification-badge:empty {
+    display: none;
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    min-width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: var(--z-dropdown);
+    display: none;
+}
+
+.notification-dropdown.active {
+    display: block;
+}
+
+.notification-dropdown-header {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-200);
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.notification-dropdown-header h4 {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.notification-item {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-100);
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.notification-item:hover {
+    background: var(--gray-50);
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item-title {
+    font-weight: 500;
+    color: var(--gray-800);
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.notification-item-time {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
+
+.notification-empty {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 0.875rem;
+}
+
+.notification-empty i {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.5;
 }
 
 /* ---------- PERFECT CARD SYSTEM ---------- */

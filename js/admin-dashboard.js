@@ -1736,6 +1736,139 @@ window.hideModal = hideModal;
     };
     
     // Initialize settings event listeners
+    const initHeader = () => {
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const body = document.body;
+                const currentTheme = body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                const icon = themeToggle.querySelector('i');
+                if (icon) {
+                    icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+                }
+            });
+        }
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.setAttribute('data-theme', savedTheme);
+            const themeToggleIcon = document.querySelector('#theme-toggle i');
+            if (themeToggleIcon) {
+                themeToggleIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        
+        // Notification dropdown
+        const notificationBtn = document.getElementById('notification-btn');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+        
+        if (notificationBtn && notificationDropdown) {
+            notificationBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                notificationDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!notificationBtn.contains(e.target)) {
+                    notificationDropdown.classList.remove('active');
+                }
+            });
+        }
+        
+        // Update notification count
+        updateNotifications();
+        
+        // Search functionality
+        const searchInput = document.getElementById('admin-search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                // Implement search based on current page
+                handleAdminSearch(searchTerm);
+            });
+        }
+    };
+    
+    const updateNotifications = () => {
+        const notificationCount = document.getElementById('notification-count');
+        const notificationList = document.getElementById('notification-list');
+        
+        // Fetch notifications from backend
+        fetchNotifications().then(notifications => {
+            if (notificationCount) {
+                const count = notifications.length;
+                notificationCount.textContent = count > 0 ? count : '';
+                notificationCount.style.display = count > 0 ? 'flex' : 'none';
+            }
+            
+            if (notificationList) {
+                if (notifications.length === 0) {
+                    notificationList.innerHTML = `
+                        <div class="notification-empty">
+                            <i class="fas fa-bell-slash"></i>
+                            <p>No notifications</p>
+                        </div>
+                    `;
+                } else {
+                    notificationList.innerHTML = notifications.map(notif => `
+                        <div class="notification-item" onclick="handleNotificationClick('${notif.id}')">
+                            <div class="notification-item-title">${notif.title}</div>
+                            <div class="notification-item-time">${formatNotificationTime(notif.createdAt)}</div>
+                        </div>
+                    `).join('');
+                }
+            }
+        }).catch(error => {
+            console.error('Error fetching notifications:', error);
+        });
+    };
+    
+    const fetchNotifications = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/admin/notifications`, {
+                headers: getAuthHeaders()
+            });
+            const data = await response.json();
+            return data.success ? data.notifications : [];
+        } catch (error) {
+            console.error('Error fetching notifications:', error);
+            return [];
+        }
+    };
+    
+    const formatNotificationTime = (date) => {
+        const now = new Date();
+        const notifDate = new Date(date);
+        const diffMs = now - notifDate;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffDays = Math.floor(diffMs / 86400000);
+        
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffDays < 7) return `${diffDays}d ago`;
+        return notifDate.toLocaleDateString();
+    };
+    
+    const handleNotificationClick = (id) => {
+        console.log('Notification clicked:', id);
+        // Handle notification click - mark as read, navigate, etc.
+    };
+    
+    const handleAdminSearch = (searchTerm) => {
+        console.log('Search term:', searchTerm);
+        // Implement search based on current page context
+        // This will filter the current page's data
+    };
+    
     const initSettings = () => {
         // Profile form
         const profileForm = document.getElementById('profile-form');
@@ -1825,6 +1958,9 @@ window.hideModal = hideModal;
     window.loadSystemSettings = loadSystemSettings;
     window.loadAdminProfile = loadAdminProfile;
     window.initSettings = initSettings;
+    
+    // Initialize header functionality
+    initHeader();
     
     // Start when DOM is ready
     if (document.readyState === 'loading') {
