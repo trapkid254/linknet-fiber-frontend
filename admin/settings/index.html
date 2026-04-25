@@ -20,6 +20,32 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Settings - Admin Dashboard - Linknet Fiber</title>
+
+    <!-- Authentication Check - Runs immediately -->
+    <script>
+        (function() {
+            const AUTH_KEY = 'linknet_admin_auth';
+            const authData = localStorage.getItem(AUTH_KEY);
+            
+            if (!authData) {
+                window.location.href = '/admin/login/';
+                return;
+            }
+            
+            try {
+                const parsed = JSON.parse(authData);
+                if (parsed.expires && parsed.expires < Date.now()) {
+                    localStorage.removeItem(AUTH_KEY);
+                    window.location.href = '/admin/login/';
+                    return;
+                }
+            } catch (error) {
+                localStorage.removeItem(AUTH_KEY);
+                window.location.href = '/admin/login/';
+                return;
+            }
+        })();
+    </script>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
