@@ -2,9 +2,6 @@
 (function() {
     'use strict';
     
-    // Cart state
-    let cartCount = 0;
-    
     // Product filtering
     const initProductFilters = () => {
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -44,9 +41,21 @@
                 const card = e.target.closest('.product-card');
                 const productName = card.querySelector('h3').textContent;
                 const price = card.querySelector('.price').textContent;
+                const icon = card.querySelector('.product-icon').className;
                 
-                // Increment cart count
-                cartCount++;
+                // Add to cart using localStorage
+                let cart = JSON.parse(localStorage.getItem('linknetCart')) || [];
+                const existingItem = cart.find(item => item.name === productName);
+                
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ name: productName, price, icon, quantity: 1 });
+                }
+                
+                localStorage.setItem('linknetCart', JSON.stringify(cart));
+                
+                // Update cart badge
                 updateCartBadge();
                 
                 // Show toast notification
@@ -59,9 +68,6 @@
                     btn.textContent = 'Add to Cart';
                     btn.style.background = '';
                 }, 1500);
-                
-                // In a real implementation, this would add to a cart system
-                console.log('Added to cart:', productName, price);
             });
         });
     };
@@ -73,7 +79,8 @@
             // Create cart badge if it doesn't exist
             const navActions = document.querySelector('.nav-actions');
             if (navActions) {
-                const cartIcon = document.createElement('button');
+                const cartIcon = document.createElement('a');
+                cartIcon.href = '/cart/';
                 cartIcon.className = 'btn-cart-icon';
                 cartIcon.style.cssText = `
                     position: relative;
@@ -85,6 +92,10 @@
                     cursor: pointer;
                     transition: all var(--transition-base);
                     margin-right: var(--spacing-3);
+                    text-decoration: none;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
                 `;
                 cartIcon.innerHTML = '<i class="fas fa-shopping-cart"></i>';
                 cartIcon.setAttribute('aria-label', 'View cart');
@@ -113,8 +124,10 @@
         }
         
         if (cartBadge) {
-            cartBadge.textContent = cartCount;
-            cartBadge.style.display = cartCount > 0 ? 'block' : 'none';
+            const cart = JSON.parse(localStorage.getItem('linknetCart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartBadge.textContent = totalItems;
+            cartBadge.style.display = totalItems > 0 ? 'block' : 'none';
             
             // Pulse animation
             cartBadge.style.animation = 'pulse 0.3s ease';
@@ -161,9 +174,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             initProductFilters();
             initAddToCart();
+            updateCartBadge();
         });
     } else {
         initProductFilters();
         initAddToCart();
+        updateCartBadge();
     }
 })();
