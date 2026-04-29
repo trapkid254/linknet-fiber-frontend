@@ -2,12 +2,75 @@
 (function() {
     'use strict';
     
+    const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
+    let products = [];
+    
+    // Load products from backend
+    const loadProducts = async () => {
+        const container = document.getElementById('products-container');
+        
+        try {
+            const response = await fetch(`${API_BASE}/products?status=active`);
+            const data = await response.json();
+            products = data.products || [];
+            renderProducts(products);
+        } catch (error) {
+            console.error('Error loading products:', error);
+            container.innerHTML = `
+                <div class="error-state">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>Error loading products. Please try again later.</p>
+                </div>
+            `;
+        }
+    };
+    
+    // Render products
+    const renderProducts = (productsToRender) => {
+        const container = document.getElementById('products-container');
+        
+        if (productsToRender.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <p>No products available at the moment.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = productsToRender.map(product => `
+            <div class="product-card" data-category="${product.category}" data-id="${product._id}">
+                <div class="product-image">
+                    <i class="${product.icon || 'fas fa-box'} product-icon"></i>
+                </div>
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p class="product-description">${product.description}</p>
+                    <div class="product-features">
+                        ${(product.features || []).map(feature => `
+                            <span><i class="fas fa-check"></i> ${feature}</span>
+                        `).join('')}
+                    </div>
+                    <div class="product-price">
+                        <span class="price">KES ${product.price.toLocaleString()}</span>
+                        <button class="btn btn-primary btn-sm add-to-cart-btn" data-id="${product._id}">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Initialize add to cart buttons
+        initAddToCart();
+    };
+    
     // Product filtering
     const initProductFilters = () => {
         const filterBtns = document.querySelectorAll('.filter-btn');
-        const productCards = document.querySelectorAll('.product-card');
         
-        if (!filterBtns.length || !productCards.length) return;
+        if (!filterBtns.length) return;
         
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -18,39 +81,41 @@
                 // Filter products
                 const filter = btn.dataset.filter;
                 
-                productCards.forEach(card => {
-                    const category = card.dataset.category;
-                    
-                    if (filter === 'all' || category === filter) {
-                        card.style.display = 'block';
-                        card.style.animation = 'fadeIn 0.3s ease';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                if (filter === 'all') {
+                    renderProducts(products);
+                } else {
+                    const filtered = products.filter(p => p.category === filter);
+                    renderProducts(filtered);
+                }
             });
         });
     };
     
     // Add to cart functionality
     const initAddToCart = () => {
-        const addToCartBtns = document.querySelectorAll('.product-card .btn-primary');
+        const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
         
         addToCartBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const card = e.target.closest('.product-card');
-                const productName = card.querySelector('h3').textContent;
-                const price = card.querySelector('.price').textContent;
-                const icon = card.querySelector('.product-icon').className;
+                const productId = e.target.dataset.id;
+                const product = products.find(p => p._id === productId);
+                
+                if (!product) return;
                 
                 // Add to cart using localStorage
                 let cart = JSON.parse(localStorage.getItem('linknetCart')) || [];
-                const existingItem = cart.find(item => item.name === productName);
+                const existingItem = cart.find(item => item._id === productId);
                 
                 if (existingItem) {
                     existingItem.quantity++;
                 } else {
-                    cart.push({ name: productName, price, icon, quantity: 1 });
+                    cart.push({ 
+                        _id: product._id,
+                        name: product.name, 
+                        price: `KES ${product.price.toLocaleString()}`,
+                        icon: product.icon,
+                        quantity: 1 
+                    });
                 }
                 
                 localStorage.setItem('linknetCart', JSON.stringify(cart));
@@ -59,7 +124,7 @@
                 updateCartBadge();
                 
                 // Show toast notification
-                showToast(`${productName} added to cart!`, 'success');
+                showToast(`${product.name} added to cart!`, 'success');
                 
                 // Button feedback
                 btn.textContent = 'Added!';
@@ -172,13 +237,13 @@
     // Initialize on DOM ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
             initProductFilters();
-            initAddToCart();
             updateCartBadge();
         });
     } else {
+        loadProducts();
         initProductFilters();
-        initAddToCart();
         updateCartBadge();
     }
 })();

@@ -5185,3 +5185,38 @@ a:hover {
         width: 100%;
     }
 }
+
+/* Loading and Error States for Products */
+.loading-state,
+.error-state,
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-16) var(--spacing-8);
+    color: var(--text-secondary);
+}
+
+.loading-state i,
+.error-state i,
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-4);
+}
+
+.loading-state i {
+    color: var(--color-primary);
+}
+
+.error-state i {
+    color: var(--color-error);
+}
+
+.empty-state i {
+    color: var(--color-gray-300);
+}
+
+.loading-state p,
+.error-state p,
+.empty-state p {
+    font-size: var(--font-size-lg);
+    margin: 0;
+}
