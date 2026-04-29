@@ -4864,6 +4864,79 @@ a:hover {
     color: var(--color-primary);
 }
 
+/* Payment Section */
+.payment-section {
+    margin-top: var(--spacing-6);
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--border-light);
+}
+
+.payment-section h3 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-4);
+}
+
+.payment-method-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+    background: var(--color-primary-soft);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--color-primary);
+    transition: all var(--transition-base);
+}
+
+.payment-method-card:hover {
+    border-color: var(--color-gold);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.payment-method-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-gold);
+}
+
+.payment-method-details {
+    flex: 1;
+}
+
+.payment-method-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-1);
+}
+
+.payment-method-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* Dark mode for payment section */
+[data-theme="dark"] .payment-method-card {
+    background: rgba(30, 77, 140, 0.15);
+    border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .payment-method-card:hover {
+    border-color: var(--color-gold);
+}
+
+[data-theme="dark"] .payment-method-name {
+    color: var(--color-white);
+}
+
 /* Success Section */
 .success-section {
     padding: var(--spacing-20) 0;

@@ -137,9 +137,23 @@
                                 <span>Total</span>
                                 <span id="total">KES 0</span>
                             </div>
-                            <button class="btn btn-primary btn-block" id="checkout-btn" disabled>
-                                <i class="fas fa-lock"></i> Proceed to Checkout
-                            </button>
+                            
+                            <!-- Payment Method Section -->
+                            <div class="payment-section">
+                                <h3>Payment Method</h3>
+                                <div class="payment-method-card">
+                                    <div class="payment-method-icon">
+                                        <img src="/images/mpesa.png" alt="M-Pesa" style="width: 40px; height: 40px;">
+                                    </div>
+                                    <div class="payment-method-details">
+                                        <div class="payment-method-name">M-Pesa</div>
+                                        <div class="payment-method-desc">Pay via M-Pesa mobile money</div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" id="pay-btn" disabled>
+                                        <i class="fas fa-credit-card"></i> Pay
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

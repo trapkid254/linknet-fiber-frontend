@@ -124,15 +124,15 @@
         const subtotalEl = document.getElementById('subtotal');
         const deliveryFeeEl = document.getElementById('delivery-fee');
         const totalEl = document.getElementById('total');
-        const checkoutBtn = document.getElementById('checkout-btn');
+        const payBtn = document.getElementById('pay-btn');
         
         if (subtotalEl) subtotalEl.textContent = `KES ${subtotal.toLocaleString()}`;
         if (deliveryFeeEl) deliveryFeeEl.textContent = `KES ${deliveryFee.toLocaleString()}`;
         if (totalEl) totalEl.textContent = `KES ${total.toLocaleString()}`;
         
-        if (checkoutBtn) {
-            checkoutBtn.disabled = cart.length === 0;
-            checkoutBtn.textContent = cart.length > 0 ? `Pay KES ${total.toLocaleString()}` : 'Proceed to Checkout';
+        if (payBtn) {
+            payBtn.disabled = cart.length === 0;
+            payBtn.textContent = cart.length > 0 ? `Pay KES ${total.toLocaleString()}` : 'Pay';
         }
     };
     
@@ -148,10 +148,10 @@
     
     // Initialize checkout
     const initCheckout = () => {
-        const checkoutBtn = document.getElementById('checkout-btn');
-        if (!checkoutBtn) return;
+        const payBtn = document.getElementById('pay-btn');
+        if (!payBtn) return;
         
-        checkoutBtn.addEventListener('click', () => {
+        payBtn.addEventListener('click', () => {
             if (cart.length === 0) return;
             
             const total = cart.reduce((total, item) => {
