@@ -305,7 +305,7 @@
     }
 
     // Use absolute path from domain root to ensure correct path regardless of current page
-    const swPath = window.location.origin + '/sw.js';
+    const swPath = '/sw.js';
     const swScope = '/';
 
     console.log('[PWA] Registering SW with path:', swPath, 'scope:', swScope);

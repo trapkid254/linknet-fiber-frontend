@@ -1,7 +1,7 @@
 // sw.js - Linknet Fiber Service Worker v2
 // Handles caching, offline support, and PWA install
 
-const CACHE_VERSION = 'v4';
+const CACHE_VERSION = 'v5';
 const STATIC_CACHE = `linknet-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `linknet-dynamic-${CACHE_VERSION}`;
 
@@ -36,7 +36,6 @@ const CORE_ASSETS = [
   './client/dashboard/index.html',
   './icons/icon-192.png',
   './icons/icon-512.png',
-  './icons/icon-512-maskable.png',
   './images/cb5e0bad-d1af-441b-b7d3-1a62c423fc2f.jpg'
 ];
 

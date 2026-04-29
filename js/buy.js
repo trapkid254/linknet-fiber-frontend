@@ -2,6 +2,9 @@
 (function() {
     'use strict';
     
+    // Cart state
+    let cartCount = 0;
+    
     // Product filtering
     const initProductFilters = () => {
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -42,13 +45,83 @@
                 const productName = card.querySelector('h3').textContent;
                 const price = card.querySelector('.price').textContent;
                 
+                // Increment cart count
+                cartCount++;
+                updateCartBadge();
+                
                 // Show toast notification
                 showToast(`${productName} added to cart!`, 'success');
+                
+                // Button feedback
+                btn.textContent = 'Added!';
+                btn.style.background = 'var(--color-success)';
+                setTimeout(() => {
+                    btn.textContent = 'Add to Cart';
+                    btn.style.background = '';
+                }, 1500);
                 
                 // In a real implementation, this would add to a cart system
                 console.log('Added to cart:', productName, price);
             });
         });
+    };
+    
+    // Update cart badge
+    const updateCartBadge = () => {
+        let cartBadge = document.getElementById('cart-badge');
+        if (!cartBadge) {
+            // Create cart badge if it doesn't exist
+            const navActions = document.querySelector('.nav-actions');
+            if (navActions) {
+                const cartIcon = document.createElement('button');
+                cartIcon.className = 'btn-cart-icon';
+                cartIcon.style.cssText = `
+                    position: relative;
+                    background: transparent;
+                    border: 2px solid var(--border-medium);
+                    color: var(--text-primary);
+                    padding: 8px 12px;
+                    border-radius: var(--radius-md);
+                    cursor: pointer;
+                    transition: all var(--transition-base);
+                    margin-right: var(--spacing-3);
+                `;
+                cartIcon.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+                cartIcon.setAttribute('aria-label', 'View cart');
+                
+                cartBadge = document.createElement('span');
+                cartBadge.id = 'cart-badge';
+                cartBadge.style.cssText = `
+                    position: absolute;
+                    top: -8px;
+                    right: -8px;
+                    background: var(--color-gold);
+                    color: var(--color-white);
+                    font-size: 0.7rem;
+                    font-weight: 700;
+                    padding: 2px 6px;
+                    border-radius: var(--radius-full);
+                    min-width: 20px;
+                    text-align: center;
+                    display: none;
+                `;
+                cartBadge.textContent = '0';
+                
+                cartIcon.appendChild(cartBadge);
+                navActions.insertBefore(cartIcon, navActions.firstChild);
+            }
+        }
+        
+        if (cartBadge) {
+            cartBadge.textContent = cartCount;
+            cartBadge.style.display = cartCount > 0 ? 'block' : 'none';
+            
+            // Pulse animation
+            cartBadge.style.animation = 'pulse 0.3s ease';
+            setTimeout(() => {
+                cartBadge.style.animation = '';
+            }, 300);
+        }
     };
     
     // Toast notification helper
@@ -73,6 +146,7 @@
             background: ${colors[type] || colors.info}; transition: opacity 0.4s;
             max-width: 340px; word-wrap: break-word;
             font-family: 'Inter', system-ui, sans-serif;
+            animation: slideIn 0.3s ease;
         `;
         toast.textContent = message;
         document.body.appendChild(toast);
