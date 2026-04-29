@@ -1,32 +1,39 @@
 // sw.js - Linknet Fiber Service Worker v2
 // Handles caching, offline support, and PWA install
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v4';
 const STATIC_CACHE = `linknet-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `linknet-dynamic-${CACHE_VERSION}`;
 
 // Core files that MUST be cached for offline use
 const CORE_ASSETS = [
   './index.html',
-  './packages.html',
-  './about.html',
-  './contact.html',
-  './request.html',
+  './packages/index.html',
+  './about/index.html',
+  './contact/index.html',
+  './buy/index.html',
+  './request/index.html',
+  './request-success/index.html',
+  './login-choice/index.html',
   './manifest.json',
   './css/style.css',
   './css/admin.css',
   './js/main.js',
   './js/darkmode.js',
   './js/packages.js',
+  './js/buy.js',
   './js/coverage-search.js',
   './js/about-coverage.js',
   './js/contact.js',
   './js/request.js',
+  './js/request-success.js',
   './js/pwa-install.js',
   './js/admin-login.js',
   './js/admin-dashboard.js',
-  './admin/login.html',
-  './admin/dashboard.html',
+  './admin/login/index.html',
+  './admin/dashboard/index.html',
+  './client/login/index.html',
+  './client/dashboard/index.html',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-512-maskable.png',
