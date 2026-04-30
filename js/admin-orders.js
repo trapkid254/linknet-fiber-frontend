@@ -3,8 +3,34 @@
     'use strict';
     
     const API_BASE = 'https://linknet-fiber-backend.onrender.com/api';
+    const AUTH_KEY = 'linknet_admin_auth';
     
     let orders = [];
+    
+    // Get auth headers
+    const getAuthHeaders = () => {
+        try {
+            const authData = localStorage.getItem(AUTH_KEY);
+            if (!authData) {
+                window.location.href = '/admin/login/';
+                return {};
+            }
+            const parsed = JSON.parse(authData);
+            if (parsed.expires && parsed.expires < Date.now()) {
+                localStorage.removeItem(AUTH_KEY);
+                window.location.href = '/admin/login/';
+                return {};
+            }
+            return {
+                'Authorization': `Bearer ${parsed.token}`
+            };
+        } catch (error) {
+            console.error('Error parsing auth data:', error);
+            localStorage.removeItem(AUTH_KEY);
+            window.location.href = '/admin/login/';
+            return {};
+        }
+    };
     
     // Initialize
     const init = () => {
@@ -17,7 +43,9 @@
     // Load orders from backend
     const loadOrders = async () => {
         try {
-            const response = await fetch(`${API_BASE}/orders`);
+            const response = await fetch(`${API_BASE}/orders`, {
+                headers: getAuthHeaders()
+            });
             const data = await response.json();
             orders = data.orders || [];
             renderOrders();
@@ -188,7 +216,10 @@
         try {
             const response = await fetch(`${API_BASE}/orders/${id}/status`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeaders()
+                },
                 body: JSON.stringify({ status })
             });
             
