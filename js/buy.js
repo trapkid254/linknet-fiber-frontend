@@ -42,7 +42,10 @@
         container.innerHTML = productsToRender.map(product => `
             <div class="product-card" data-category="${product.category}" data-id="${product._id}">
                 <div class="product-image">
-                    <i class="${product.icon || 'fas fa-box'} product-icon"></i>
+                    ${product.image 
+                        ? `<img src="${API_BASE.replace('/api', '')}${product.image}" alt="${product.name}" class="product-img">`
+                        : `<i class="${product.icon || 'fas fa-box'} product-icon"></i>`
+                    }
                 </div>
                 <div class="product-info">
                     <h3>${product.name}</h3>

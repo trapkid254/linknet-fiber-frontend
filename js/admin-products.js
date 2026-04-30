@@ -120,18 +120,51 @@
         const closeBtn = document.getElementById('close-product-modal');
         const cancelBtn = document.getElementById('cancel-product-btn');
         const form = document.getElementById('product-form');
+        const imageInput = document.getElementById('product-image');
+        const imagePreview = document.getElementById('image-preview');
         
-        if (!modal || !addBtn) return;
+        // Image preview
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.innerHTML = `
+                        <img src="${e.target.result}" alt="Product Image">
+                        <div class="remove-image" onclick="removeImage()">Remove Image</div>
+                    `;
+                    imagePreview.classList.add('active');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.innerHTML = '';
+                imagePreview.classList.remove('active');
+            }
+        });
+        
+        // Remove image function
+        window.removeImage = () => {
+            imageInput.value = '';
+            imagePreview.innerHTML = '';
+            imagePreview.classList.remove('active');
+        };
         
         addBtn.addEventListener('click', () => {
             document.getElementById('modal-title').textContent = 'Add Product';
             form.reset();
             document.getElementById('product-id').value = '';
+            imagePreview.innerHTML = '';
+            imagePreview.classList.remove('active');
             modal.style.display = 'flex';
         });
         
-        closeBtn.addEventListener('click', () => modal.style.display = 'none');
-        cancelBtn.addEventListener('click', () => modal.style.display = 'none');
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        cancelBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
         
         modal.addEventListener('click', (e) => {
             if (e.target === modal) modal.style.display = 'none';
@@ -146,16 +179,22 @@
     // Save product
     const saveProduct = async () => {
         const productId = document.getElementById('product-id').value;
-        const productData = {
-            name: document.getElementById('product-name').value,
-            category: document.getElementById('product-category').value,
-            description: document.getElementById('product-description').value,
-            price: parseInt(document.getElementById('product-price').value),
-            stock: parseInt(document.getElementById('product-stock').value),
-            icon: document.getElementById('product-icon').value,
-            features: document.getElementById('product-features').value.split(',').map(f => f.trim()),
-            status: document.getElementById('product-status').value
-        };
+        const imageInput = document.getElementById('product-image');
+        
+        const formData = new FormData();
+        formData.append('name', document.getElementById('product-name').value);
+        formData.append('category', document.getElementById('product-category').value);
+        formData.append('description', document.getElementById('product-description').value);
+        formData.append('price', document.getElementById('product-price').value);
+        formData.append('stock', document.getElementById('product-stock').value);
+        formData.append('icon', document.getElementById('product-icon').value);
+        formData.append('features', document.getElementById('product-features').value);
+        formData.append('status', document.getElementById('product-status').value);
+        
+        // Append image if selected
+        if (imageInput.files[0]) {
+            formData.append('image', imageInput.files[0]);
+        }
         
         try {
             const url = productId 
@@ -166,11 +205,8 @@
             
             const response = await fetch(url, {
                 method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...getAuthHeaders()
-                },
-                body: JSON.stringify(productData)
+                headers: getAuthHeaders(),
+                body: formData
             });
             
             if (response.ok) {

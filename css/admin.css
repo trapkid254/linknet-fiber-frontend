@@ -1270,6 +1270,45 @@
     border-color: var(--border-medium);
 }
 
+/* Image Preview Styles */
+.image-preview {
+    margin-top: var(--spacing-3);
+    display: none;
+    border: 2px dashed var(--border-medium);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-4);
+    text-align: center;
+    background: var(--bg-secondary);
+}
+
+.image-preview.active {
+    display: block;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: var(--radius-md);
+    object-fit: contain;
+}
+
+.image-preview .remove-image {
+    margin-top: var(--spacing-2);
+    color: var(--color-error);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.image-preview .remove-image:hover {
+    text-decoration: underline;
+}
+
+[data-theme="dark"] .image-preview {
+    border-color: var(--border-medium);
+    background: var(--bg-primary);
+}
+
 .form-group label i {
     margin-right: var(--spacing-sm);
     color: var(--gold-primary);
