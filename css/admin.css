@@ -1066,6 +1066,210 @@
     font-size: 0.875rem;
 }
 
+.optional-text {
+    font-weight: 400;
+    color: var(--gray-500);
+    font-size: 0.75rem;
+    margin-left: var(--spacing-xs);
+}
+
+/* Admin Products Modal Specific Styles */
+#product-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-4);
+}
+
+#product-modal[style*="flex"] {
+    display: flex !important;
+}
+
+#product-modal .modal-content {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-2xl);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#product-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-6);
+    border-bottom: 1px solid var(--border-light);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+#product-modal .modal-header h2 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-white);
+    margin: 0;
+}
+
+#product-modal .modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: var(--spacing-2);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#product-modal .modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+#product-modal .modal-body {
+    padding: var(--spacing-6);
+}
+
+#product-modal .form-group {
+    margin-bottom: var(--spacing-5);
+}
+
+#product-modal .form-label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-2);
+    font-size: var(--font-size-sm);
+}
+
+#product-modal .form-input {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    border: 2px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    transition: all var(--transition-base);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+#product-modal .form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(30, 77, 140, 0.1);
+}
+
+#product-modal .form-input::placeholder {
+    color: var(--text-secondary);
+}
+
+#product-modal .form-actions {
+    display: flex;
+    gap: var(--spacing-3);
+    justify-content: flex-end;
+    margin-top: var(--spacing-6);
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--border-light);
+}
+
+#product-modal .btn {
+    padding: var(--spacing-3) var(--spacing-6);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    border: none;
+}
+
+#product-modal .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+#product-modal .btn-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#product-modal .btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-medium);
+}
+
+#product-modal .btn-secondary:hover {
+    background: var(--border-medium);
+}
+
+/* Dark mode for admin products modal */
+[data-theme="dark"] #product-modal .modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-medium);
+}
+
+[data-theme="dark"] #product-modal .modal-header {
+    background: linear-gradient(135deg, var(--color-primary), #1a365d);
+}
+
+[data-theme="dark"] #product-modal .modal-body {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] #product-modal .form-label {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] #product-modal .form-input {
+    background: var(--bg-primary);
+    border-color: var(--border-medium);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] #product-modal .form-input:focus {
+    border-color: var(--color-primary);
+}
+
+[data-theme="dark"] #product-modal .form-input::placeholder {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] #product-modal .form-actions {
+    border-top-color: var(--border-medium);
+}
+
+[data-theme="dark"] #product-modal .btn-secondary {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--border-medium);
+}
+
 .form-group label i {
     margin-right: var(--spacing-sm);
     color: var(--gold-primary);
