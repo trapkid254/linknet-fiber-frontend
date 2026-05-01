@@ -34,6 +34,24 @@
     
     // Initialize
     const init = () => {
+        // Check auth on load
+        const authData = localStorage.getItem(AUTH_KEY);
+        console.log('Auth data on init:', authData ? 'Present' : 'Missing');
+        if (authData) {
+            try {
+                const parsed = JSON.parse(authData);
+                console.log('Parsed auth:', { 
+                    hasToken: !!parsed.token, 
+                    email: parsed.email, 
+                    role: parsed.role,
+                    expires: parsed.expires ? new Date(parsed.expires).toISOString() : 'N/A',
+                    isExpired: parsed.expires && parsed.expires < Date.now()
+                });
+            } catch (e) {
+                console.error('Error parsing auth:', e);
+            }
+        }
+        
         loadProducts();
         initModal();
         initSearch();
@@ -180,6 +198,8 @@
     const saveProduct = async () => {
         const authHeaders = getAuthHeaders();
         
+        console.log('Auth headers:', authHeaders);
+        
         // Check if authenticated
         if (!authHeaders.Authorization) {
             alert('You must be logged in to save products. Redirecting to login...');
@@ -212,13 +232,19 @@
             
             const method = productId ? 'PUT' : 'POST';
             
+            console.log(`Making ${method} request to ${url}`);
+            console.log('Authorization header being sent:', authHeaders.Authorization);
+            
             const response = await fetch(url, {
                 method,
                 headers: authHeaders,
                 body: formData
             });
             
+            console.log('Response status:', response.status);
+            
             const data = await response.json();
+            console.log('Response data:', data);
             
             if (response.ok) {
                 document.getElementById('product-modal').style.display = 'none';
