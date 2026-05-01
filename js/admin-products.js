@@ -178,6 +178,15 @@
     
     // Save product
     const saveProduct = async () => {
+        const authHeaders = getAuthHeaders();
+        
+        // Check if authenticated
+        if (!authHeaders.Authorization) {
+            alert('You must be logged in to save products. Redirecting to login...');
+            window.location.href = '/admin/login/';
+            return;
+        }
+        
         const productId = document.getElementById('product-id').value;
         const imageInput = document.getElementById('product-image');
         
@@ -205,16 +214,23 @@
             
             const response = await fetch(url, {
                 method,
-                headers: getAuthHeaders(),
+                headers: authHeaders,
                 body: formData
             });
+            
+            const data = await response.json();
             
             if (response.ok) {
                 document.getElementById('product-modal').style.display = 'none';
                 loadProducts();
                 alert(productId ? 'Product updated successfully!' : 'Product added successfully!');
             } else {
-                alert('Error saving product');
+                console.error('Error saving product:', data);
+                alert(`Error saving product: ${data.error || 'Unknown error'}`);
+                if (response.status === 401) {
+                    alert('Session expired. Please login again.');
+                    window.location.href = '/admin/login/';
+                }
             }
         } catch (error) {
             console.error('Error saving product:', error);

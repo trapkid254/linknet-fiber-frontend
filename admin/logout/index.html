@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging Out | Linknet Fiber Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1E4D8C 0%, #0F2B4D 100%);
+            margin: 0;
+        }
+        .logout-container {
+            text-align: center;
+            color: white;
+            padding: 40px;
+        }
+        .logout-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .logout-message {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .logout-submessage {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <i class="fas fa-spinner logout-icon"></i>
+        <div class="logout-message">Logging out...</div>
+        <div class="logout-submessage">Please wait while we secure your session</div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+            
+            const AUTH_KEY = 'linknet_admin_auth';
+            
+            // Remove auth token
+            localStorage.removeItem(AUTH_KEY);
+            
+            // Redirect to login after short delay
+            setTimeout(() => {
+                window.location.href = '/admin/login/';
+            }, 1000);
+        })();
+    </script>
+</body>
+</html>

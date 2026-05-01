@@ -42,10 +42,26 @@
     
     // Load orders from backend
     const loadOrders = async () => {
+        const authHeaders = getAuthHeaders();
+        
+        // Check if authenticated
+        if (!authHeaders.Authorization) {
+            console.log('Not authenticated, redirecting to login');
+            return;
+        }
+        
         try {
             const response = await fetch(`${API_BASE}/orders`, {
-                headers: getAuthHeaders()
+                headers: authHeaders
             });
+            
+            if (response.status === 401) {
+                console.log('Session expired, redirecting to login');
+                localStorage.removeItem(AUTH_KEY);
+                window.location.href = '/admin/login/';
+                return;
+            }
+            
             const data = await response.json();
             orders = data.orders || [];
             renderOrders();
