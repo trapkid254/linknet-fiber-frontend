@@ -5,8 +5,8 @@
     // Cart state (stored in localStorage)
     let cart = JSON.parse(localStorage.getItem('linknetCart')) || [];
     
-    // Delivery fee
-    const DELIVERY_FEE = 500;
+    // Delivery fee (removed)
+    const DELIVERY_FEE = 0;
     
     // Initialize cart
     const initCart = () => {
