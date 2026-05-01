@@ -149,50 +149,6 @@
             </div>
         </section>
         
-        <!-- Statistics Section -->
-        <section class="statistics-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Our Impact</h2>
-                    <p>Trusted by thousands across Kenya</p>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="stat-number" id="stat-years">0</div>
-                        <div class="stat-label">Years of Experience</div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-project-diagram"></i>
-                        </div>
-                        <div class="stat-number" id="stat-projects">0</div>
-                        <div class="stat-label">Projects Completed</div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-number" id="stat-customers">0</div>
-                        <div class="stat-label">Satisfied Customers</div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </div>
-                        <div class="stat-number" id="stat-coverage">0</div>
-                        <div class="stat-label">Coverage Areas</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
         <!-- Coverage Areas -->
         <section class="coverage-areas-section">
             <div class="container">
@@ -420,58 +376,6 @@
     <script src="/js/about-coverage.js"></script>
     <script src="/js/image-rotator.js?v=1.1"></script>
     <script src="/js/pwa-install.js"></script>
-
-    <script>
-        // Load statistics from backend
-        async function loadStatistics() {
-            try {
-                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/content/statistics');
-                const data = await response.json();
-                
-                if (data.success && data.data) {
-                    const stats = data.data;
-                    
-                    // Update statistics with animation
-                    animateValue('stat-years', stats.yearsOfExperience || 0);
-                    animateValue('stat-projects', stats.projectsCompleted || 0);
-                    animateValue('stat-customers', stats.satisfiedCustomers || 0);
-                    animateValue('stat-coverage', stats.coverageAreas || 0);
-                }
-            } catch (error) {
-                console.error('Error loading statistics:', error);
-            }
-        }
-        
-        // Animate number counter
-        function animateValue(id, endValue) {
-            const element = document.getElementById(id);
-            if (!element) return;
-            
-            const duration = 2000;
-            const startValue = 0;
-            const startTime = performance.now();
-            
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Easing function
-                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-                const currentValue = Math.floor(startValue + (endValue - startValue) * easeOutQuart);
-                
-                element.textContent = currentValue.toLocaleString();
-                
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-            
-            requestAnimationFrame(update);
-        }
-        
-        // Load statistics on page load
-        document.addEventListener('DOMContentLoaded', loadStatistics);
-    </script>
 
 </body>
 </html>

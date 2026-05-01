@@ -705,30 +705,6 @@
                         </div>
                         
                         <div class="settings-section">
-                            <h4>Website Statistics (Hero & About Page)</h4>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="years-experience">Years of Experience</label>
-                                    <input type="number" id="years-experience" name="yearsOfExperience" min="0" placeholder="e.g., 5">
-                                </div>
-                                <div class="form-group">
-                                    <label for="projects-completed">Projects Completed</label>
-                                    <input type="number" id="projects-completed" name="projectsCompleted" min="0" placeholder="e.g., 1000">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="satisfied-customers">Satisfied Customers</label>
-                                    <input type="number" id="satisfied-customers" name="satisfiedCustomers" min="0" placeholder="e.g., 5000">
-                                </div>
-                                <div class="form-group">
-                                    <label for="coverage-areas">Coverage Areas</label>
-                                    <input type="number" id="coverage-areas" name="coverageAreas" min="0" placeholder="e.g., 50">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="settings-section">
                             <h4>Contact Information</h4>
                             <div class="form-row">
                                 <div class="form-group">
@@ -826,144 +802,11 @@
                 loadSystemSettings();
             }
             
-            // Load content/statistics
-            loadContentSettings();
-            
             // Initialize settings functionality
             if (typeof initSettings === 'function') {
                 initSettings();
             }
-            
-            // Handle system settings form submission
-            const systemSettingsForm = document.getElementById('system-settings-form');
-            if (systemSettingsForm) {
-                systemSettingsForm.addEventListener('submit', handleSystemSettingsSubmit);
-            }
         });
-        
-        // Load content settings from backend
-        async function loadContentSettings() {
-            try {
-                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/content', {
-                    headers: getAuthHeaders()
-                });
-                const data = await response.json();
-                
-                if (data.success && data.data) {
-                    const content = data.data;
-                    
-                    // Populate statistics fields
-                    if (content.statistics) {
-                        document.getElementById('years-experience').value = content.statistics.yearsOfExperience || '';
-                        document.getElementById('projects-completed').value = content.statistics.projectsCompleted || '';
-                        document.getElementById('satisfied-customers').value = content.statistics.satisfiedCustomers || '';
-                        document.getElementById('coverage-areas').value = content.statistics.coverageAreas || '';
-                    }
-                    
-                    // Populate other settings fields
-                    document.getElementById('site-name').value = content.siteName || '';
-                    document.getElementById('site-description').value = content.siteDescription || '';
-                    document.getElementById('contact-email').value = content.contactEmail || '';
-                    document.getElementById('contact-phone').value = content.contactPhone || '';
-                    document.getElementById('contact-address').value = content.contactAddress || '';
-                    
-                    // Social media
-                    if (content.socialMedia) {
-                        document.getElementById('facebook-url').value = content.socialMedia.facebook || '';
-                        document.getElementById('twitter-url').value = content.socialMedia.twitter || '';
-                    }
-                    
-                    // Business hours
-                    if (content.businessHours) {
-                        document.getElementById('weekdays-hours').value = content.businessHours.weekdays || '';
-                        document.getElementById('saturday-hours').value = content.businessHours.saturday || '';
-                        document.getElementById('sunday-hours').value = content.businessHours.sunday || '';
-                    }
-                    
-                    // Notifications
-                    if (content.notifications) {
-                        document.getElementById('email-notifications').checked = content.notifications.emailNotifications;
-                        document.getElementById('sms-notifications').checked = content.notifications.smsNotifications;
-                        document.getElementById('new-request-alert').checked = content.notifications.newRequestAlert;
-                        document.getElementById('monthly-reports').checked = content.notifications.monthlyReports;
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading content settings:', error);
-            }
-        }
-        
-        // Handle system settings form submission
-        async function handleSystemSettingsSubmit(e) {
-            e.preventDefault();
-            
-            const formData = {
-                statistics: {
-                    yearsOfExperience: parseInt(document.getElementById('years-experience').value) || 0,
-                    projectsCompleted: parseInt(document.getElementById('projects-completed').value) || 0,
-                    satisfiedCustomers: parseInt(document.getElementById('satisfied-customers').value) || 0,
-                    coverageAreas: parseInt(document.getElementById('coverage-areas').value) || 0
-                },
-                siteName: document.getElementById('site-name').value,
-                siteDescription: document.getElementById('site-description').value,
-                contactEmail: document.getElementById('contact-email').value,
-                contactPhone: document.getElementById('contact-phone').value,
-                contactAddress: document.getElementById('contact-address').value,
-                socialMedia: {
-                    facebook: document.getElementById('facebook-url').value,
-                    twitter: document.getElementById('twitter-url').value
-                },
-                businessHours: {
-                    weekdays: document.getElementById('weekdays-hours').value,
-                    saturday: document.getElementById('saturday-hours').value,
-                    sunday: document.getElementById('sunday-hours').value
-                },
-                notifications: {
-                    emailNotifications: document.getElementById('email-notifications').checked,
-                    smsNotifications: document.getElementById('sms-notifications').checked,
-                    newRequestAlert: document.getElementById('new-request-alert').checked,
-                    monthlyReports: document.getElementById('monthly-reports').checked
-                }
-            };
-            
-            try {
-                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/content', {
-                    method: 'PUT',
-                    headers: {
-                        ...getAuthHeaders(),
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    alert('Settings saved successfully!');
-                } else {
-                    alert('Error saving settings: ' + (data.error || 'Unknown error'));
-                }
-            } catch (error) {
-                console.error('Error saving settings:', error);
-                alert('Error saving settings. Please try again.');
-            }
-        }
-        
-        // Get auth headers helper
-        function getAuthHeaders() {
-            const authData = localStorage.getItem('linknet_admin_auth');
-            if (authData) {
-                try {
-                    const parsed = JSON.parse(authData);
-                    return {
-                        'Authorization': `Bearer ${parsed.token}`
-                    };
-                } catch (e) {
-                    console.error('Error parsing auth data:', e);
-                }
-            }
-            return {};
-        }
     </script>
 </body>
 </html>
