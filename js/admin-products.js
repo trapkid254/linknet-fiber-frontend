@@ -285,19 +285,39 @@
     
     // Delete product
     window.deleteProduct = async (id) => {
+        const authHeaders = getAuthHeaders();
+        
+        console.log('Delete product - Auth headers:', authHeaders);
+        
+        // Check if authenticated
+        if (!authHeaders.Authorization) {
+            alert('You must be logged in to delete products. Redirecting to login...');
+            window.location.href = '/admin/login/';
+            return;
+        }
+        
         if (!confirm('Are you sure you want to delete this product?')) return;
         
         try {
+            console.log(`Deleting product ${id}`);
             const response = await fetch(`${API_BASE}/products/${id}`, {
                 method: 'DELETE',
-                headers: getAuthHeaders()
+                headers: authHeaders
             });
+            
+            console.log('Delete response status:', response.status);
             
             if (response.ok) {
                 loadProducts();
                 alert('Product deleted successfully!');
             } else {
-                alert('Error deleting product');
+                const data = await response.json();
+                console.error('Error deleting product:', data);
+                alert(`Error deleting product: ${data.error || 'Unknown error'}`);
+                if (response.status === 401) {
+                    alert('Session expired. Please login again.');
+                    window.location.href = '/admin/login/';
+                }
             }
         } catch (error) {
             console.error('Error deleting product:', error);
