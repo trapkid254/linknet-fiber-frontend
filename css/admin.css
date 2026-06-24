@@ -1004,6 +1004,26 @@
     visibility: visible;
 }
 
+/* Dialog panel inside overlay — overrides style.css `.modal { display: none }` */
+.modal-overlay .modal {
+    display: block;
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    padding: 0;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-2xl);
+    animation: slideIn var(--transition-base);
+    z-index: 1;
+    flex-shrink: 0;
+}
+
 .modal {
     background: var(--white);
     border-radius: var(--radius-xl);
@@ -5466,6 +5486,11 @@ input:checked + .toggle-slider:before {
 [data-theme="dark"] .form-group textarea:focus {
     border-color: var(--blue-primary);
     background: var(--gray-100);
+}
+
+[data-theme="dark"] .modal-overlay .modal {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
 }
 
 [data-theme="dark"] .modal-content {
