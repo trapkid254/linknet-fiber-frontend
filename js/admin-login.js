@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorMessage = document.getElementById('login-message');
 
     const AUTH_KEY = 'linknet_admin_auth';
-    const API_BASE = 'https://linknet-fiber-backend.onrender.com/api'; // Use production backend
+    const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    const API_BASE = isLocalHost
+        ? `${window.location.origin}/api`
+        : 'https://linknet-fiber-backend.onrender.com/api';
 
     if (!loginForm) return;
 
@@ -65,36 +68,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: email, // Use email field instead of username
+                    email: email.toLowerCase(),
                     password: password
                 })
             });
 
-            const data = await response.json();
-
-            if (data.success) {
-                // Store auth data in the format the dashboard expects
-                const authData = {
-                    token: data.token,
-                    name: data.admin.name,
-                    email: data.admin.email,
-                    role: data.admin.role,
-                    id: data.admin._id || data.admin.id,
-                    permissions: data.admin.permissions || data.admin.allPermissions,
-                    expires: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
-                };
-                localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
-
-                // Show success message
-                showSuccess('Login successful! Redirecting to dashboard...');
-                
-                // Redirect to dashboard after a short delay
-                setTimeout(() => {
-                    window.location.href = '/admin/dashboard/';
-                }, 1000);
-            } else {
-                showError(data.error || 'Invalid credentials. Please try again.');
+            let data;
+            try {
+                data = await response.json();
+            } catch (parseError) {
+                showError(`Login failed (${response.status}). Please try again.`);
+                return;
             }
+
+            if (!response.ok || !data.success) {
+                showError(data.error || 'Invalid credentials. Please try again.');
+                return;
+            }
+
+            const authData = {
+                token: data.token,
+                name: data.admin.name,
+                email: data.admin.email,
+                role: data.admin.role,
+                id: data.admin._id || data.admin.id,
+                permissions: data.admin.permissions || data.admin.allPermissions,
+                expires: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+            };
+            localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
+
+            showSuccess('Login successful! Redirecting to dashboard...');
+
+            setTimeout(() => {
+                window.location.href = '/admin/dashboard/';
+            }, 1000);
         } catch (error) {
             console.error('Login error:', error);
             showError('Network error. Please check your connection and try again.');
