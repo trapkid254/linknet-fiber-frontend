@@ -42,7 +42,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css?v=1.3">
-    <link rel="stylesheet" href="/css/admin.css?v=1.4">
+    <link rel="stylesheet" href="/css/admin.css?v=1.5">
 </head>
 <body class="admin-dashboard">
     <!-- Sidebar -->
@@ -299,7 +299,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="package-form" onsubmit="handlePackageSubmit(event)">
+            <form id="package-form">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="package-name">Package Name</label>
@@ -332,87 +332,36 @@
                 </div>
             </form>
         </div>
-        
-        <script src="/js/darkmode.js?v=2.0"></script>
-        <script src="/js/admin-dashboard.js?v=2.0"></script>
-        
-        <script>
-            // Packages page specific functionality
-            // Define functions globally for onclick handlers
-            document.addEventListener('DOMContentLoaded', function() {
-                let loadPackages, showPackageModal, viewPackage, editPackage, deletePackage, hideModal;
-                loadPackages = async function(category = '', status = '', search = '') {
-                try {
-                    console.log('Loading packages from admin packages page...');
-                    const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/packages', {
-                        headers: getAuthHeaders()
-                    });
-                    const data = await response.json();
-                    
-                    console.log('Packages page - Response data:', data);
-                    
-                    if (data.success && data.data) {
-                        console.log('Packages page - Displaying', data.data.length, 'packages');
-                        displayPackages(data.data);
-                    } else {
-                        console.log('Packages page - No packages found or error');
-                        showEmptyState();
-                    }
-                } catch (error) {
-                    console.error('Error loading packages:', error);
+    </div>
+
+    <script src="/js/darkmode.js?v=2.0"></script>
+    <script src="/js/admin-dashboard.js?v=2.1"></script>
+
+    <script>
+        async function loadPackagesInventory(category = '', status = '', search = '') {
+            try {
+                const response = await fetch('https://linknet-fiber-backend.onrender.com/api/admin/packages', {
+                    headers: getAuthHeaders()
+                });
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    displayPackages(data.data);
+                } else {
                     showEmptyState();
                 }
-            };
-            
-            showPackageModal = function() {
-                const modal = document.getElementById('package-modal');
-                if (modal) modal.classList.add('active');
-            };
-            
-            viewPackage = function(id) {
-                console.log('View package:', id);
-                // TODO: Implement view package modal
-            };
-            
-            editPackage = function(id) {
-                console.log('Edit package:', id);
-                // TODO: Implement edit package modal
-            };
-            
-            deletePackage = async function(id) {
-                if (confirm('Are you sure you want to delete this package?')) {
-                    try {
-                        const response = await fetch(`https://linknet-fiber-backend.onrender.com/api/admin/packages/${id}`, {
-                            method: 'DELETE',
-                            headers: getAuthHeaders()
-                        });
-                        const data = await response.json();
-                        if (data.success) {
-                            loadPackages();
-                        }
-                    } catch (error) {
-                        console.error('Error deleting package:', error);
-                    }
-                }
-            };
-            
-            hideModal = function(modalId) {
-                const modal = document.getElementById(modalId);
-                if (modal) modal.classList.remove('active');
-            };
-            
-                // Expose to window
-                window.loadPackages = loadPackages;
-                window.showPackageModal = showPackageModal;
-                window.viewPackage = viewPackage;
-                window.editPackage = editPackage;
-                window.deletePackage = deletePackage;
-                window.hideModal = hideModal;
-                
-                loadPackages();
-                initPackageSearch();
-                initFilters();
-            });
+            } catch (error) {
+                console.error('Error loading packages:', error);
+                showEmptyState();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.loadPackages = loadPackagesInventory;
+            loadPackagesInventory();
+            initPackageSearch();
+            initFilters();
+        });
         
         // Display packages in table
         function displayPackages(packages) {
@@ -479,7 +428,7 @@
                     clearTimeout(searchTimeout);
                     searchTimeout = setTimeout(() => {
                         const category = document.getElementById('category-filter') ? document.getElementById('category-filter').value : '';
-                        loadPackages(category, '', this.value);
+                        loadPackagesInventory(category, '', this.value);
                     }, 500);
                 });
             }
@@ -492,7 +441,7 @@
             if (categoryFilter) {
                 categoryFilter.addEventListener('change', function() {
                     const search = document.getElementById('package-search') ? document.getElementById('package-search').value : '';
-                    loadPackages(this.value, '', search);
+                    loadPackagesInventory(this.value, '', search);
                 });
             }
         }
@@ -587,7 +536,7 @@
                     });
                     
                     if (response.ok) {
-                        loadPackages();
+                        loadPackagesInventory();
                         showToast(`Package ${action}d successfully`, 'success');
                     } else {
                         showToast(`Error ${action}ing package`, 'error');

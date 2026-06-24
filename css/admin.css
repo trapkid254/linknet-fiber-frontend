@@ -989,16 +989,17 @@
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-modal);
+    z-index: 9999;
     opacity: 0;
     visibility: hidden;
-    transition: all var(--transition-base);
+    transition: opacity var(--transition-base), visibility var(--transition-base);
 }
 
 .modal-overlay.active {
+    display: flex;
     opacity: 1;
     visibility: visible;
 }
@@ -4842,25 +4843,7 @@ input:checked + .toggle-slider:before {
     }
 }
 
-/* ---------- MODAL STYLING ---------- */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    backdrop-filter: blur(4px);
-}
-
-.modal-overlay.active {
-    display: flex;
-}
-
+/* ---------- MODAL STYLING (packages hub) ---------- */
 .modal-content {
     background: var(--white);
     border-radius: var(--radius-xl);

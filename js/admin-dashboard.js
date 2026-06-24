@@ -169,6 +169,9 @@ const hideModal = (modalId) => {
     if (modal) {
         modal.classList.remove('active');
     }
+    if (!document.querySelector('.modal-overlay.active')) {
+        document.body.style.overflow = '';
+    }
 };
 
 // Expose to window immediately
@@ -958,24 +961,31 @@ const checkAuth = () => {
         initLogout();
         initFormHandlers();
         initSettings();
+        if (document.getElementById('packages-table-body')) {
+            loadPackages();
+        }
     };
     
     // Modal functions
     const showPackageModal = () => {
         const modal = document.getElementById('package-modal');
-        if (modal) {
-            modal.classList.add('active');
-            
-            // Reset form and clear edit mode
-            const form = document.getElementById('package-form');
+        if (!modal) {
+            console.error('Package modal element not found');
+            return;
+        }
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        const form = document.getElementById('package-form');
+        if (form) {
             form.reset();
             delete form.dataset.editId;
-            
-            // Reset modal title
-            const modalTitle = document.querySelector('#package-modal h3');
-            if (modalTitle) {
-                modalTitle.textContent = 'Add New Package';
-            }
+        }
+
+        const modalTitle = modal.querySelector('h3');
+        if (modalTitle) {
+            modalTitle.textContent = 'Add New Package';
         }
     };
     
