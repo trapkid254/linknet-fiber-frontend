@@ -24,6 +24,17 @@
                 showAboutResult('Please select a county and enter your estate/area.', 'error');
                 return;
             }
+
+            const normalizedCounty = county.toLowerCase().replace(/\s+county$/, '').trim();
+            if (normalizedCounty === 'kiambu') {
+                showAboutResult(`
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Great news!</strong> Linknet Fiber is available throughout Kiambu County, including every local area.
+                    <br>
+                    <a href="/packages/" class="btn btn-primary btn-sm" style="margin-top: 10px;">View Available Packages</a>
+                `, 'success');
+                return;
+            }
             
             if (isLoading) return;
             
