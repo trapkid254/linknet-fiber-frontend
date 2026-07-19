@@ -27,9 +27,10 @@
 
             const normalizedCounty = county.toLowerCase().replace(/\s+county$/, '').trim();
             if (normalizedCounty === 'kiambu') {
+                const safeEstate = escapeHtml(estate);
                 showAboutResult(`
                     <i class="fas fa-check-circle"></i>
-                    <strong>Great news!</strong> Linknet Fiber is available throughout Kiambu County, including every local area.
+                    <strong>Great news!</strong> Coverage is available in ${safeEstate}.
                     <br>
                     <a href="/packages/" class="btn btn-primary btn-sm" style="margin-top: 10px;">View Available Packages</a>
                 `, 'success');
@@ -89,6 +90,14 @@
         // No need to load coverage data for dropdowns since we're using manual input
     };
     
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    })[character]);
+
     const showAboutResult = (message, type) => {
         const resultDiv = document.getElementById('coverage-result');
         if (resultDiv) {
